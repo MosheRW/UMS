@@ -12,7 +12,7 @@ const initialState: UserState = {
     fullName: "",
     email: "",
     password: "",
-    created_at: new Date(),
+    createdAt: new Date(),
     token: "",
 };
 
@@ -37,12 +37,11 @@ export const userDataSlice = createSlice({
             state.email = action.payload.email;
             localStorage.setItem("userEmail", state.email);
 
-            state.password = action.payload.password;
             // it is safe and/or necessary?
-            localStorage.setItem("userPassword", state.password); 
-            
-            state.created_at = action.payload.created_at;
-            localStorage.setItem("userCreated_at", state.created_at.toUTCString()); 
+            state.password = action.payload.password;
+                        
+            state.createdAt = action.payload.createdAt;
+            localStorage.setItem("userCreatedAt", state.createdAt.toUTCString()); 
 
             state.token = action.payload.token;
             localStorage.setItem("userToken", state.token); 
