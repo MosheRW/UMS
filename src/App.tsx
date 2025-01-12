@@ -1,26 +1,17 @@
 import React from 'react';
-import './App.css';
+import { ThemeProvider } from 'styled-components';
+import { darkTheme, lightTheme } from './style/themes.style';
+import Main from './pages/main';
 
-// const  logo from './logo';
 
 export default function App() {
+  const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={require('./logo.svg')} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+      <Main />
+    </ThemeProvider>
+
   );
 }
 
