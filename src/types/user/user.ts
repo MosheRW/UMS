@@ -21,3 +21,13 @@ export function initUser(): User {
         createdAt: new Date(),
     };
 }
+export function parseUser(input: any): User {
+    return {
+        id: input._id,
+        userName: input.username,
+        fullName: input.fullName,
+        email: input.email,
+        password: input.password,
+        createdAt: new Date( input.createdAt),
+    };
+}

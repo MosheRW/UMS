@@ -6,7 +6,7 @@ function getAuthToken(key: string = 'Authorization', prefix: string = `Bearer `)
     const token = store.getState().userData.token;
     if (token && token.length > 0) {
         console.assert(token, "not getting token");
-        return { [key]: `${prefix}${token}` };
+        return { [key]: `${token}` };
     } else
         return {};
 };

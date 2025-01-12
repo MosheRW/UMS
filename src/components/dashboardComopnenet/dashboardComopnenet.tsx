@@ -1,9 +1,16 @@
 import React, { useCallback, useEffect, useMemo } from "react";
-import { User } from "../../types/user/user";
-import { EditUserContainer, HeaderCell, InputCheckMark, Table, TableBody, TableCell, TableContainer, TableHeader, TableRow } from "./dashboardComopnenet.style";
+import { initUser, User } from "../../types/user/user";
+import { EditUserContainer, HeaderCell, InputCheckMark, ModalContainer, Table, TableBody, TableCell, TableContainer, TableHeader, TableRow } from "./dashboardComopnenet.style";
 import { MdEdit } from "react-icons/md";
 import EditUserComponenet from "../editUserComponenet/editUserComponenet";
 import { set } from "react-hook-form";
+import { api } from "../../api/api";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserToken } from "../../redux/features/userData/userDataSlice";
+import ReactDOM from "react-dom";
+import LoginComponent from "../loginComponent/loginComponent";
+import { selectIsLogedIn } from "../../redux/features/userData/userDataSliceSelectors";
+
 
 
 
@@ -19,26 +26,26 @@ interface DashboardComponent {
 
 export default function DashboardComponent({ ...props }: DashboardComponent) {
 
-  //props
   const [dataChanged, setDataChanged] = React.useState<boolean>(false);
   const [usersDataDict, setUsersDataDict] = React.useState<Dict>({});
   const [selectAll, setSelectAll] = React.useState<boolean>(false);
-  // const [onEdit, setOnEdit] = React.useState<boolean>(false);
   const [user2Edit, setUser2Edit] = React.useState<User | null>(null);
 
-  const usersData = useMemo(() => {
+  const dispatch = useDispatch();
 
+  //hooks
+  const displayLogin = useSelector(selectIsLogedIn);
+
+  const usersData = useMemo(() => {
+    if (displayLogin) 
+      {api.getAllUsers().then((data) => props.users += data).finally(() => setDataChanged(!dataChanged));}
     const dict: Dict = {}
     props.users.forEach((user) => { dict[user.id] = false });
     setUsersDataDict(dict);
     return props.users;
-  }, [dataChanged]);
+  }, [dataChanged, displayLogin]);
 
-  //hooks
-  useEffect(() => {
-    console.log({ usersDataDict });
-  }
-    , [usersDataDict]);
+
 
   //consts
 
@@ -80,16 +87,20 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
   }
 
+  function handleDelete() {
+
+  };
+
   //components
   function UserRecordComponent(user: User, index: number) {
     return (<TableRow $odd={index % 2 === 1} key={'user :' + user.id}>
       <TableCell>{user.id}</TableCell>
       <TableCell $length={12}>{user.userName}</TableCell>
       <TableCell $length={20}>{user.fullName}</TableCell>
-      <TableCell>{user.email}</TableCell>
-      <TableCell $length={15}>{user.password}</TableCell>
+      <TableCell $length={20}>{user.email}</TableCell>
+      <TableCell $length={5}>{user.password}</TableCell>
       <TableCell $length={12}>{user.createdAt.toLocaleDateString()}</TableCell>
-      <TableCell $length={0.01}>
+      <TableCell $length={2}>
         <InputCheckMark checked={usersDataDict[user.id]} onChange={checkboxHandler(user.id)} />
         <MdEdit onClick={() => {
           user2Edit && setUser2Edit(null);
@@ -103,24 +114,35 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
   return (
     <>
-      <button onClick={() => setDataChanged(!dataChanged)}>Refresh</button>
-      <button onClick={() => { }}>delete</button>
+      <button onClick={async () => {
+        setDataChanged(!dataChanged);
+        // const data = await api.login({ username: 'test1', password: '1234' });
+        // console.log(data.token);
+        // dispatch(setUserToken(data.token));
+        const data2 = await api.getAllUsers();
+        console.log(data2);
+
+
+      }}>Refresh</button>
+      <button onClick={() => {
+
+      }}>delete</button>
 
       <TableContainer>
         <Table>
           <TableHeader>
             <TableRow $odd={0 % 2 === 1}>
-              {Object.keys(usersData[0]).map((key) =>
-                <HeaderCell key={key}>{key}</HeaderCell>)
-              }
-              <TableCell $length={0.01}><InputCheckMark checked={selectAll} onChange={headerCheckboxHandler} /></TableCell>
-
+              {Object.keys(initUser()).map((key) =>
+                <HeaderCell key={key}>{key}</HeaderCell>)}
+              <HeaderCell >
+                <InputCheckMark checked={selectAll}
+                  onChange={headerCheckboxHandler} /></HeaderCell>
             </TableRow>
           </TableHeader>
 
-          <TableBody>
+          {usersData && usersData?.length > 0 && <TableBody>
             {usersData.map(UserRecordComponent)}
-          </TableBody>
+          </TableBody>}
         </Table>
 
 
@@ -131,7 +153,16 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
         }
 
 
+
       </TableContainer>
+
+      {!displayLogin && ReactDOM.createPortal(<ModalContainer>
+        <LoginComponent user={{
+          userName: "",
+          password: ""
+        }} onSubmit={function (data: any): void {
+          // throw new Error("Function not implemented.");
+        }} /> </ModalContainer>, document.body)}
 
     </>
   );

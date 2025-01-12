@@ -6,10 +6,12 @@ export interface LoginUser {
     password: string
 }
 export const  api = {
-    login: (user: LoginUser) => services.post(urls.login(), user),
-    getAllUsers: () => services.get(urls.getAllUsers()),
-    getAUser: (userID: string) => services.get(urls.getAUser(userID)),
-    postAnewUser: (user: any) => services.post(urls.postAnewUser(), user),
-    updateAUser: (userID: string, user: any) => services.patch(urls.updateAUser(userID), user),
-    deleteAUser: (userID: string) => services.del(urls.deleteAUser(userID))
+    login: async (user: LoginUser) => services.post(urls.login(), user),
+    getAllUsers: async () => services.get(urls.getAllUsers()),
+    getAUser: async (userID: string) => services.get(urls.getAUser(userID)),
+    postAnewUser: async (user: any) => services.post(urls.postAnewUser(), user),
+    updateAUser: async (userID: string, user: any) => services.patch(urls.updateAUser(userID), user),
+    deleteAUser: async (userID: string) => services.del(urls.deleteAUser(userID))
 }
+
+
