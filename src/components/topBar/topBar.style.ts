@@ -10,9 +10,10 @@ export const TopBarContainer = styled.div`
     background-color:  ${({theme})=>theme.firstComponentsColor};
     color:  ${({theme})=>theme.primaryTextColor};
 
-    /* width: 100%; */
+    width: 100%;
     height: 10vh;
 
     position: sticky;
     top: 0;
+    z-index: 10;
     `;

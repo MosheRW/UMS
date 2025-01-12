@@ -14,7 +14,7 @@ export default function Layout() {
     return (<Container>
         <TopBar />
         <Outlet />
-        <CheenBar />
+        {/* <CheenBar /> */}
     </Container>
     );
 }

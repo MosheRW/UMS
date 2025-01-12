@@ -7,13 +7,13 @@ export const CheenBarContainer = styled.div`
     align-items: center;
     padding: 10px;
     
-    background-color:  ${({theme})=>theme.firstComponentsColor};
-    color:  ${({theme})=>theme.primaryTextColor};
+    background-color:  ${({ theme }) => theme.firstComponentsColor};
+    color:  ${({ theme }) => theme.primaryTextColor};
 
-    /* width: 100%; */
+    width: 97.3%;
     height: 10vh;
 
     
-    position: sticky;
+    position: fixed;
     bottom: 0;
 `;
