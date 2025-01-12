@@ -1,11 +1,17 @@
 import styled, { css } from 'styled-components';
 
+
 interface Theme {
     backgroundColor: string;
 
     firstComponentsColor: string;
     secondComponentsColor: string;
     thirdComponentsColor: string;
+
+    firstComponentsColorTransperent: string;
+    secondComponentsColorTransperent: string;
+    thirdComponentsColorTransperent: string;
+
 
     frameColor: string;
 
@@ -20,51 +26,79 @@ interface Theme {
     primaryTextSize: string;
     secondaryTextSize: string;
     thirdTextSize: string;
+
+    borderRadius: string; // Border radius for rounded corners
+    borderWidth: string; // Border width for components
+    borderColor: string; // Border color for components
+    alignText: string;
 };
 
 export const Hovering = css``;
 export const Clicking = css``;
 
 export const lightTheme: Theme = {
-    backgroundColor: '#ffffff', // White background for light mode
+    backgroundColor: '#ffffff',
 
-    firstComponentsColor: '#007BFF', // Blue for buttons/primary components
-    secondComponentsColor: '#6c757d', // Gray for secondary components
-    thirdComponentsColor: '#28a745', // Green for positive action items
+    firstComponentsColor: 'rgba(0, 123, 255, 1)',    // Semi-transparent blue
+    secondComponentsColor: 'rgba(108, 117, 125, 1)', // Semi-transparent gray
+    thirdComponentsColor: 'rgba(40, 167, 69, 1)',    // Semi-transparent green
 
-    frameColor: '#e0e0e0', // Light gray for borders and frames
+    firstComponentsColorTransperent: 'rgba(0, 123, 255, 0.5)',    // Semi-transparent blue
+    secondComponentsColorTransperent: 'rgba(108, 117, 125, 0.5)', // Semi-transparent gray
+    thirdComponentsColorTransperent: 'rgba(40, 167, 69, 0.5)',    // Semi-transparent green
+    
 
-    primaryTextColor: '#212529', // Dark text for readability
-    secondaryTextColor: '#6c757d', // Medium gray for secondary text
-    thirdTextColor: '#28a745', // Green for highlighting
+    frameColor: '#e0e0e0',
 
-    primaryTextFont: 'Arial, sans-serif', // Common sans-serif font
-    secondaryTextFont: 'Verdana, sans-serif', // Another sans-serif for distinction
-    thirdTextFont: 'Courier New, monospace', // Monospaced for special text like code
+    primaryTextColor: '#212529',
+    secondaryTextColor: '#6c757d',
+    thirdTextColor: '#28a745',
 
-    primaryTextSize: '16px', // Standard text size
-    secondaryTextSize: '14px', // Smaller text for secondary items
-    thirdTextSize: '12px' // Small text for tertiary information
+    primaryTextFont: 'Arial, sans-serif',
+    secondaryTextFont: 'Verdana, sans-serif',
+    thirdTextFont: 'Courier New, monospace',
+
+    primaryTextSize: '16px',
+    secondaryTextSize: '14px',
+    thirdTextSize: '12px',
+
+    borderRadius: '8px', 
+    borderWidth: '1px',
+    borderColor: '#cccccc',
+
+    alignText: 'left',
 };
 
 export const darkTheme: Theme = {
-    backgroundColor: '#121212', // Dark background for dark mode
+    backgroundColor: '#121212',
 
-    firstComponentsColor: '#6200ea', // Purple for primary components in dark mode
-    secondComponentsColor: '#bb86fc', // Light purple for secondary components
-    thirdComponentsColor: '#03dac6', // Cyan for positive actions in dark mode
+    firstComponentsColor: '#6200ea',
+    secondComponentsColor: '#bb86fc',
+    thirdComponentsColor: '#03dac6',
 
-    frameColor: '#333333', // Dark gray for borders and frames
+    firstComponentsColorTransperent: '#6200ea',
+    secondComponentsColorTransperent: '#bb86fc',
+    thirdComponentsColorTransperent: '#03dac6',
 
-    primaryTextColor: '#e0e0e0', // Light text for dark backgrounds
-    secondaryTextColor: '#9e9e9e', // Medium gray for secondary text
-    thirdTextColor: '#03dac6', // Cyan for highlighting
+    frameColor: '#333333',
 
-    primaryTextFont: 'Roboto, sans-serif', // Common Google font for readability
-    secondaryTextFont: 'Arial, sans-serif', // Alternative sans-serif font
-    thirdTextFont: 'Courier New, monospace', // Monospaced for special text like code
+    primaryTextColor: '#e0e0e0',
+    secondaryTextColor: '#9e9e9e',
+    thirdTextColor: '#03dac6',
 
-    primaryTextSize: '16px', // Standard text size
-    secondaryTextSize: '14px', // Smaller text for secondary items
-    thirdTextSize: '12px' // Small text for tertiary information
+    primaryTextFont: 'Roboto, sans-serif',
+    secondaryTextFont: 'Arial, sans-serif',
+    thirdTextFont: 'Courier New, monospace',
+
+    primaryTextSize: '16px',
+    secondaryTextSize: '14px',
+    thirdTextSize: '12px',
+
+    borderRadius: '8px', // Rounded corners for dark theme
+    borderWidth: '1px', // Standard border width
+    borderColor: '#555555', // Dark gray borders for the dark theme
+    alignText: 'left',
+
 };
+
+
