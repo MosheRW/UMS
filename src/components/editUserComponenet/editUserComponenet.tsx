@@ -3,7 +3,7 @@ import { User } from '../../types/user/user';
 import { Container, Form, InputEmail, InputPassword, InputText, Label } from './editUserComponenet.style';
 import { useForm } from 'react-hook-form';
 
-export default function EditUserComponenet({ ...props }: { user: User | null, onSubmit: (data: any) => void }) {
+export default function EditUserComponenet({ ...props }: { user: User | null, headline?: string, onSubmit: (data: any) => void }) {
 
     const { user = {
         id: "",
@@ -12,8 +12,9 @@ export default function EditUserComponenet({ ...props }: { user: User | null, on
         email: "",
         password: "",
         createdAt: new Date(),
-        token: "",
-    }, onSubmit } = props;
+        token: "",        
+    }, headline = "Edit User"
+    , onSubmit } = props;
 
     const {
         register,
@@ -30,14 +31,14 @@ export default function EditUserComponenet({ ...props }: { user: User | null, on
         // <Container>
         <Form onSubmit={handleSubmit((data) => { console.log(data); onSubmit(data) })}>
             <hgroup>
-                <h1>Edit User</h1>
+                <h1>{headline}</h1>
             </hgroup>
 
             <Label htmlFor="full name">full name</Label>
             <InputText {...register('fullName', { value:user?.fullName, required: true})} />
             <br />
             <Label htmlFor="user name">user name</Label>
-            <InputText  {...register('userName', { value: user?.userName, required: true })} />
+            <InputText  {...register('username', { value: user?.userName, required: true })} />
             <br />
             <Label htmlFor="email">email</Label>
             <InputEmail {...register('email', { value: user?.email, required: true })} />

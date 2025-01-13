@@ -5,15 +5,20 @@ import styled, { css } from "styled-components";
 export const TableContainer = styled.div`
 display: flex;
 flex-direction:row;
-justify-content: space-evenly;
-/* background-color:  ${({ theme }) => theme.firstComponentsColor}; */
+
+
+justify-self: center;
+max-width: 200ch;
 `;
 
 
-export const Table = styled.table``;
+export const Table = styled.table`
+  width: 100%;
+table-layout: fixed;
+`;
 
 export const TableCellCss = css`
-/* width: 30ch; */
+/* width: 2ch; */
 /* padding-right: 3ch; */
 `;
 
@@ -42,17 +47,12 @@ border-width:  ${({ theme }) => theme.borderWidth};
 
 export const TableCell = styled.td<{ $length?: number }>`
 ${TableCellCss}
-width: ${({ $length }) => $length && `${$length}ch` || '30ch'};
-padding-right: 3ch;
-border: 1px solid #ddd;
+/* width: ${({ $length }) => $length && `${$length}ch` || '30ch'}; */
 
-/* border-style: solid; */
-/* border-radius:  ${({ theme }) => theme.borderRadius};
-border-color:  ${({ theme }) => theme.borderColor};
-border-width:  ${({ theme }) => theme.borderWidth}; */
+/* border: 1px solid #ddd; */
 
 overflow: hidden;
-text-overflow: ellipsis;
+/* text-overflow:clip; */
 white-space: nowrap;
 
 `;

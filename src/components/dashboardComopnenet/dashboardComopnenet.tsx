@@ -1,9 +1,19 @@
-import React, { useCallback, useEffect, useMemo } from "react";
-import { User } from "../../types/user/user";
+import React, { useState, useEffect, useMemo } from "react";
+import { initUser, parseUser, User } from "../../types/user/user";
 import { EditUserContainer, HeaderCell, InputCheckMark, Table, TableBody, TableCell, TableContainer, TableHeader, TableRow } from "./dashboardComopnenet.style";
 import { MdEdit } from "react-icons/md";
 import EditUserComponenet from "../editUserComponenet/editUserComponenet";
 import { set } from "react-hook-form";
+import { api } from "../../api/api";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserToken } from "../../redux/features/userData/userDataSlice";
+import ReactDOM from "react-dom";
+import LoginComponent from "../loginComponent/loginComponent";
+import { selectIsLogedIn } from "../../redux/features/userData/userDataSliceSelectors";
+import Modal from "../modal/modal";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import CreateUserComponent from "../editUserComponenet/createUserComponent";
+import { setIsSyncing } from "../../redux/features/syncStatus/syncStatusSlice";
 
 
 
@@ -18,27 +28,63 @@ interface DashboardComponent {
 }
 
 export default function DashboardComponent({ ...props }: DashboardComponent) {
+  const isLogedIN = useSelector(selectIsLogedIn);
+  const isSynced = useSelector(selectIsLogedIn);
 
-  //props
-  const [dataChanged, setDataChanged] = React.useState<boolean>(false);
-  const [usersDataDict, setUsersDataDict] = React.useState<Dict>({});
-  const [selectAll, setSelectAll] = React.useState<boolean>(false);
-  // const [onEdit, setOnEdit] = React.useState<boolean>(false);
-  const [user2Edit, setUser2Edit] = React.useState<User | null>(null);
+  const [usersDataDict, setUsersDataDict] = useState<Dict>({});
+  const [selectAll, setSelectAll] = useState<boolean>(false);
+  const [user2Edit, setUser2Edit] = useState<User | null>(null);
 
-  const usersData = useMemo(() => {
+  const [users, setUsers] = useState<User[] | null>(null);
+  const [displayAddUser, setDisplayAddUser] = useState<boolean>(false);
 
+
+  const dispatch = useDispatch();
+  //hooks
+
+  useEffect(() => {
+    console.log({ isSynced });
+
+  }, [isSynced]);
+
+  useEffect(() => {
+    api.getAllUsers().then((data) => props.users = data).then((data) => {
+      console.log({ data });
+      data && setUsers(data?.map(parseUser));
+      dispatch(setIsSyncing(true));
+    });
+
+  }, [])
+
+  useEffect(() => {
+    if (!isSynced && isLogedIN) {
+      api.getAllUsers().then((data) => props.users = data).then((data) => {
+        console.log({ data });
+
+        data && setUsers(data?.map(parseUser));
+        dispatch(setIsSyncing(true));
+      });
+    }
+  }, [isSynced])
+
+
+  useEffect(() => {
+    if (!isSynced && isLogedIN) {
+      api.getAllUsers().then((data) => props.users = data).then((data) => {
+        data && setUsers(data?.map(parseUser));
+        console.log({ data });
+        dispatch(setIsSyncing(true));
+      });
+    }
+  }, [isLogedIN])
+
+
+  useEffect(() => {
     const dict: Dict = {}
     props.users.forEach((user) => { dict[user.id] = false });
     setUsersDataDict(dict);
-    return props.users;
-  }, [dataChanged]);
+  }, [users])
 
-  //hooks
-  useEffect(() => {
-    console.log({ usersDataDict });
-  }
-    , [usersDataDict]);
 
   //consts
 
@@ -53,7 +99,6 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
   //handlers
   function checkboxHandler(id: string) {
     return () => {
-      console.log({ id });
       const dict = { ...usersDataDict };
       dict[id] = !dict[id];
       setUsersDataDict(dict);
@@ -65,13 +110,15 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
   };
 
   function headerCheckboxHandler() {
-    console.log('hello');
     if (selectAll) {
+      console.log(1);
       setSelectAll(false);
       const dict: Dict = {}
       props.users.forEach((user) => { dict[user.id] = false });
       setUsersDataDict(dict);
     } else {
+      console.log(2);
+
       setSelectAll(true);
       const dict: Dict = {}
       props.users.forEach((user) => { dict[user.id] = true });
@@ -80,16 +127,31 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
   }
 
+  function handleDelete() {
+
+    for (const key in usersDataDict) {
+      if (usersDataDict[key]) {
+        api.deleteAUser(key).then((data) => {
+          api.getAllUsers().then((data) => { data && setUsers(data?.map(parseUser)); });
+        });
+        dispatch(setIsSyncing(false));
+
+      }
+    }
+  }
+  function handleDisplayAddUser() {
+    setDisplayAddUser(!displayAddUser);
+  }
   //components
   function UserRecordComponent(user: User, index: number) {
     return (<TableRow $odd={index % 2 === 1} key={'user :' + user.id}>
       <TableCell>{user.id}</TableCell>
       <TableCell $length={12}>{user.userName}</TableCell>
       <TableCell $length={20}>{user.fullName}</TableCell>
-      <TableCell>{user.email}</TableCell>
-      <TableCell $length={15}>{user.password}</TableCell>
-      <TableCell $length={12}>{user.createdAt.toLocaleDateString()}</TableCell>
-      <TableCell $length={0.01}>
+      <TableCell $length={20}>{user.email}</TableCell>
+      <TableCell $length={5}>{user.password}</TableCell>
+      <TableCell $length={12}>{user?.createdAt !== null && user.createdAt.toLocaleDateString()}</TableCell>
+      <TableCell $length={2}>
         <InputCheckMark checked={usersDataDict[user.id]} onChange={checkboxHandler(user.id)} />
         <MdEdit onClick={() => {
           user2Edit && setUser2Edit(null);
@@ -103,35 +165,65 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
   return (
     <>
-      <button onClick={() => setDataChanged(!dataChanged)}>Refresh</button>
-      <button onClick={() => { }}>delete</button>
+      <button onClick={handleDelete}>Delete</button>
+      <button onClick={handleDisplayAddUser}>add user</button>
+      <button onClick={handleDisplayAddUser}>refresh</button>
+
+
 
       <TableContainer>
         <Table>
           <TableHeader>
-            <TableRow $odd={0 % 2 === 1}>
-              {Object.keys(usersData[0]).map((key) =>
-                <HeaderCell key={key}>{key}</HeaderCell>)
-              }
-              <TableCell $length={0.01}><InputCheckMark checked={selectAll} onChange={headerCheckboxHandler} /></TableCell>
-
+            <TableRow $odd={true}>
+              {Object.keys(initUser()).map((key) =>
+                <HeaderCell key={key}>{key}</HeaderCell>)}
+              <HeaderCell >
+                <InputCheckMark checked={selectAll}
+                  onChange={headerCheckboxHandler} /></HeaderCell>
             </TableRow>
           </TableHeader>
 
-          <TableBody>
-            {usersData.map(UserRecordComponent)}
-          </TableBody>
+          {users && users?.length > 0 && <TableBody>
+            {users?.map(UserRecordComponent)}
+          </TableBody>}
         </Table>
 
 
         {user2Edit &&
           <EditUserContainer>
-            <EditUserComponenet user={user2Edit} onSubmit={(user) => setUser2Edit(null)} />
+            <EditUserComponenet user={user2Edit} onSubmit={(user) => {
+              user && api.updateAUser(user2Edit.id, user).then((data) => {
+                api.getAllUsers().then((data) => {
+                  data && setUsers(data?.map(parseUser))
+                });
+              });
+              setUser2Edit(null);
+              // dispatch(setIsSyncing(false));
+            }} />
+          </EditUserContainer>
+        }
+
+        {displayAddUser &&
+          <EditUserContainer>
+            <CreateUserComponent reload={(bool = true) => {
+              bool && api.getAllUsers().then((data) => {
+                data && setUsers(data?.map(parseUser));
+              });
+              setDisplayAddUser(!displayAddUser);
+            }} />
           </EditUserContainer>
         }
 
 
       </TableContainer>
+
+      <Modal display={!isLogedIN} >
+        <LoginComponent user={{
+          userName: "",
+          password: ""
+        }} onSubmit={(bool = true) => { bool && api.getAllUsers().then((data) => { data && setUsers(data?.map(parseUser)) }); }} />
+      </Modal>
+
 
     </>
   );
