@@ -1,6 +1,6 @@
 import react, { use, useEffect, useMemo } from 'react';
 import { User } from '../../types/user/user';
-import { Container, Form, InputEmail, InputPassword, InputText, Label } from './editUserComponenet.style';
+import { Button, Container, Form, InputEmail, InputPassword, InputText, Label } from './editUserComponenet.style';
 import { useForm } from 'react-hook-form';
 
 export default function EditUserComponenet({ ...props }: { user: User | null, headline?: string, onSubmit: (data: any) => void }) {
@@ -12,9 +12,9 @@ export default function EditUserComponenet({ ...props }: { user: User | null, he
         email: "",
         password: "",
         createdAt: new Date(),
-        token: "",        
+        token: "",
     }, headline = "Edit User"
-    , onSubmit } = props;
+        , onSubmit } = props;
 
     const {
         register,
@@ -28,29 +28,29 @@ export default function EditUserComponenet({ ...props }: { user: User | null, he
         reset();
     }, [user])
     return (
-        // <Container>
-        <Form onSubmit={handleSubmit((data) => { console.log(data); onSubmit(data) })}>
-            <hgroup>
-                <h1>{headline}</h1>
-            </hgroup>
+        <Container className='editUserContainer'>
+            <Form onSubmit={handleSubmit((data) => { console.log(data); onSubmit(data) })}>
+                <hgroup>
+                    <h1>{headline}</h1>
+                </hgroup>
 
-            <Label htmlFor="full name">full name</Label>
-            <InputText {...register('fullName', { value:user?.fullName, required: true})} />
-            <br />
-            <Label htmlFor="user name">user name</Label>
-            <InputText  {...register('username', { value: user?.userName, required: true })} />
-            <br />
-            <Label htmlFor="email">email</Label>
-            <InputEmail {...register('email', { value: user?.email, required: true })} />
-            <br />
-            <Label htmlFor="password">password</Label>
-            <InputPassword {...register('password', { value: user?.password, required: true })} />
-            <br />
-            <br />
-            <button type="submit">Save</button>
-            <br />
-            <button type="button" onClick={() => { reset(); onSubmit(null) }}>Cancel</button>
-        </Form>
-        // </Container>
+                <Label htmlFor="full name">full name</Label>
+                <InputText {...register('fullName', { value: user?.fullName, required: true })} />
+                <br />
+                <Label htmlFor="user name">user name</Label>
+                <InputText  {...register('username', { value: user?.userName, required: true })} />
+                <br />
+                <Label htmlFor="email">email</Label>
+                <InputEmail {...register('email', { value: user?.email, required: true })} />
+                <br />
+                <Label htmlFor="password">password</Label>
+                <InputPassword {...register('password', { value: user?.password, required: true })} />
+                <br />
+                <br />
+                <Button type="submit">Save</Button>
+                <br />
+                <Button type="button" onClick={() => { reset(); onSubmit(null) }}>Cancel</Button>
+            </Form>
+        </Container>
     )
 }

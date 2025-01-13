@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { initUser, parseUser, User } from "../../types/user/user";
-import { EditUserContainer, HeaderCell, InputCheckMark, Table, TableBody, TableCell, TableContainer, TableHeader, TableRow } from "./dashboardComopnenet.style";
+import { Button, DashboardContainrer, HeaderCell, InputCheckMark, ManagementArea, Table, TableBody, TableCell, TableContainer, TableHeader, TableRow } from "./dashboardComopnenet.style";
 import { MdEdit } from "react-icons/md";
 import EditUserComponenet from "../editUserComponenet/editUserComponenet";
 import { set } from "react-hook-form";
@@ -166,32 +166,38 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
   return (
     <>
-      <button onClick={handleDelete}>Delete</button>
-      <button onClick={handleDisplayAddUser}>add user</button>
-      <button onClick={handleDisplayAddUser}>refresh</button>
 
 
 
-      <TableContainer>
-        <Table>
-          <TableHeader>
-            <TableRow $odd={true}>
-              {Object.keys(initUser()).map((key) =>
-                <HeaderCell key={key}>{key}</HeaderCell>)}
-              <HeaderCell >
-                <InputCheckMark checked={selectAll}
-                  onChange={headerCheckboxHandler} /></HeaderCell>
-            </TableRow>
-          </TableHeader>
+      <DashboardContainrer>
+        <TableContainer>
+          <Table>
+            <TableHeader>
+              <TableRow $odd={true}>
+                {Object.keys(initUser()).map((key) =>
+                  <HeaderCell key={key}>{key}</HeaderCell>)}
+                <HeaderCell >
+                  <InputCheckMark checked={selectAll}
+                    onChange={headerCheckboxHandler} /></HeaderCell>
+              </TableRow>
+            </TableHeader>
 
-          {users && users?.length > 0 && <TableBody>
-            {users?.map(UserRecordComponent)}
-          </TableBody>}
-        </Table>
+            {users && users?.length > 0 && <TableBody>
+              {users?.map(UserRecordComponent)}
+            </TableBody>}
+          </Table>
+
+        </TableContainer>
+
+        <ManagementArea>
+            <br />
+            <Button onClick={handleDelete}>Delete</Button>
+            <br />
+            <Button onClick={handleDisplayAddUser}>add user</Button>
+            <br />
 
 
-        {user2Edit &&
-          <EditUserContainer>
+          {user2Edit &&
             <EditUserComponenet user={user2Edit} onSubmit={(user) => {
               user && api.updateAUser(user2Edit.id, user).then((data) => {
                 api.getAllUsers().then((data) => {
@@ -201,23 +207,20 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
               setUser2Edit(null);
               // dispatch(setIsSyncing(false));
             }} />
-          </EditUserContainer>
-        }
+          }
 
-        {displayAddUser &&
-          <EditUserContainer>
+          {displayAddUser &&
             <CreateUserComponent reload={(bool = true) => {
               bool && api.getAllUsers().then((data) => {
                 data && setUsers(data?.map(parseUser));
               });
               setDisplayAddUser(!displayAddUser);
             }} />
-          </EditUserContainer>
-        }
+          }
 
+        </ManagementArea>
 
-
-      </TableContainer>
+      </DashboardContainrer>
 
       <Modal display={!isLogedIN} >
         <LoginComponent user={{

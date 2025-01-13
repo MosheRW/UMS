@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import {Buttons} from '../../style/themes.style';
 export enum Display {
     side,
     popUp,
@@ -13,7 +14,7 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 background-color: ${({ theme }) => theme.primaryColorTransperent};
-
+width: 90%;
 
 `;
 
@@ -24,7 +25,9 @@ justify-content: center;
 align-items: center;
 background-color: ${({ theme }) => theme.primaryColorTransperent};
 border: 1px solid black;
-/* width: fit-content; */
+border-radius: 0.5rem;
+
+width: 100%;
 `;
 
 const Input = css``;
@@ -43,4 +46,8 @@ ${Input}
 
 export const Label = styled.label`
 
+`;
+
+export const Button = styled.button`
+${Buttons}
 `;
