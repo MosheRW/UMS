@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import DashboardComponent from '../components/dashboardComopnenet/dashboardComopnenet';
 import { initUser, parseUser, User } from '../types/user/user';
-import { api } from '../api/api';
-import { users } from '../full_users_list';
 import { useSelector } from 'react-redux';
 import { selectIsLogedIn } from '../redux/features/userData/userDataSliceSelectors';
 export default function Dashboard() {

@@ -127,6 +127,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
   }
 
+
   function handleDelete() {
 
     for (const key in usersDataDict) {
@@ -213,6 +214,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
             }} />
           </EditUserContainer>
         }
+
 
 
       </TableContainer>

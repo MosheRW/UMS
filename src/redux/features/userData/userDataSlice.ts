@@ -38,10 +38,11 @@ export const userDataSlice = createSlice({
         },
         setUserPassword: (state, action: PayloadAction<string>) => {
             state.fullName = action.payload;            
-        },
+        },      
         setUserData: (state, action: PayloadAction<UserState>) => {
             state.id = action.payload.id;
             localStorage.setItem("userId", state.id);
+
 
             state.userName = action.payload.userName;
             localStorage.setItem("userName", state.userName);
@@ -59,6 +60,7 @@ export const userDataSlice = createSlice({
             // localStorage.setItem("userCreatedAt", state.createdAt.toISOString());
 
             state.token = action.payload.token;
+            localStorage.setItem("userToken", state.token);
             localStorage.setItem("userToken", state.token);
 
         },
