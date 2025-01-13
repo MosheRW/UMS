@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
-import { toast } from 'react-toastify';
-
+import  { toast } from 'react-toastify';
+ 
 function getAuthToken(key: string = 'Authorization', prefix: string = `Bearer `) {
     const token = localStorage.getItem("userToken");
     if (token && token.length > 0) {
@@ -42,11 +42,12 @@ export interface Request {
 
     deBug?: boolean;
     finally?: Function;
+    isToast?: boolean;
 };
 
 
 export async function post({ ...props }: Request) {
-    const { url, body, needsToken = true, deBug = false } = props;
+    const { url, body, needsToken = true, deBug = false, isToast = true } = props;
     if (needsToken && typeof (getAuthToken().Authorization) == "undefined") {
         let counter = 0;
         const intervalId = setInterval(() => {
@@ -58,33 +59,33 @@ export async function post({ ...props }: Request) {
             }
         }, 1000);
         if (counter > 5) {
-            toast.error("you need to log in first");
+            isToast && toast.error("you need to log in first");
             return [];
         }
     }
     try {
         const data = (await client.standard().post(url, body)).data;
-        toast.dismiss();
-        toast.success("success"); return data;
+        isToast && toast.dismiss();
+        isToast && toast.success("success"); return data;
     } catch (error: AxiosError | any) {
         // switch (error?.response?.status) {
         //     case 400:
-        //         toast.error("Bad Request");
+        //         isToast && toast.error("Bad Request");
         //         break;
         //     case 401:
-        //         toast.error("Unauthorized");
+        //         isToast && toast.error("Unauthorized");
         //         break;
         //     case 403:
-        //         toast.error("Forbidden");
+        //         isToast && toast.error("Forbidden");
         //         break;
         //     case 404:
-        //         toast.error("Not Found");
+        //         isToast && toast.error("Not Found");
         //         break;
         //     case 500:
-        //         toast.error("Server Error");
+        //         isToast && toast.error("Server Error");
         //         break;
         //     case 503:
-        //         toast.error("Service Unavailable");
+        //         isToast && toast.error("Service Unavailable");
         //         break;
         //     default:
         //         break;
@@ -94,7 +95,8 @@ export async function post({ ...props }: Request) {
 }
 
 export async function get({ ...props }: Omit<Request, 'body'>) {
-    const { url, needsToken = true, deBug = false } = props;
+    const { url, needsToken = true, deBug = false, isToast = true } = props;
+
 
     // if (needsToken && typeof (getAuthToken().Authorization) == "undefined") {
     //     let counter = 0;
@@ -107,35 +109,35 @@ export async function get({ ...props }: Omit<Request, 'body'>) {
     //         }
     //     }, 1000);
     //     if (counter > 5) {
-    //         toast.error("you need to log in first");
+    //         isToast && toast.error("you need to log in first");
     //         return [];
     //     }
     // }
 
     try {
         const data = (await client.standard().get(url)).data;
-        toast.dismiss();
-        toast.success("success");
+        isToast && toast.dismiss();
+        isToast && toast.success("success");
         return data;
     } catch (error: AxiosError | any) {
         switch (error?.status) {
             case 400:
-                toast.error("Bad Request");
+                isToast && toast.error("Bad Request");
                 break;
             case 401:
-                toast.error("Unauthorized");
+                isToast && toast.error("Unauthorized");
                 break;
             case 403:
-                toast.error("Forbidden");
+                isToast && toast.error("Forbidden");
                 break;
             case 404:
-                toast.error("Not Found");
+                isToast && toast.error("Not Found");
                 break;
             case 500:
-                toast.error("Server Error");
+                isToast && toast.error("Server Error");
                 break;
             case 503:
-                toast.error("Service Unavailable");
+                isToast && toast.error("Service Unavailable");
                 break;
             default:
                 break;
@@ -147,7 +149,7 @@ export async function get({ ...props }: Omit<Request, 'body'>) {
 }
 
 export async function put({ ...props }: Request) {
-    const { url, body, needsToken = true, deBug = false } = props;
+    const { url, body, needsToken = true, deBug = false, isToast = true } = props;
     if (needsToken && typeof (getAuthToken().Authorization) == "undefined") {
         let counter = 0;
         const intervalId = setInterval(() => {
@@ -159,15 +161,15 @@ export async function put({ ...props }: Request) {
             }
         }, 1000);
         if (counter > 5) {
-            toast.error("you need to log in first");
+            isToast && toast.error("you need to log in first");
             return [];
         }
     }
 
     try {
         const data = (await client.standard().put(url, body)).data;
-        toast.dismiss();
-        toast.success("success");
+        isToast && toast.dismiss();
+        isToast && toast.success("success");
         return data;
     } catch (error) {
         console.error(`put Request (${url}) Error:`, error);
@@ -175,7 +177,8 @@ export async function put({ ...props }: Request) {
 }
 
 export async function del({ ...props }: Omit<Request, 'body'>) {
-    const { url, needsToken = true, deBug = false } = props;
+    const { url, needsToken = true, deBug = false, isToast = true } = props;
+
 
     if (needsToken && typeof (getAuthToken().Authorization) == "undefined") {
         let counter = 0;
@@ -188,14 +191,14 @@ export async function del({ ...props }: Omit<Request, 'body'>) {
             }
         }, 1000);
         if (counter > 5) {
-            toast.error("you need to log in first");
+            isToast && toast.error("you need to log in first");
             return [];
         }
     }
     try {
         const data = (await client.standard().delete(url)).data;
-        toast.dismiss();
-        toast.success("success");
+        isToast && toast.dismiss();
+        isToast && toast.success("success");
         return data;
     } catch (error) {
         console.error(`delete Request (${url}) Error:`, error);
@@ -203,7 +206,7 @@ export async function del({ ...props }: Omit<Request, 'body'>) {
 }
 
 export async function patch({ ...props }: Request) {
-    const { url, body, needsToken = true, deBug = false } = props;
+    const { url, body, needsToken = true, deBug = false, isToast = true } = props;
 
     try {
         return (await client.standard().patch(url, body)).data;

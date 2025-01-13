@@ -6,6 +6,8 @@ export const DashboardContainrer = styled.div`
   flex-direction: row;
   justify-content: center;
   gap: 2ch;
+  margin: 0.5rem;
+
 `;
 
 export const ManagementArea = styled.div`

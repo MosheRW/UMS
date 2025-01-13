@@ -87,9 +87,9 @@ export const darkTheme: Theme = {
   secondaryTextFont: 'Arial, sans-serif',
   thirdTextFont: 'Courier New, monospace',
 
-  primaryTextSize: '16px',
-  secondaryTextSize: '14px',
-  thirdTextSize: '12px',
+  primaryTextSize: '18px',
+  secondaryTextSize: '16px',
+  thirdTextSize: '14px',
 
   borderRadius: '8px', // Rounded corners for dark theme
   borderWidth: '1px', // Standard border width

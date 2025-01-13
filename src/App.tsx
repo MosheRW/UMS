@@ -7,29 +7,37 @@ import store from './redux/store';
 import { setUserToken } from './redux/features/userData/userDataSlice';
 import { ToastContainer } from 'react-toastify';
 import { api } from './api/api';
+import { Navigate, useNavigate } from 'react-router';
 
 
 export default function App() {
   const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
+  const [homePage, setHomePage] = React.useState("/");
   useEffect(() => {
-    api.getAllUsers().then((data) => {
+    api.getAllUsers(false).then((data) => {
+      const token = localStorage.getItem("userToken");
       if (data) {
-        const token = localStorage.getItem("userToken");
         if (token && token.length > 0) {
           store.dispatch(setUserToken(token));
+          setHomePage("/dashboard");
         }
-      } else {
+      } else if (token) {
         localStorage.removeItem("userToken");
+        setHomePage("/login");
+      } else {
+        setHomePage("/login");
       }
-    });
+
+    }
+    );
   }, []);
+
 
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <Provider store={store}>
         <ToastContainer />
-        <Router />
+        <Router homePage={homePage} />
       </Provider>
     </ThemeProvider>
 

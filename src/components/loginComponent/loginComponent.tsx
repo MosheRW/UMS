@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Form, InputPassword, InputText, Label } from "../editUserComponenet/editUserComponenet.style";
+import { Button, Form, InputPassword, InputText, Label } from "../editUserComponenet/editUserComponenet.style";
 import { api, LoginUser } from "../../api/api";
 import React from "react";
 import { useDispatch } from "react-redux";
@@ -24,20 +24,25 @@ export default function LoginComponent({ ...props }: LoginComponent) {
     } = useForm();
 
     const dispatch = useDispatch();
-    
+
     //handlers
     const onSubmitHandler = handleSubmit(async (data) => {
         console.log(data);
         const res = await api.login({ ...data } as LoginUser);
-        console.log(res);
-        dispatch(setUserName(data.username));
-        dispatch(setUserPassword(data.password));
-        dispatch(setUserToken(res.token));
-        onSubmit(data)
+        if (!res?.token) {
+            cancel();
+        } else {
+            dispatch(setUserName(data.username));
+            dispatch(setUserPassword(data.password));
+            dispatch(setUserToken(res?.token));
+            onSubmit(data)
+        }
     });
 
-    //components
-
+    const cancel = () => {
+        reset();
+        onSubmit(null);
+    }
 
     return (
 
@@ -52,9 +57,9 @@ export default function LoginComponent({ ...props }: LoginComponent) {
             <InputPassword {...register('password', { value: user?.password, required: true })} />
             <br />
             <br />
-            <button type="submit">Save</button>
+            <Button type="submit">Save</Button>
             <br />
-            <button type="button" onClick={() => { reset(); onSubmit(null) }}>Cancel</button>
+            <Button type="button" onClick={cancel}>Cancel</Button>
         </Form >
 
 

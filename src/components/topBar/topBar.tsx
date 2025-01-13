@@ -1,6 +1,20 @@
 import React from 'react';
-import { TopBarContainer } from './topBar.style';
+import { LogOutButton, TopBarContainer, TopBarContainerContainer } from './topBar.style';
+import { IoMdLogOut } from "react-icons/io";
+import { useNavigate } from 'react-router';
 
 export default function TopBar() {
-    return <TopBarContainer>topBar</TopBarContainer>;
+    const navigate = useNavigate();
+    return <TopBarContainerContainer>
+        <TopBarContainer>
+
+            <LogOutButton onClick={() => {
+                localStorage.clear();
+                navigate("/login");
+            }}><IoMdLogOut /></LogOutButton>
+
+            <h1>User Management System</h1>
+
+        </TopBarContainer>
+    </TopBarContainerContainer>;
 }
