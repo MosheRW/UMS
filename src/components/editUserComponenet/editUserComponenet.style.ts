@@ -1,54 +1,46 @@
-import styled, { css } from "styled-components";
-import {Buttons} from '../../style/themes.style';
+import styled, { css } from 'styled-components';
+import { Buttons } from '../../style/themes.style';
+import {
+  InputText as OGInputText,
+  InputEmail as OGInputEmail,
+  InputPassword as OGInputPassword,
+  Label as OGLabel,
+} from '../../style/themes.style';
 export enum Display {
-    side,
-    popUp,
-    fullScreen
+  side,
+  popUp,
+  fullScreen,
 }
 
 export const Container = styled.div<{
-    $displayVersion?: Display
+  $displayVersion?: Display;
 }>`
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-background-color: ${({ theme }) => theme.primaryColorTransperent};
-width: 90%;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: ${({ theme }) => theme.primaryColorTransperent};
+  width: 90%;
 `;
 
 export const Form = styled.form`
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-background-color: ${({ theme }) => theme.primaryColorTransperent};
-border: 1px solid black;
-padding: 0.5rem;
-border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: ${({ theme }) => theme.primaryColorTransperent};
+  border: 1px solid black;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
 
-width: 100%;
+  width: 100%;
 `;
+export const InputText = OGInputText;
+export const InputEmail = OGInputEmail;
+export const InputPassword = OGInputPassword;
 
-const Input = css``;
-
-export const InputText = styled.input.attrs({ type: 'text' })`
-${Input}
-`;
-
-export const InputEmail = styled.input.attrs({ type: 'email' })`
-${Input}
-`;
-
-export const InputPassword = styled.input.attrs({ type: 'password' })`
-${Input}
-`;
-
-export const Label = styled.label`
-
-`;
-
+export const Label = OGLabel;
 export const Button = styled.button`
-${Buttons}
+  ${Buttons}
+  width: 80%;
 `;

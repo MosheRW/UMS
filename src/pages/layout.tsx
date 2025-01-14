@@ -5,7 +5,10 @@ import styled from 'styled-components';
 import CheenBar from '../components/cheenBar/cheenBar';
 
 const Container = styled.div`
-    background-color:  ${({theme})=>theme.backgroundColor};
+body {
+    background-color: ${({ theme }) => theme.background};
+}
+    /* background-color:  ${({ theme }) => theme.backgroundColor}; */
     width: 100%;
     height: 100%;
 `

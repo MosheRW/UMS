@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css, createGlobalStyle } from 'styled-components';
 
 interface Theme {
   backgroundColor: string;
@@ -107,4 +107,35 @@ export const Buttons = css`
   text-align: center;
   background-color: ${({ theme }) => theme.thirdComponentsColorTransperent};
   color: ${({ theme }) => theme.primaryTextColor};
+`;
+
+export const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: ${({ theme }) => theme.backgroundColor};
+  }
+`;
+
+
+const Input = css`
+background-color: ${({ theme }) => theme.secondComponentsColorTransperent};
+color: ${({ theme }) => theme.primaryTextColor};
+border: 1px solid black;
+border-radius: 0.5rem;
+padding: 0.5rem;
+width: 90%;`;
+
+export const InputText = styled.input.attrs({ type: 'text' })`
+${Input}
+`;
+
+export const InputEmail = styled.input.attrs({ type: 'email' })`
+${Input}
+`;
+
+export const InputPassword = styled.input.attrs({ type: 'password' })`
+${Input}
+`;
+
+export const Label = styled.label`
+color: ${({ theme }) => theme.primaryTextColor};
 `;

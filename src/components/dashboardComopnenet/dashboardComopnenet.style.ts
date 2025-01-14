@@ -17,7 +17,7 @@ export const DashboardContainrer = styled.div`
 
 export const ManagementArea = styled.div`
   position: sticky;
-  top: 14vh;
+  top: calc(10vh + 2ch);
 
   width: 40ch;
   height: 80vh;
@@ -62,15 +62,12 @@ export const TableRow = styled.tr<{ $odd: boolean }>`
   color: ${({ theme }) => theme.primaryTextColor};
   text-align: ${({ theme }) => theme.alignText};
   border-style: solid;
-  /* border-radius:  ${({ theme }) => theme.borderRadius}; */
   border-color: ${({ theme }) => theme.borderColor};
   border-width: ${({ theme }) => theme.borderWidth};
 `;
 
 export const TableCell = styled.td<{ $length?: number }>`
   ${TableCellCss}
-  width: ${({ $length }) => ($length && `${$length}ch`) || '30ch'};
-
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -91,10 +88,54 @@ export const MangmantEditorsModal = styled.div`
 
 export const ManagmentButtons = styled.div`
   position: sticky;
-  top: 13.6vh;
+  top: calc(10vh + 2ch);
   background-color: ${({ theme }) => theme.backgroundColor};
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  /* gap: 2ch; */
+`;
+
+const background = css`
+  background-color: ${({ theme }) => theme.thirdComponentsColorTransperent};
+`;
+
+export const MobileUserRecordContainer = styled.div<{ $choosen: boolean }>`
+  background-color: ${({ $choosen }) => ($choosen ? 'red' : 'gray')};
+  /* ${($choosen) => ($choosen ? 'background-color: red' : 'background-color: gray')}; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid black;
+  padding: 0.25rem;
+  overflow: hidden;
+  margin: 0.25rem;
+`;
+
+export const MobileUserRecord = styled.table`
+  width: 100%;
+  border: 1px solid black;
+`;
+export const MobileUserRecordBody = styled.tbody``;
+
+export const Row = styled.tr`
+  width: 100%;
+`;
+export const TableLabel = styled.th`
+  width: 14ch;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+export const TableValue = styled.td`
+  width: calc(100% - 15ch);
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+export const UsersListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;

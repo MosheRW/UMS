@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { initUser, parseUser, User } from "../../types/user/user";
-import { Button, DashboardContainrer, HeaderCell, InputCheckMark, ManagementArea, ManagmentButtons, MangmantEditorsModal, Table, TableBody, TableCell, TableContainer, TableHeader, TableRow } from "./dashboardComopnenet.style";
+import { Button, DashboardContainrer, HeaderCell, InputCheckMark, UsersListContainer, ManagementArea, ManagmentButtons, MangmantEditorsModal, MobileUserRecord, MobileUserRecordBody, MobileUserRecordContainer, Row, Table, TableBody, TableCell, TableContainer, TableHeader, TableLabel, TableRow, TableValue } from "./dashboardComopnenet.style";
 import { MdEdit } from "react-icons/md";
 import EditUserComponenet from "../editUserComponenet/editUserComponenet";
 import { api } from "../../api/api";
@@ -10,7 +10,8 @@ import { selectIsLogedIn } from "../../redux/features/userData/userDataSliceSele
 import Modal from "../modal/Modal";
 import CreateUserComponent from "../editUserComponenet/createUserComponent";
 import { setIsSyncing } from "../../redux/features/syncStatus/syncStatusSlice";
-import { BrowserView, MobileView } from 'react-device-detect';
+import { BrowserView, MobileView, isMobile, isBrowser } from 'react-device-detect';
+import Clickable from "../doubleClickWraper/doubleClickWraper";
 
 
 
@@ -39,65 +40,26 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
   const dispatch = useDispatch();
 
 
-  //hooks
-
-  useEffect(() => {
-    console.log({ isSynced });
-
-  }, [isSynced]);
 
   useEffect(() => {
     api.getAllUsers().then((data) => props.users = data).then((data) => {
-      console.log({ data });
       data && setUsers(data?.map(parseUser));
-      dispatch(setIsSyncing(true));
+
+      // dispatch(setIsSyncing(true));
     });
 
   }, [])
 
   useEffect(() => {
-    if (!isSynced && isLogedIN) {
-      api.getAllUsers().then((data) => props.users = data).then((data) => {
-        console.log({ data });
-
-        data && setUsers(data?.map(parseUser));
-        dispatch(setIsSyncing(true));
-      });
-    }
-  }, [isSynced])
-
-
-  useEffect(() => {
-    if (!isSynced && isLogedIN) {
-      api.getAllUsers().then((data) => props.users = data).then((data) => {
-        data && setUsers(data?.map(parseUser));
-        console.log({ data });
-        dispatch(setIsSyncing(true));
-      });
-    }
-  }, [isLogedIN])
-
-
-  useEffect(() => {
     const dict: Dict = {}
-    props.users.forEach((user) => { dict[user.id] = false });
-    setUsersDataDict(dict);
+    users && users.forEach((user) => { dict[user.id] = false; console.log(user.id, dict[user.id]) });
+    setUsersDataDict({ ...dict });
   }, [users])
 
 
-  //consts
-
-
-  //states
-
-
-  //helpers
-
-
-
-  //handlers
   function checkboxHandler(id: string) {
     return () => {
+      console.log(id);
       const dict = { ...usersDataDict };
       dict[id] = !dict[id];
       setUsersDataDict(dict);
@@ -110,14 +72,11 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
   function headerCheckboxHandler() {
     if (selectAll) {
-      console.log(1);
       setSelectAll(false);
       const dict: Dict = {}
       props.users.forEach((user) => { dict[user.id] = false });
       setUsersDataDict(dict);
     } else {
-      console.log(2);
-
       setSelectAll(true);
       const dict: Dict = {}
       props.users.forEach((user) => { dict[user.id] = true });
@@ -144,25 +103,54 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
   }
 
   function UserRecordComponent(user: User, index: number) {
-    return (<TableRow $odd={index % 2 === 1} key={'user :' + user.id}>
-      <TableCell>{user.id}</TableCell>
-      <TableCell $length={12}>{user.userName}</TableCell>
-      <TableCell $length={20}>{user.fullName}</TableCell>
-      <TableCell $length={20}>{user.email}</TableCell>
-      <TableCell $length={5}>{user.password}</TableCell>
-      <TableCell $length={12}>{user?.createdAt !== null && user.createdAt.toLocaleDateString()}</TableCell>
-      <TableCell $length={2}>
-        <InputCheckMark checked={usersDataDict[user.id]} onChange={checkboxHandler(user.id)} />
-        <MdEdit onClick={() => {
-          user2Edit && setUser2Edit(null);
-          setUser2Edit(user);
-          console.log(user);
-        }} />
-      </TableCell>
-
-    </TableRow>);
+    return (isBrowser &&
+      <TableRow $odd={index % 2 === 1} key={'user :' + user.id}>
+        <TableCell>{user.id}</TableCell>
+        <TableCell $length={12}>{user.userName}</TableCell>
+        <TableCell $length={20}>{user.fullName}</TableCell>
+        <TableCell $length={20}>{user.email}</TableCell>
+        <TableCell $length={5}>{user.password}</TableCell>
+        <TableCell $length={12}>{user?.createdAt !== null && user.createdAt.toLocaleDateString()}</TableCell>
+        <TableCell $length={2}>
+          <InputCheckMark checked={usersDataDict[user.id]} onChange={checkboxHandler(user.id)} />
+          <MdEdit onClick={() => {
+            user2Edit && setUser2Edit(null);
+            setUser2Edit(user);
+            console.log(user);
+          }} />
+        </TableCell>
+      </TableRow>
+    );
   }
 
+  function UserCardComponent(user: User, index: number) {
+    return <Clickable key={'user : + Clickable' + user.id}
+      onDoubleClick={() => {
+        setDisplayAddUser(false); user && setUser2Edit(user); console.log({ usersDataDict });
+      }}
+      onClick={checkboxHandler(user.id)}>
+      <MobileUserRecordContainer
+        key={'user :' + user.id}
+        $choosen={useMemo(() =>  usersDataDict[user.id], [usersDataDict[user.id]])}>
+        <MobileUserRecord>
+          <MobileUserRecordBody>
+            <Row>
+              <TableLabel>User Name:</TableLabel>
+              <TableValue>{user.userName}</TableValue>
+            </Row>
+            <Row>
+              <TableLabel>Full Name:</TableLabel>
+              <TableValue>{user.fullName}</TableValue>
+            </Row>
+            <Row>
+              <TableLabel>Email:</TableLabel>
+              <TableValue>{user.email}</TableValue>
+            </Row>
+          </MobileUserRecordBody>
+        </MobileUserRecord>
+      </MobileUserRecordContainer>
+    </Clickable>
+  }
   /**
    * table: * browserView - desktop and leptop: as is right now.
    *        * mobileView: tiles.
@@ -174,28 +162,48 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
    */
 
 
+  function DisplayTableHeader() {
+    return (<TableHeader>
+      <TableRow $odd={true}>
+        {Object.keys(initUser()).map((key) =>
+          <HeaderCell key={key}>{key}</HeaderCell>)}
+        <HeaderCell >
+          <InputCheckMark checked={selectAll}
+            onChange={headerCheckboxHandler} /></HeaderCell>
+      </TableRow>
+    </TableHeader>
+    );
+  }
+
+  function DisplayTableBody() {
+    return users && users?.length > 0 && <TableBody key={'DisplayTableBody'}>
+      {users?.map(UserRecordComponent)}
+    </TableBody> || isBrowser && <tbody key={'DisplayTableBody body'}></tbody> || <div key={'DisplayTableBody div'}></div>;
+  }
+
+  function DisplayUsersList() {
+    return users && users?.length > 0 && <UsersListContainer key={'DisplayTableBody'}>
+      {users?.map(UserCardComponent)}
+    </UsersListContainer> || <></>
+  }
+
   function DisplayTable() {
     return (
-      <BrowserView>
+      <>
+        {/* <BrowserView> */}
         <TableContainer>
           <Table>
-            <TableHeader>
-              <TableRow $odd={true}>
-                {Object.keys(initUser()).map((key) =>
-                  <HeaderCell key={key}>{key}</HeaderCell>)}
-                <HeaderCell >
-                  <InputCheckMark checked={selectAll}
-                    onChange={headerCheckboxHandler} /></HeaderCell>
-              </TableRow>
-            </TableHeader>
+            <DisplayTableHeader />
 
-            {users && users?.length > 0 && <TableBody>
-              {users?.map(UserRecordComponent)}
-            </TableBody>}
+            <DisplayTableBody />
           </Table>
 
         </TableContainer>
-      </BrowserView>
+        {/* </BrowserView>
+        <MobileView>
+          jfcvjnkml,;.
+        </MobileView> */}
+      </>
     );
   }
 
@@ -282,21 +290,27 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
   return (
     <>
+      <BrowserView>
+        <DashboardContainrer>
+          <DisplayTable />
+          <DisplayManagmentArea />
+        </DashboardContainrer>
+      </BrowserView>
 
-      <DashboardContainrer>
-        <DisplayTable />
+      <MobileView>
+        <DashboardContainrer>
+          <DisplayUsersList />
+          <DisplayManagmentArea />
+        </DashboardContainrer>
+      </MobileView>
 
-        <DisplayManagmentArea />
-
-
-      </DashboardContainrer>
-
+{/* 
       <Modal isOpen={!isLogedIN} onClose={() => { }} closeOnClickOutside={true}>
         <LoginComponent user={{
           userName: "",
           password: ""
         }} onSubmit={(bool = true) => { bool && api.getAllUsers().then((data) => { data && setUsers(data?.map(parseUser)) }); }} />
-      </Modal>
+      </Modal> */}
 
 
 

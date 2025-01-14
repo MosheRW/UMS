@@ -108,14 +108,14 @@ export default function Modal({ ...props }: ModalProps) {
         <ClickOutsideComponent onClickOutside={() => closeOnClickOutside && onClose()}>
 
           <ModalContainer
-            position={position}
-            fullScreen={fullScreen}>
+            $position={position}
+            $fullScreen={fullScreen}>
 
             <ModalContent
-              fullScreen={fullScreen}
-              width={size?.width && `${size?.width}px` || false}
-              height={size?.height && `${size?.height}px` || false}
-              backroundcolor={props.bacroundColor}>
+              $fullScreen={fullScreen}
+              $width={size?.width && `${size?.width}px` || false}
+              $height={size?.height && `${size?.height}px` || false}
+              $backroundcolor={props.bacroundColor}>
 
               <Header>
                 <RenderHeadline />

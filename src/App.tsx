@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
-import { darkTheme, lightTheme } from './style/themes.style';
+import { darkTheme, GlobalStyle, lightTheme } from './style/themes.style';
 import Router from './pages/router';
 import { Provider } from 'react-redux';
 import store from './redux/store';
@@ -43,6 +43,7 @@ export default function App() {
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <Provider store={store}>
+        <GlobalStyle />
         <ToastContainer />
         <Router homePage={homePage} />
       </Provider>
