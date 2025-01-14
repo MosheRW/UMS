@@ -12,12 +12,9 @@ interface CreateUserComponent {
 
 export default function CreateUserComponent({ ...props }: CreateUserComponent) {
 
-    const dispatch = useDispatch();
     function handleCreateUser(user: any) {
         console.log(user);
-        user && api.postAnewUser(user).then((data) => props.reload()) || props.reload(false);
-
-        dispatch(setIsSyncing(false));
+        user && api.postAnewUser(user, true).then((data) => props.reload()) || props.reload(false);
     }
 
     return (

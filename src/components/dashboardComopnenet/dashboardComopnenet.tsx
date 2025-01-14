@@ -90,7 +90,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
     for (const key in usersDataDict) {
       if (usersDataDict[key]) {
-        api.deleteAUser(key).then((data) => {
+        api.deleteAUser(key, true).then((data) => {
           api.getAllUsers().then((data) => { data && setUsers(data?.map(parseUser)); });
         });
         dispatch(setIsSyncing(false));
@@ -220,7 +220,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
           {user2Edit &&
             <EditUserComponenet user={user2Edit} onSubmit={(user) => {
-              user && api.updateAUser(user2Edit.id, user).then((data) => {
+              user && api.updateAUser(user2Edit.id, user, true).then((data) => {
                 api.getAllUsers().then((data) => {
                   data && setUsers(data?.map(parseUser))
                 });
@@ -257,7 +257,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
             fullScreen>
             <MangmantEditorsModal className="MangmantEditorsModal">
               <EditUserComponenet user={user2Edit} onSubmit={(user) => {
-                user && user2Edit && api.updateAUser(user2Edit?.id, user).then((data) => {
+                user && user2Edit && api.updateAUser(user2Edit?.id, user, true).then((data) => {
                   api.getAllUsers().then((data) => {
                     data && setUsers(data?.map(parseUser))
                   });
