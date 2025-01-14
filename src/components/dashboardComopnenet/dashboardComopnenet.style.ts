@@ -95,13 +95,10 @@ export const ManagmentButtons = styled.div`
   justify-content: space-evenly;
 `;
 
-const background = css`
-  background-color: ${({ theme }) => theme.thirdComponentsColorTransperent};
-`;
+
 
 export const MobileUserRecordContainer = styled.div<{ $choosen: boolean }>`
-  background-color: ${({ $choosen }) => ($choosen ? 'red' : 'gray')};
-  /* ${($choosen) => ($choosen ? 'background-color: red' : 'background-color: gray')}; */
+  background-color: ${({ $choosen }) => ($choosen ? ({ theme }) => theme.thirdComponentsColorTransperent : ({ theme }) => theme.secondComponentsColorTransperent)};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
