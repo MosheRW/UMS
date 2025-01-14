@@ -13,6 +13,13 @@ import { Navigate, useNavigate } from 'react-router';
 export default function App() {
   const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const [homePage, setHomePage] = React.useState("/");
+
+  useEffect(() => {
+    console.log('hight: ', window.innerHeight);
+    console.log('Width: ', window.innerWidth);
+
+  }, [])
+
   useEffect(() => {
     api.getAllUsers(false).then((data) => {
       const token = localStorage.getItem("userToken");

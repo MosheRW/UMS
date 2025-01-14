@@ -13,6 +13,7 @@ import Modal from "../modal/modal";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import CreateUserComponent from "../editUserComponenet/createUserComponent";
 import { setIsSyncing } from "../../redux/features/syncStatus/syncStatusSlice";
+import { BrowserView, MobileView } from 'react-device-detect';
 
 
 
@@ -39,7 +40,8 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
 
   const dispatch = useDispatch();
-  
+
+
   //hooks
 
   useEffect(() => {
@@ -164,32 +166,40 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
     </TableRow>);
   }
 
+  /**
+   * table: * browserView - desktop and leptop: as is right now.
+   *        * mobileView: tiles.
+   * 
+   * managementArea:  * browserView - desktop: within the side column
+   *                  * browserView - leptop: popup
+   *                  * mobilwView: separate page.
+   * 
+   */
+
   return (
     <>
+      <BrowserView>
+        <DashboardContainrer>
+          <TableContainer>
+            <Table>
+              <TableHeader>
+                <TableRow $odd={true}>
+                  {Object.keys(initUser()).map((key) =>
+                    <HeaderCell key={key}>{key}</HeaderCell>)}
+                  <HeaderCell >
+                    <InputCheckMark checked={selectAll}
+                      onChange={headerCheckboxHandler} /></HeaderCell>
+                </TableRow>
+              </TableHeader>
 
+              {users && users?.length > 0 && <TableBody>
+                {users?.map(UserRecordComponent)}
+              </TableBody>}
+            </Table>
 
+          </TableContainer>
 
-      <DashboardContainrer>
-        <TableContainer>
-          <Table>
-            <TableHeader>
-              <TableRow $odd={true}>
-                {Object.keys(initUser()).map((key) =>
-                  <HeaderCell key={key}>{key}</HeaderCell>)}
-                <HeaderCell >
-                  <InputCheckMark checked={selectAll}
-                    onChange={headerCheckboxHandler} /></HeaderCell>
-              </TableRow>
-            </TableHeader>
-
-            {users && users?.length > 0 && <TableBody>
-              {users?.map(UserRecordComponent)}
-            </TableBody>}
-          </Table>
-
-        </TableContainer>
-
-        <ManagementArea>
+          <ManagementArea>
             <br />
             <Button onClick={handleDelete}>Delete</Button>
             <br />
@@ -197,31 +207,32 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
             <br />
 
 
-          {user2Edit &&
-            <EditUserComponenet user={user2Edit} onSubmit={(user) => {
-              user && api.updateAUser(user2Edit.id, user).then((data) => {
-                api.getAllUsers().then((data) => {
-                  data && setUsers(data?.map(parseUser))
+            {user2Edit &&
+              <EditUserComponenet user={user2Edit} onSubmit={(user) => {
+                user && api.updateAUser(user2Edit.id, user).then((data) => {
+                  api.getAllUsers().then((data) => {
+                    data && setUsers(data?.map(parseUser))
+                  });
                 });
-              });
-              setUser2Edit(null);
-              // dispatch(setIsSyncing(false));
-            }} />
-          }
+                setUser2Edit(null);
+                // dispatch(setIsSyncing(false));
+              }} />
+            }
 
-          {displayAddUser &&
-            <CreateUserComponent reload={(bool = true) => {
-              bool && api.getAllUsers().then((data) => {
-                data && setUsers(data?.map(parseUser));
-              });
-              setDisplayAddUser(!displayAddUser);
-            }} />
-          }
+            {displayAddUser &&
+              <CreateUserComponent reload={(bool = true) => {
+                bool && api.getAllUsers().then((data) => {
+                  data && setUsers(data?.map(parseUser));
+                });
+                setDisplayAddUser(!displayAddUser);
+              }} />
+            }
 
-        </ManagementArea>
+          </ManagementArea>
 
-      </DashboardContainrer>
-
+        </DashboardContainrer>
+      </BrowserView>
+      
       <Modal display={!isLogedIN} >
         <LoginComponent user={{
           userName: "",
