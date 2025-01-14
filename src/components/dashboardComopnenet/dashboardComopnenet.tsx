@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { initUser, parseUser, User } from "../../types/user/user";
-import { Button, DashboardContainrer, HeaderCell, InputCheckMark, ManagementArea, Table, TableBody, TableCell, TableContainer, TableHeader, TableRow } from "./dashboardComopnenet.style";
+import { Button, DashboardContainrer, HeaderCell, InputCheckMark, ManagementArea, ManagmentButtons, MangmantEditorsModal, Table, TableBody, TableCell, TableContainer, TableHeader, TableRow } from "./dashboardComopnenet.style";
 import { MdEdit } from "react-icons/md";
 import EditUserComponenet from "../editUserComponenet/editUserComponenet";
 import { api } from "../../api/api";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserToken } from "../../redux/features/userData/userDataSlice";
-import ReactDOM from "react-dom";
 import LoginComponent from "../loginComponent/loginComponent";
 import { selectIsLogedIn } from "../../redux/features/userData/userDataSliceSelectors";
-import Modal from "../modal/modal";
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import Modal from "../modal/Modal";
 import CreateUserComponent from "../editUserComponenet/createUserComponent";
 import { setIsSyncing } from "../../redux/features/syncStatus/syncStatusSlice";
 import { BrowserView, MobileView } from 'react-device-detect';
@@ -145,7 +142,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
   function handleDisplayAddUser() {
     setDisplayAddUser(!displayAddUser);
   }
-  //components
+
   function UserRecordComponent(user: User, index: number) {
     return (<TableRow $odd={index % 2 === 1} key={'user :' + user.id}>
       <TableCell>{user.id}</TableCell>
@@ -176,69 +173,131 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
    * 
    */
 
-  return (
-    <>
+
+  function DisplayTable() {
+    return (
       <BrowserView>
-        <DashboardContainrer>
-          <TableContainer>
-            <Table>
-              <TableHeader>
-                <TableRow $odd={true}>
-                  {Object.keys(initUser()).map((key) =>
-                    <HeaderCell key={key}>{key}</HeaderCell>)}
-                  <HeaderCell >
-                    <InputCheckMark checked={selectAll}
-                      onChange={headerCheckboxHandler} /></HeaderCell>
-                </TableRow>
-              </TableHeader>
+        <TableContainer>
+          <Table>
+            <TableHeader>
+              <TableRow $odd={true}>
+                {Object.keys(initUser()).map((key) =>
+                  <HeaderCell key={key}>{key}</HeaderCell>)}
+                <HeaderCell >
+                  <InputCheckMark checked={selectAll}
+                    onChange={headerCheckboxHandler} /></HeaderCell>
+              </TableRow>
+            </TableHeader>
 
-              {users && users?.length > 0 && <TableBody>
-                {users?.map(UserRecordComponent)}
-              </TableBody>}
-            </Table>
+            {users && users?.length > 0 && <TableBody>
+              {users?.map(UserRecordComponent)}
+            </TableBody>}
+          </Table>
 
-          </TableContainer>
+        </TableContainer>
+      </BrowserView>
+    );
+  }
 
-          <ManagementArea>
+  function DisplayManagmentArea() {
+    if (window.innerWidth >= 1300) {
+      return (
+        <ManagementArea>
+          <br />
+          <Button onClick={handleDelete}>Delete</Button>
+          <br />
+          <Button onClick={handleDisplayAddUser}>add user</Button>
+          <br />
+
+
+          {user2Edit &&
+            <EditUserComponenet user={user2Edit} onSubmit={(user) => {
+              user && api.updateAUser(user2Edit.id, user).then((data) => {
+                api.getAllUsers().then((data) => {
+                  data && setUsers(data?.map(parseUser))
+                });
+              });
+              setUser2Edit(null);
+              // dispatch(setIsSyncing(false));
+            }} />
+          }
+
+          {displayAddUser &&
+            <CreateUserComponent reload={(bool = true) => {
+              bool && api.getAllUsers().then((data) => {
+                data && setUsers(data?.map(parseUser));
+              });
+              setDisplayAddUser(!displayAddUser);
+            }} />
+          }
+        </ManagementArea>
+      );
+    } else {
+      return (
+        <>
+          <ManagmentButtons>
             <br />
             <Button onClick={handleDelete}>Delete</Button>
             <br />
             <Button onClick={handleDisplayAddUser}>add user</Button>
             <br />
+          </ManagmentButtons>
 
-
-            {user2Edit &&
+          <Modal isOpen={user2Edit !== null}
+            onClose={() => setUser2Edit(null)}
+            closeOnClickOutside
+            fullScreen>
+            <MangmantEditorsModal className="MangmantEditorsModal">
               <EditUserComponenet user={user2Edit} onSubmit={(user) => {
-                user && api.updateAUser(user2Edit.id, user).then((data) => {
+                user && user2Edit && api.updateAUser(user2Edit?.id, user).then((data) => {
                   api.getAllUsers().then((data) => {
                     data && setUsers(data?.map(parseUser))
                   });
                 });
                 setUser2Edit(null);
-                // dispatch(setIsSyncing(false));
               }} />
-            }
+            </MangmantEditorsModal>
+          </Modal>
 
-            {displayAddUser &&
+
+          <Modal isOpen={displayAddUser}
+            onClose={() => setDisplayAddUser(false)}
+            closeOnClickOutside
+            fullScreen>
+            <MangmantEditorsModal className="MangmantEditorsModal">
               <CreateUserComponent reload={(bool = true) => {
                 bool && api.getAllUsers().then((data) => {
                   data && setUsers(data?.map(parseUser));
                 });
                 setDisplayAddUser(!displayAddUser);
               }} />
-            }
+            </MangmantEditorsModal>
 
-          </ManagementArea>
+          </Modal>
 
-        </DashboardContainrer>
-      </BrowserView>
-      
-      <Modal display={!isLogedIN} >
+        </>
+      );
+    }
+  }
+
+  return (
+    <>
+
+      <DashboardContainrer>
+        <DisplayTable />
+
+        <DisplayManagmentArea />
+
+
+      </DashboardContainrer>
+
+      <Modal isOpen={!isLogedIN} onClose={() => { }} closeOnClickOutside={true}>
         <LoginComponent user={{
           userName: "",
           password: ""
         }} onSubmit={(bool = true) => { bool && api.getAllUsers().then((data) => { data && setUsers(data?.map(parseUser)) }); }} />
       </Modal>
+
 
 
     </>

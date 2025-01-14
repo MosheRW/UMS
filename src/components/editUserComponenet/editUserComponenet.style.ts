@@ -25,6 +25,7 @@ justify-content: center;
 align-items: center;
 background-color: ${({ theme }) => theme.primaryColorTransperent};
 border: 1px solid black;
+padding: 0.5rem;
 border-radius: 0.5rem;
 
 width: 100%;

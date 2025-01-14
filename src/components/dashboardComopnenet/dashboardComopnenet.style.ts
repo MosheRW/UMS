@@ -2,12 +2,17 @@ import styled, { css } from 'styled-components';
 import { Buttons } from '../../style/themes.style';
 
 export const DashboardContainrer = styled.div`
+  position: relative;
   display: flex;
+
   flex-direction: row;
   justify-content: center;
   gap: 2ch;
   margin: 0.5rem;
 
+  @media (max-width: 1300px) {
+    flex-direction: column-reverse;
+  }
 `;
 
 export const ManagementArea = styled.div`
@@ -16,7 +21,7 @@ export const ManagementArea = styled.div`
 
   width: 40ch;
   height: 80vh;
-  background-color: ${({ theme }) => theme. secondComponentsColorTransperent};
+  background-color: ${({ theme }) => theme.secondComponentsColorTransperent};
   justify-items: center;
 `;
 
@@ -75,7 +80,21 @@ export const InputCheckMark = styled.input.attrs({ type: 'checkbox' })`
   align-self: center;
 `;
 
-
 export const Button = styled.div`
   ${Buttons}
+`;
+
+export const MangmantEditorsModal = styled.div`
+  align-content: center;
+  justify-items: center;
+`;
+
+export const ManagmentButtons = styled.div`
+  position: sticky;
+  top: 13.6vh;
+  background-color: ${({ theme }) => theme.backgroundColor};
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  /* gap: 2ch; */
 `;
