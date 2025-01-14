@@ -3,7 +3,6 @@ import { initUser, parseUser, User } from "../../types/user/user";
 import { Button, DashboardContainrer, HeaderCell, InputCheckMark, ManagementArea, Table, TableBody, TableCell, TableContainer, TableHeader, TableRow } from "./dashboardComopnenet.style";
 import { MdEdit } from "react-icons/md";
 import EditUserComponenet from "../editUserComponenet/editUserComponenet";
-import { set } from "react-hook-form";
 import { api } from "../../api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserToken } from "../../redux/features/userData/userDataSlice";
@@ -40,6 +39,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
 
   const dispatch = useDispatch();
+  
   //hooks
 
   useEffect(() => {
