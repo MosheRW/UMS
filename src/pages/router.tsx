@@ -15,9 +15,11 @@ export default function Router({ homePage }: { homePage: string }) {
             <Routes>
                 <Route path={basePath} element={<Layout />} >
                     <Route index element={<Navigate to={homePage} />} />
-                    <Route path={[`${basePath}/dashboard`,"/dashboard"]} element={<Dashboard />} />
+                      <Route path={"/dashboard"} element={<Dashboard />} />
+                    <Route path={`${basePath}/dashboard`} element={<Dashboard />} />
                     {/* <Route path="/main" element={<Main />} /> */}
-                    <Route path={[`${basePath}/login`, "/login"]} element={<Login />} />
+                    <Route path={`${basePath}/login`} element={<Login />} />
+                    <Route path={"/login"} element={<Login />} />
                 </Route>
             </Routes>
 
