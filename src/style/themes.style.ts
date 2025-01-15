@@ -112,6 +112,9 @@ export const Buttons = css`
 export const GlobalStyle = createGlobalStyle`
   body {
     background-color: ${({ theme }) => theme.backgroundColor};
+  };
+  h1 {
+    color: ${({theme}) => theme.primaryTextColor};
   }
 `;
 
