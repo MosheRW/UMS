@@ -3,6 +3,8 @@ import { LoginPageContainer, LoginPageContainerContainer } from "./loginPageComp
 import LoginComponent from "../loginComponent/loginComponent";
 import { useNavigate } from "react-router";
 
+const basePath = "/ums";
+
 export default function LoginPageComponent() {
     const navigate = useNavigate();
 
@@ -14,7 +16,7 @@ export default function LoginPageComponent() {
                     password: ""
                 }} onSubmit={(bool) => {
                     if (bool) {
-                        navigate("/dashboard");
+                        navigate(basePath + "/dashboard");
                     }
                 }} />
             </LoginPageContainer>

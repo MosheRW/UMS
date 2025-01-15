@@ -9,10 +9,11 @@ import { ToastContainer } from 'react-toastify';
 import { api } from './api/api';
 import { Navigate, useNavigate } from 'react-router';
 
+const basePath = "/ums";
 
 export default function App() {
   const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const [homePage, setHomePage] = React.useState("/");
+  const [homePage, setHomePage] = React.useState(basePath);
 
   useEffect(() => {
     console.log('hight: ', window.innerHeight);
@@ -26,13 +27,13 @@ export default function App() {
       if (data) {
         if (token && token.length > 0) {
           store.dispatch(setUserToken(token));
-          setHomePage("/dashboard");
+          setHomePage(basePath + "/dashboard");
         }
       } else if (token) {
         localStorage.removeItem("userToken");
-        setHomePage("/login");
+        setHomePage(basePath + "/login");
       } else {
-        setHomePage("/login");
+        setHomePage(basePath + "/login");
       }
 
     }

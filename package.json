@@ -25,7 +25,8 @@
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
-		"eject": "react-scripts eject"
+		"eject": "react-scripts eject",
+		"valid" : "sudo cp -R /home/server/UMS/build /var/www/UMS"
 	},
 	"eslintConfig": {
 		"extends": [
