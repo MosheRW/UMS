@@ -13,7 +13,7 @@ import { setIsSyncing } from "../../redux/features/syncStatus/syncStatusSlice";
 import { BrowserView, MobileView, isMobile, isBrowser } from 'react-device-detect';
 import Clickable from "../doubleClickWraper/doubleClickWraper";
 
-
+const basePath ="/ums";
 
 
 interface Dict {
@@ -49,6 +49,11 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
     });
 
   }, [])
+  
+  useEffect(()=>{
+    if(!isLogedIN)
+      navigate(basePath + "\login");
+  },[isLogedIN,]);
 
   useEffect(() => {
     const dict: Dict = {}
