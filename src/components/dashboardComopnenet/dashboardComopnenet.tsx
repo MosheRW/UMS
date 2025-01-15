@@ -12,6 +12,7 @@ import CreateUserComponent from "../editUserComponenet/createUserComponent";
 import { setIsSyncing } from "../../redux/features/syncStatus/syncStatusSlice";
 import { BrowserView, MobileView, isMobile, isBrowser } from 'react-device-detect';
 import Clickable from "../doubleClickWraper/doubleClickWraper";
+import { useNavigate } from "react-router";
 
 const basePath ="/ums";
 
@@ -38,7 +39,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
 
   const dispatch = useDispatch();
-
+const navigate = useNavigate();
 
 
   useEffect(() => {
