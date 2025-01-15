@@ -19,7 +19,7 @@ export default function Router({ homePage }: { homePage: string }) {
                     <Route path={`${basePath}/dashboard`} element={<Dashboard />} />
                     {/* <Route path="/main" element={<Main />} /> */}
                     <Route path={`${basePath}/login`} element={<Login />} />
-                    <Route path={"/login"} element={<Login />} />
+                    {/*<Route path={"/login"} element={<Login />} />*/}
                 </Route>
             </Routes>
 
