@@ -6,6 +6,8 @@
       "dom.iterable",
       "esnext"
     ],
+    "rootDir": "./",  // Root directory for your project
+    "outDir": "./dist",  // Output directory (not used with noEmit)
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -13,14 +15,18 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": true,  // Do not emit compiled JS files
     "jsx": "preserve"
   },
   "include": [
-    "src"
+    "src",  // Include source code folder
+    "server"  // Include the server folder for TypeScript files
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
