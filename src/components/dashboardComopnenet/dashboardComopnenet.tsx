@@ -11,7 +11,51 @@ import Clickable from "../doubleClickWraper/doubleClickWraper";
 import { useNavigate } from "react-router";
 import { selectIsLogedIn } from "../../redux/features/userData/userDataSliceSelectors";
 
-
+/**
+ * handleCreateUser
+ * handleEditUser
+ * handelDeleteUser
+ * handleSort
+ * handleFilter
+ * 
+ * displayUsers
+ * * all users details 
+ * 
+ * displayButtons
+ * * add
+ * * delete
+ * * filter
+ * 
+ * displayEditor
+ * * editNew
+ * * editEcsist
+ * 
+ * displayAnimations
+ * * animation for loading
+ * * animation for somthing happend
+ * 
+ * displayUsersForBrowser:
+ * * table.
+ * * headersWithSortingAndMarker.
+ * * userRecordForTableWithMarkerAndEditor.
+ * 
+ * displayUsersForMobile:
+ * * list.
+ * * userCardForListThatsClickableAndChangeColors.
+ * 
+ * displayManagmentForWideBrowser(at the side):
+ * * displayButtons
+ * * displayEditor
+ * 
+ * displayMnagmentForBrowser(pop up):
+ * displayButtonsAboveTheTable.
+ * displayEditorInModal.
+ * 
+ * displayManagmentForMobile(navigation):
+ * displayButtonsAboveTheTable.
+ * * addButtonForSorting.
+ * navigateToEditorsPages.
+ */
 interface Dict {
   [key: string]: boolean;
 }
