@@ -10,6 +10,7 @@ import { BrowserView, MobileView, isMobile, isBrowser } from 'react-device-detec
 import Clickable from "../doubleClickWraper/doubleClickWraper";
 import { useNavigate } from "react-router";
 import { selectIsLogedIn } from "../../redux/features/userData/userDataSliceSelectors";
+import { h } from "react-router/dist/development/fog-of-war-DLtn2OLr";
 
 /**
  * handleCreateUser
@@ -97,6 +98,74 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
     }
   }, [users])
 
+  /************************************* */
+  const handlers = {
+    handleCreateUser: () => {/* TODO: handleCreateUser*/ },
+    handleEditUser: () => {/* TODO: handleEditUser*/ },
+    handleDeleteUser: () => {/* TODO: handleDeleteUser*/ },
+    handleSort: () => {/* TODO: handleSort*/ },
+    handleFilter: () => {/* TODO: handleFilter*/ }
+  };
+
+  function DisplayButtons() {
+    const buttons = {
+      handlers: {},
+      components: {}
+    };
+
+    return <>TODO: displayButtons{/* TODO: displayButtons*/}</>
+  }
+
+  function DisplayEditor() {
+    //for browsers.
+    return <>TODO: displayEditor{/* TODO: displayEditor*/}</>
+  }
+
+  function DisplayUsers() {
+    const tableEdition = {
+
+    };
+
+    const mobileEdition = {
+
+    };
+
+    return <> {/* TODO: displayUsers*/}TODO: displayUsers</>
+  }
+
+
+  function DisplayAnimations() {
+    /**  TODO: displayAnimations
+     * for loading
+     * for special occasions
+     */
+
+    return <></>
+  };
+
+  function DisplayManagment() {
+    /** combination of the buttons and the editors */
+  }
+
+
+  function Done() {
+    return (
+      <>
+        {/*direction should be according to isMobile*/}
+        <DisplayManagment />
+        <DisplayAnimations />
+        <DisplayContent />
+      </>
+    )
+  }
+
+
+
+
+
+
+
+  /******************************* */
   function setDisplayAddUserWraper(bool: boolean) {
     bool && user2Edit && setUser2Edit(null);
     setDisplayAddUser(bool);
