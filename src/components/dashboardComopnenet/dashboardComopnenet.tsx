@@ -1,20 +1,15 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { initUser, parseUser, User } from "../../types/user/user";
 import { Button, DashboardContainrer, HeaderCell, InputCheckMark, UsersListContainer, ManagementArea, ManagmentButtons, MangmantEditorsModal, MobileUserRecord, MobileUserRecordBody, MobileUserRecordContainer, Row, Table, TableBody, TableCell, TableContainer, TableHeader, TableLabel, TableRow, TableValue } from "./dashboardComopnenet.style";
 import { MdEdit } from "react-icons/md";
 import EditUserComponenet from "../editUserComponenet/editUserComponenet";
 import { api } from "../../api/api";
 import { useDispatch, useSelector } from "react-redux";
-import LoginComponent from "../loginComponent/loginComponent";
-import { selectIsLogedIn } from "../../redux/features/userData/userDataSliceSelectors";
 import Modal from "../modal/Modal";
-import CreateUserComponent from "../editUserComponenet/createUserComponent";
-import { setIsSyncing } from "../../redux/features/syncStatus/syncStatusSlice";
 import { BrowserView, MobileView, isMobile, isBrowser } from 'react-device-detect';
 import Clickable from "../doubleClickWraper/doubleClickWraper";
 import { useNavigate } from "react-router";
-
-const basePath ="/ums";
+import { selectIsLogedIn } from "../../redux/features/userData/userDataSliceSelectors";
 
 
 interface Dict {
@@ -23,49 +18,53 @@ interface Dict {
 
 
 interface DashboardComponent {
-  users: User[]
+  users?: User[]
 }
 
 export default function DashboardComponent({ ...props }: DashboardComponent) {
-  const isLogedIN = useSelector(selectIsLogedIn);
-  const isSynced = useSelector(selectIsLogedIn);
+
+  const [users, setUsers] = useState<User[] | null>(null);
 
   const [usersDataDict, setUsersDataDict] = useState<Dict>({});
   const [selectAll, setSelectAll] = useState<boolean>(false);
+
+  const [displayAddUser, setDisplayAddUser] = useState<boolean>(false);
   const [user2Edit, setUser2Edit] = useState<User | null>(null);
 
-  const [users, setUsers] = useState<User[] | null>(null);
-  const [displayAddUser, setDisplayAddUser] = useState<boolean>(false);
 
+  const isLogedIN = useSelector(selectIsLogedIn);
+  const navigate = useNavigate();
 
-  const dispatch = useDispatch();
-const navigate = useNavigate();
 
 
   useEffect(() => {
     api.getAllUsers().then((data) => props.users = data).then((data) => {
       data && setUsers(data?.map(parseUser));
-
-      // dispatch(setIsSyncing(true));
     });
 
   }, [])
-  
-  useEffect(()=>{
-    if(!isLogedIN)
-      navigate(basePath + "\login");
-  },[isLogedIN,]);
+
 
   useEffect(() => {
-    const dict: Dict = {}
-    users && users.forEach((user) => { dict[user.id] = false; console.log(user.id, dict[user.id]) });
-    setUsersDataDict({ ...dict });
+    if (selectAll) {
+      const dict: Dict = {}
+      users && users.forEach((user) => { dict[user.id] = true });
+      setUsersDataDict({ ...dict });
+    }
   }, [users])
 
+  function setDisplayAddUserWraper(bool: boolean) {
+    bool && user2Edit && setUser2Edit(null);
+    setDisplayAddUser(bool);
+  }
+
+  function setUser2EditWraper(user: User | null) {
+    user && displayAddUser && setDisplayAddUser(false);
+    setUser2Edit(user);
+  }
 
   function checkboxHandler(id: string) {
     return () => {
-      console.log(id);
       const dict = { ...usersDataDict };
       dict[id] = !dict[id];
       setUsersDataDict(dict);
@@ -77,36 +76,40 @@ const navigate = useNavigate();
   };
 
   function headerCheckboxHandler() {
-    if (selectAll) {
-      setSelectAll(false);
-      const dict: Dict = {}
-      props.users.forEach((user) => { dict[user.id] = false });
-      setUsersDataDict(dict);
-    } else {
-      setSelectAll(true);
-      const dict: Dict = {}
-      props.users.forEach((user) => { dict[user.id] = true });
-      setUsersDataDict(dict);
-    }
-
+    const newState = !selectAll;
+    setSelectAll(newState);
+    const dict: Dict = {}
+    users && users.forEach((user) => { dict[user.id] = newState });
+    setUsersDataDict(dict);
   }
 
 
   function handleDelete() {
-
     for (const key in usersDataDict) {
       if (usersDataDict[key]) {
         api.deleteAUser(key, true).then((data) => {
           api.getAllUsers().then((data) => { data && setUsers(data?.map(parseUser)); });
         });
-        dispatch(setIsSyncing(false));
-
       }
     }
   }
+
   function handleDisplayAddUser() {
-    setDisplayAddUser(!displayAddUser);
+    isMobile ? navigate("/createUser") :
+      setDisplayAddUserWraper(!displayAddUser);
   }
+
+  function CreateUserComponent({ reload }: { reload: (bool?: boolean) => void }) {
+    return (
+      <EditUserComponenet
+        headline={"Create User"}
+        user={{} as User}
+        onSubmit={(user: any) => {
+          user && api.postAnewUser(user, true).then((data) => reload()) || reload(false);
+        }} />
+    );
+  }
+
 
   function UserRecordComponent(user: User, index: number) {
     return (isBrowser &&
@@ -119,11 +122,7 @@ const navigate = useNavigate();
         <TableCell $length={12}>{user?.createdAt !== null && user.createdAt.toLocaleDateString()}</TableCell>
         <TableCell $length={2}>
           <InputCheckMark checked={usersDataDict[user.id]} onChange={checkboxHandler(user.id)} />
-          <MdEdit onClick={() => {
-            user2Edit && setUser2Edit(null);
-            setUser2Edit(user);
-            console.log(user);
-          }} />
+          <MdEdit onClick={() => setUser2EditWraper(user)} />
         </TableCell>
       </TableRow>
     );
@@ -131,13 +130,11 @@ const navigate = useNavigate();
 
   function UserCardComponent(user: User, index: number) {
     return <Clickable key={'user : + Clickable' + user.id}
-      onDoubleClick={() => {
-        setDisplayAddUser(false); user && setUser2Edit(user); console.log({ usersDataDict });
-      }}
+      onDoubleClick={() => setUser2EditWraper(user)}
       onClick={checkboxHandler(user.id)}>
       <MobileUserRecordContainer
         key={'user :' + user.id}
-        $choosen={useMemo(() =>  usersDataDict[user.id], [usersDataDict[user.id]])}>
+        $choosen={useMemo(() => usersDataDict[user.id], [usersDataDict[user.id]])}>
         <MobileUserRecord>
           <MobileUserRecordBody>
             <Row>
@@ -157,15 +154,7 @@ const navigate = useNavigate();
       </MobileUserRecordContainer>
     </Clickable>
   }
-  /**
-   * table: * browserView - desktop and leptop: as is right now.
-   *        * mobileView: tiles.
-   * 
-   * managementArea:  * browserView - desktop: within the side column
-   *                  * browserView - leptop: popup
-   *                  * mobilwView: separate page.
-   * 
-   */
+
 
 
   function DisplayTableHeader() {
@@ -195,21 +184,14 @@ const navigate = useNavigate();
 
   function DisplayTable() {
     return (
-      <>
-        {/* <BrowserView> */}
-        <TableContainer>
-          <Table>
-            <DisplayTableHeader />
+      <TableContainer>
+        <Table>
+          <DisplayTableHeader />
 
-            <DisplayTableBody />
-          </Table>
+          <DisplayTableBody />
+        </Table>
 
-        </TableContainer>
-        {/* </BrowserView>
-        <MobileView>
-          jfcvjnkml,;.
-        </MobileView> */}
-      </>
+      </TableContainer>
     );
   }
 
@@ -231,8 +213,7 @@ const navigate = useNavigate();
                   data && setUsers(data?.map(parseUser))
                 });
               });
-              setUser2Edit(null);
-              // dispatch(setIsSyncing(false));
+              setUser2EditWraper(null);
             }} />
           }
 
@@ -241,7 +222,7 @@ const navigate = useNavigate();
               bool && api.getAllUsers().then((data) => {
                 data && setUsers(data?.map(parseUser));
               });
-              setDisplayAddUser(!displayAddUser);
+              setDisplayAddUserWraper(!displayAddUser);
             }} />
           }
         </ManagementArea>
@@ -258,33 +239,36 @@ const navigate = useNavigate();
           </ManagmentButtons>
 
           <Modal isOpen={user2Edit !== null}
-            onClose={() => setUser2Edit(null)}
+            onClose={() => setUser2EditWraper(null)}
             closeOnClickOutside
             fullScreen>
-            <MangmantEditorsModal className="MangmantEditorsModal">
-              <EditUserComponenet user={user2Edit} onSubmit={(user) => {
-                user && user2Edit && api.updateAUser(user2Edit?.id, user, true).then((data) => {
-                  api.getAllUsers().then((data) => {
-                    data && setUsers(data?.map(parseUser))
+            <MangmantEditorsModal>
+              <EditUserComponenet
+                user={user2Edit}
+                onSubmit={(user) => {
+                  user && user2Edit && api.updateAUser(user2Edit?.id, user, true).then((data) => {
+                    api.getAllUsers().then((data) => {
+                      data && setUsers(data?.map(parseUser))
+                    });
                   });
-                });
-                setUser2Edit(null);
-              }} />
+                  setUser2EditWraper(null);
+                }} />
             </MangmantEditorsModal>
           </Modal>
 
 
           <Modal isOpen={displayAddUser}
-            onClose={() => setDisplayAddUser(false)}
+            onClose={() => setDisplayAddUserWraper(false)}
             closeOnClickOutside
             fullScreen>
-            <MangmantEditorsModal className="MangmantEditorsModal">
-              <CreateUserComponent reload={(bool = true) => {
-                bool && api.getAllUsers().then((data) => {
-                  data && setUsers(data?.map(parseUser));
-                });
-                setDisplayAddUser(!displayAddUser);
-              }} />
+            <MangmantEditorsModal>
+              <CreateUserComponent
+                reload={(bool = true) => {
+                  bool && api.getAllUsers().then((data) => {
+                    data && setUsers(data?.map(parseUser));
+                  });
+                  setDisplayAddUserWraper(!displayAddUser);
+                }} />
             </MangmantEditorsModal>
 
           </Modal>
@@ -309,17 +293,6 @@ const navigate = useNavigate();
           <DisplayManagmentArea />
         </DashboardContainrer>
       </MobileView>
-
-{/* 
-      <Modal isOpen={!isLogedIN} onClose={() => { }} closeOnClickOutside={true}>
-        <LoginComponent user={{
-          userName: "",
-          password: ""
-        }} onSubmit={(bool = true) => { bool && api.getAllUsers().then((data) => { data && setUsers(data?.map(parseUser)) }); }} />
-      </Modal> */}
-
-
-
     </>
   );
 }

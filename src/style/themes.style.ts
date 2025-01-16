@@ -142,3 +142,7 @@ ${Input}
 export const Label = styled.label`
 color: ${({ theme }) => theme.primaryTextColor};
 `;
+
+export const ErrorMessege = styled.p`
+color: red;
+`;

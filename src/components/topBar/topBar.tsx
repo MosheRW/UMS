@@ -14,7 +14,7 @@ export default function TopBar() {
             <LogOutButton $isMobile={isMobile}
                 onClick={() => {
                     localStorage.clear();
-                    navigate( basePath + "/login");
+                    navigate( + "/login");
                 }}><IoMdLogOut /></LogOutButton>
 
 

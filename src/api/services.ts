@@ -1,11 +1,11 @@
 import axios, { AxiosError } from 'axios';
-import  { toast } from 'react-toastify';
- 
+import { toast } from 'react-toastify';
+
 function getAuthToken(key: string = 'Authorization', prefix: string = `Bearer `) {
     const token = localStorage.getItem("userToken");
     if (token && token.length > 0) {
         console.assert(token, "not getting token");
-        return { [key]:`${token}` };
+        return { [key]: `${token}` };
     } else
         return {};
 };
@@ -17,21 +17,12 @@ const client = {
             ...getAuthToken(),
         },
     }),
-    uploadFile: () => axios.create({
+    withCostumToken: (token: string) => axios.create({
         headers: {
-            "Content-type": "multipart/form-data",
-            ...getAuthToken(),
-        },
-    }),
-    getFile: () => axios.create({
-        responseType: 'blob',
-        headers: {
-            "Content-type": "multipart/form-data",
-            ...getAuthToken(),
+            "Content-type": "application/json",
+            Authorization: `${token}`,
         },
     })
-
-
 }
 
 
@@ -43,6 +34,7 @@ export interface Request {
     deBug?: boolean;
     finally?: Function;
     isToast?: boolean;
+    specialToken?: string;
 };
 
 
@@ -64,32 +56,11 @@ export async function post({ ...props }: Request) {
         }
     }
     try {
-        const data = (await client.standard().post(url, body)).data;
+        const data = props.specialToken && (await client.withCostumToken(props.specialToken).post(url, body)).data ||
+            (await client.standard().post(url, body)).data;
         isToast && toast.dismiss();
         isToast && toast.success("success"); return data;
     } catch (error: AxiosError | any) {
-        // switch (error?.response?.status) {
-        //     case 400:
-        //         isToast && toast.error("Bad Request");
-        //         break;
-        //     case 401:
-        //         isToast && toast.error("Unauthorized");
-        //         break;
-        //     case 403:
-        //         isToast && toast.error("Forbidden");
-        //         break;
-        //     case 404:
-        //         isToast && toast.error("Not Found");
-        //         break;
-        //     case 500:
-        //         isToast && toast.error("Server Error");
-        //         break;
-        //     case 503:
-        //         isToast && toast.error("Service Unavailable");
-        //         break;
-        //     default:
-        //         break;
-        // }
         console.error(`post Request (${url}) Error:`, error);
     }
 }
@@ -98,24 +69,10 @@ export async function get({ ...props }: Omit<Request, 'body'>) {
     const { url, needsToken = true, deBug = false, isToast = true } = props;
 
 
-    // if (needsToken && typeof (getAuthToken().Authorization) == "undefined") {
-    //     let counter = 0;
-    //     const intervalId = setInterval(() => {
-    //         if (typeof (getAuthToken().Authorization) != "undefined") {
-    //             counter += 1;
-    //         }
-    //         if (counter > 5) {
-    //             clearInterval(intervalId);
-    //         }
-    //     }, 1000);
-    //     if (counter > 5) {
-    //         isToast && toast.error("you need to log in first");
-    //         return [];
-    //     }
-    // }
 
     try {
-        const data = (await client.standard().get(url)).data;
+        const data = props.specialToken && (await client.withCostumToken(props.specialToken).get(url)).data ||
+            (await client.standard().get(url)).data;
         isToast && toast.dismiss();
         isToast && toast.success("success");
         return data;
@@ -196,7 +153,7 @@ export async function del({ ...props }: Omit<Request, 'body'>) {
         }
     }
     try {
-        const data = (await client.standard().delete(url)).data;
+        const data = props.specialToken && (await client.withCostumToken(props.specialToken).delete(url)).data || (await client.standard().delete(url)).data;
         isToast && toast.dismiss();
         isToast && toast.success("success");
         return data;

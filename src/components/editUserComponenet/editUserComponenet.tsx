@@ -3,7 +3,14 @@ import { User } from '../../types/user/user';
 import { Button, Container, Form, InputEmail, InputPassword, InputText, Label } from './editUserComponenet.style';
 import { useForm } from 'react-hook-form';
 
-export default function EditUserComponenet({ ...props }: { user: User | null, headline?: string, onSubmit: (data: any) => void }) {
+interface EditUserComponenet {
+    user: User | null;
+    headline?: string;
+    onSubmit: (data: any) => void;
+    onCancel?: () => void
+}
+
+export default function EditUserComponenet({ ...props }: { user: User | null, headline?: string, onCancel?: () => void, onSubmit: (data: any) => void }) {
 
     const { user = {
         id: "",

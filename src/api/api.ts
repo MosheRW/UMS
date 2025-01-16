@@ -16,6 +16,10 @@ export const api = {
     services.post({ url: urls.postAnewUser(), body: user, isToast: toast }),
   updateAUser: async (userID: string, user: any, toast: boolean = false) =>
     services.put({ url: urls.updateAUser(userID), body: user, isToast: toast }),
+  signUpUser: async (user: any, token?: string, toast: boolean = false) =>
+    services.post({ url: urls.postAnewUser(), body: user, isToast: toast }),
   deleteAUser: async (userID: string, toast: boolean = false) =>
     services.del({ url: urls.deleteAUser(userID), isToast: toast }),
 };
+
+

@@ -9,17 +9,9 @@ import { ToastContainer } from 'react-toastify';
 import { api } from './api/api';
 import { Navigate, useNavigate } from 'react-router';
 
-const basePath = "/ums";
 
 export default function App() {
   const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const [homePage, setHomePage] = React.useState(basePath);
-
-  useEffect(() => {
-    console.log('hight: ', window.innerHeight);
-    console.log('Width: ', window.innerWidth);
-
-  }, [])
 
   useEffect(() => {
     api.getAllUsers(false).then((data) => {
@@ -27,27 +19,20 @@ export default function App() {
       if (data) {
         if (token && token.length > 0) {
           store.dispatch(setUserToken(token));
-          setHomePage(basePath + "/dashboard");
         }
       } else if (token) {
-        localStorage.removeItem("userToken");
-        setHomePage(basePath + "/login");
-      } else {
-        setHomePage(basePath + "/login");
+        store.dispatch(setUserToken(token));
       }
-
-    }
-    );
+    });
   }, []);
+
 
 
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
-      <Provider store={store}>
-        <GlobalStyle />
-        <ToastContainer />
-        <Router homePage={homePage} />
-      </Provider>
+      <GlobalStyle />
+      <ToastContainer />
+      <Router />
     </ThemeProvider>
 
   );

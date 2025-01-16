@@ -3,23 +3,8 @@ import DashboardComponent from '../components/dashboardComopnenet/dashboardComop
 import { initUser, parseUser, User } from '../types/user/user';
 import { useSelector } from 'react-redux';
 import { selectIsLogedIn } from '../redux/features/userData/userDataSliceSelectors';
+import { useNavigate } from 'react-router';
 export default function Dashboard() {
-
-    const isLogedIn = useSelector(selectIsLogedIn);
-
-    const [usersZ, setUsersZ] = React.useState<User[]>([initUser()]);
-
-    // useEffect(() => {
-    //     if (isLogedIn) {
-    //         api.getAllUsers().then((data) => {
-    //             console.log(data);
-    //             setUsersZ(data.map(parseUser));
-    //         });
-    //     }
-    // }, [isLogedIn,]);
-
-
-
-
-    return <DashboardComponent users={usersZ} />;
+    
+    return <DashboardComponent />;
 }
