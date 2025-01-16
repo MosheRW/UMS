@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router';
+import { Outlet } from 'react-router-dom';
 import TopBar from '../components/topBar/topBar';
 import styled from 'styled-components';
 import CheenBar from '../components/cheenBar/cheenBar';

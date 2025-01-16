@@ -8,8 +8,9 @@ import { setUserToken } from './redux/features/userData/userDataSlice';
 import { ToastContainer } from 'react-toastify';
 import { api } from './api/api';
 import { Navigate, useNavigate } from 'react-router';
+// import { basePath } from './api/urls';
 
-const basePath = "/ums";
+const basePath = "";
 
 export default function App() {
   const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;

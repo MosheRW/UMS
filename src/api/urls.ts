@@ -1,3 +1,4 @@
+export const  basePath = process.env.REACT_APP_BASE_URL || "";
 const baseUrl = 'https://server-n42x.onrender.com/api';
 
 export const urls = {    

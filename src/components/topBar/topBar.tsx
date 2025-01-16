@@ -1,7 +1,7 @@
 import React from 'react';
 import { LogOutButton, TopBarContainer, TopBarContainerContainer, TopBarTitle } from './topBar.style';
 import { IoMdLogOut } from "react-icons/io";
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { isMobile } from 'react-device-detect';
 
 const basePath = "/ums";

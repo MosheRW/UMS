@@ -1,7 +1,7 @@
 import React from "react";
 import { LoginPageContainer, LoginPageContainerContainer } from "./loginPageComponent.style";
 import LoginComponent from "../loginComponent/loginComponent";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const basePath = "/ums";
 
