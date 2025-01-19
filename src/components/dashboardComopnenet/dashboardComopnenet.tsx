@@ -99,8 +99,22 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
   }, [users])
 
   /************************************* */
+  const toggleHelpers = {
+    helpCreateUser: (bool: boolean) => {
+    bool && user2Edit && setUser2Edit(null);
+    setDisplayAddUser(bool);
+  },
+    helpEditUser: () => {/* TODO: handleEditUser*/ },
+    helpDeleteUser: () => {/* TODO: handleDeleteUser*/ },
+    helpSort: () => {/* TODO: handleSort*/ },
+    helpFilter: () => {/* TODO: handleFilter*/ }
+  };
+
   const handlers = {
-    handleCreateUser: () => {/* TODO: handleCreateUser*/ },
+    handleCreateUser: (bool: boolean) => {
+    bool && user2Edit && setUser2Edit(null);
+    setDisplayAddUser(bool);
+  },
     handleEditUser: () => {/* TODO: handleEditUser*/ },
     handleDeleteUser: () => {/* TODO: handleDeleteUser*/ },
     handleSort: () => {/* TODO: handleSort*/ },
