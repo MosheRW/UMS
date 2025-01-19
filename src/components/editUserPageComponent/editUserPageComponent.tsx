@@ -83,7 +83,7 @@ export default function EditUserPage({ ...props }: EditUserPage) {
             user={user}
             headline={picHeadline()}
             onSubmit={picHelper} 
-            reset={handleDone}
+            onCancel={handleDone}
             />
     </Container>;
 }
