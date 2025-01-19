@@ -413,7 +413,6 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
         <BrowserView>
           <DisplayUsersBrowserEditionContainer>
             <browserEdition.Display />
-            {/* {users && users.map(browserEdition.Display)} */}
           </DisplayUsersBrowserEditionContainer>
         </BrowserView>
 
@@ -451,12 +450,12 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
   function Done() {
     return (
-      <>
+      <DashboardContainrer>
         {/*direction should be according to isMobile*/}
         <DisplayManagment />
         <DisplayAnimations />
         <DisplayUsers />
-      </>
+      </DashboardContainrer>
     )
   }
 
