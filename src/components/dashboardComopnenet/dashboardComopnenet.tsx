@@ -8,7 +8,7 @@ import EditUserComponenet from "../editUserComponenet/editUserComponenet";
 import { api } from "../../api/api";
 import { useSelector } from "react-redux";
 import Modal from "../modal/Modal";
-import { BrowserView, MobileView, isMobile} from 'react-device-detect';
+import { BrowserView, MobileView, isMobile } from 'react-device-detect';
 import Clickable from "../doubleClickWraper/doubleClickWraper";
 import { useNavigate } from "react-router";
 import { selectIsLogedIn } from "../../redux/features/userData/userDataSliceSelectors";
@@ -201,24 +201,25 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
   };
   function DisplayEditor() {
     function CreateUser() {
-      return <EditUserComponenet
-        headline={"Create User"}
-        user={{} as User}
-        onSubmit={handlers.handleCreateUser}
-        onCancel={() => {
-          setDisplayAddUser(false);
-        }}
-      />
+
+      return <DisplayEditorContainer
+        $isWide={width && !isMobile}>
+        <EditUserComponenet
+          headline={"Create User"}
+          user={{} as User}
+          onSubmit={handlers.handleCreateUser}
+          onCancel={() => setDisplayAddUser(false)}
+        /></DisplayEditorContainer>
     }
     function EditUser() {
-      return <EditUserComponenet
+      return <DisplayEditorContainer $isWide={width && !isMobile}><EditUserComponenet
         headline={"Edit User"}
         user={user2Edit}
         onSubmit={(user) => handlers.handleEditUser(user)}
         onCancel={() => {
           setUser2Edit(null);
         }}
-      />
+      /></DisplayEditorContainer>
     }
     function Display() {
 
@@ -244,12 +245,15 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
     return (
       <BrowserView>
-        <DisplayEditorContainer
+        <Display />
+
+        {/* <DisplayEditorContainer
           $isWide={width && !isMobile}>
           <Display />
         </DisplayEditorContainer>
 
-        {!width && !isMobile && <Display />}
+
+        {!width && !isMobile && <Display />} */}
       </BrowserView>
     )
   };

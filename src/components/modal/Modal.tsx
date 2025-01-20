@@ -105,13 +105,16 @@ export default function Modal({ ...props }: ModalProps) {
   return (
     <>
       {isOpen && ReactDOM.createPortal(
-        <ClickOutsideComponent onClickOutside={() => closeOnClickOutside && onClose()}>
+        <ClickOutsideComponent
+          onClickOutside={() => closeOnClickOutside && onClose()}>
 
           <ModalContainer
+            className="modal"
             $position={position}
             $fullScreen={fullScreen}>
 
             <ModalContent
+              className="modal content"
               $fullScreen={fullScreen}
               $width={size?.width && `${size?.width}px` || false}
               $height={size?.height && `${size?.height}px` || false}

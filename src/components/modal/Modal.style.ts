@@ -32,6 +32,7 @@ export const ModalContent = styled.div<{
   padding: ${(props) => `${props.$fullScreen ? '20' : '0'}`}px;
   border-radius: 10px;
   overflow: hidden;
+  justify-items: center;
 
   ${(props) => `${props.$height && `height: ${props.$height}`}`};
   ${(props) => `${props.$width && `width: ${props.$width}`}`};

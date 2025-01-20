@@ -34,13 +34,19 @@ justify-content: center;
 `;
 
 export const DisplayEditorContainer = styled.div<{ $isWide: boolean }>`
-display: ${(props) => props.$isWide ? 'flex' : 'none'};
 display: flex;
 flex-direction: column;
 justify-self: center;
 align-items: center;
-margin-left: 8%;
-width: 100%;
+width: 40ch;
+
+@media (max-width: 1300px) {
+width: 33vw;
+}
+/* width: 100%; */
+
+
+
 `;
 
 export const DisplayUsersContainer = styled.div<{ $isWide?: boolean }>``;
