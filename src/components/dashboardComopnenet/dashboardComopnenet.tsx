@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { initUser, parseUser, User } from "../../types/user/user";
-import { Button, DashboardContainrer, HeaderCell, InputCheckMark, UsersListContainer, ManagementArea, ManagmentButtons, MangmantEditorsModal, MobileUserRecord, MobileUserRecordBody, MobileUserRecordContainer, Row, Table, TableBody, TableCell, TableContainer, TableHeader, TableLabel, TableRow, TableValue, DisplayManagmentConstainer, DisplayButtonsContainer, DisplayEditorContainer } from "./dashboardComopnenet.style";
+import { Button, DashboardContainrer, InputCheckMark, DisplayManagmentConstainer, DisplayButtonsContainer, DisplayEditorContainer } from "./dashboardComopnenet.style";
 import { DisplayUsersMobileEditionContainer, DisplayUsersContainer, DisplayUserMobileEdition, DisplayUserMobileEditionTable, DisplayUserMobileEditionBody, DisplayUserMobileEditionRow, DisplayUserMobileEditionLable, DisplayUserMobileEditionValue } from './dashboardComopnenet.style'
 import { DisplayUsersBrowserEditionContainer, DisplayUsersBrowserEdition, DisplayUsersBrowserEditionHeader, DisplayUsersBrowserEditionBody, DisplayUsersBrowserEditionRow, DisplayUsersBrowserEditionHeaderCell, DisplayUsersBrowserEditionBodyCell } from './dashboardComopnenet.style';
 import { MdEdit } from "react-icons/md";
