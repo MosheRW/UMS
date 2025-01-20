@@ -1,46 +1,123 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
+Here is the updated README file:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+# UMS (User Management System)
 
-### `npm test`
+## Description
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+UMS is a client-side application for managing users. It provides a responsive interface that supports both dark and light modes, and is optimized for use on desktops, laptops, and mobile devices.
 
-### `npm run build`
+## Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Prerequisites
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* Node.js (version 14 or higher)
+* npm (version 6 or higher)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installation
 
-### `npm run eject`
+1. Clone the repository:
+```bash
+git clone https://github.com/MosheRW/ums.git
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+2. Install dependencies:
+```bash
+cd ums
+npm i
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Build the project:
+```bash
+npm run build
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Running the Project
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Once the project is built, you can serve the `build` folder using any HTTP server. Here are a few options:
 
-## Learn More
+#### Option 1: Using `http-server`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. Install `http-server` globally:
+```bash
+npm install -g http-server
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2. Navigate to the `build` folder:
+```bash
+cd ums/build
+```
+
+3. Start the server:
+```bash
+http-server
+```
+
+#### Option 2: Using a local development server
+
+1. Install a local development server of your choice (e.g., `serve`, `live-server`, etc.).
+
+2. Navigate to the `build` folder:
+```bash
+cd ums/build
+```
+
+3. Start the server:
+```bash
+serve
+```
+
+Alternatively, you can also download the `build` folder and serve it using any HTTP server.
+
+## Features
+
+* Create, delete, and edit single and multiple users from the database.
+* Supports dark and light modes.
+* Responsive design for desktops, laptops, and mobile devices.
+
+## Structure
+
+The project is organized into the following main components:
+
+* **Pages:** This directory contains the main pages of your application, such as the main page, login page, edit page, and dashboard page. Each page is a separate component that handles its own specific functionality.
+* **Components:** This directory contains reusable UI components that can be used across different pages. For example, it includes a `Modal` component for displaying modals, a `TopBar` component for the top navigation bar, and an `EditUserComponent` for editing user information.
+* **API:** This directory contains the API service that handles requests to the server. It includes functions for handling different types of requests, such as login, logout, and user management.
+* **Redux:** This directory contains the Redux store and related files for managing the state of your application.
+* **Style:** This directory contains the styles for your components, including global styles, themes, and specific styles for different components.
+* **Types:** This directory contains type definitions for your application, such as the `User` type.
+
+## Capabilities
+
+The project has the following capabilities:
+
+* **User Management:** The project allows you to create, delete, and edit users from the database.
+* **Authentication:** The project includes a login page that allows users to authenticate themselves with a username and password. It also includes a logout feature to log out users.
+* **Redux Store:** The project uses Redux to manage the state of the application, including user data and authentication status.
+* **API Integration:** The project includes an API service that handles requests to the server, allowing you to interact with the database and perform CRUD operations on users.
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute to the project, please follow these guidelines:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them.
+4. Push your branch to your forked repository.
+5. Open a pull request against the main repository.
+
+## Authors
+
+* Moshe Winberg(https://www.linkedin.com/in/mosherwinberg)
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+* Thanks to the [React](https://reactjs.org/) team for providing the foundation for this project.
+* Thanks to the [Material-UI](https://material-ui.com/) team for providing the UI components used in this project.
