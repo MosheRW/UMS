@@ -6,60 +6,14 @@ import { DisplayUsersBrowserEditionContainer, DisplayUsersBrowserEdition, Displa
 import { MdEdit } from "react-icons/md";
 import EditUserComponenet from "../editUserComponenet/editUserComponenet";
 import { api } from "../../api/api";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Modal from "../modal/Modal";
-import { BrowserView, MobileView, isMobile, isBrowser } from 'react-device-detect';
+import { BrowserView, MobileView, isMobile} from 'react-device-detect';
 import Clickable from "../doubleClickWraper/doubleClickWraper";
 import { useNavigate } from "react-router";
 import { selectIsLogedIn } from "../../redux/features/userData/userDataSliceSelectors";
-import { f, h } from "react-router/dist/development/fog-of-war-DLtn2OLr";
-import { set } from "react-hook-form";
 
-/**
- * handleCreateUser
- * handleEditUser
- * handelDeleteUser
- * handleSort
- * handleFilter
- * 
- * displayUsers
- * * all users details 
- * 
- * displayButtons
- * * add
- * * delete
- * * filter
- * 
- * displayEditor
- * * editNew
- * * editEcsist
- * 
- * displayAnimations
- * * animation for loading
- * * animation for somthing happend
- * 
- * displayUsersForBrowser:
- * * table.
- * * headersWithSortingAndMarker.
- * * userRecordForTableWithMarkerAndEditor.
- * 
- * displayUsersForMobile:
- * * list.
- * * userCardForListThatsClickableAndChangeColors.
- * 
- * displayManagmentForWideBrowser(at the side):
- * * displayButtons
- * * displayEditor
- * 
- * displayMnagmentForBrowser(pop up):
- * displayButtonsAboveTheTable.
- * displayEditorInModal.
- * 
- * displayManagmentForMobile(navigation):
- * displayButtonsAboveTheTable.
- * * addButtonForSorting.
- * navigateToEditorsPages.
- */
+
 interface Dict {
   [key: string]: boolean;
 }
@@ -151,9 +105,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
       if (users) {
         const tempUsers = users?.sort(sort);
-        tempUsers && setUsers(tempUsers);
-        console.log(3, { field });
-
+        tempUsers && setUsers([...tempUsers]);
       }
     },
     handleFilter: (field: keyof User) => {
@@ -190,9 +142,6 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
       handlers.handleDelete();
     },
     helpSort: (field: keyof User) => {
-
-      console.log({ field });
-      isMobile && console.log('not implemanted yet');
 
       handlers.handleSort(field);
     },
@@ -332,7 +281,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
 
     const browserEdition = {
-      keys2Display: ["userName", "fullName", "email", "createdAt"] as Array<keyof User>,
+      keys2Display: ["id", "userName", "fullName", "email", "createdAt"] as Array<keyof User>,
 
       DisplayHeaders: () => {
 
