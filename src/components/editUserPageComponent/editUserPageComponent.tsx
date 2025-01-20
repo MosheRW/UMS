@@ -30,6 +30,8 @@ export default function EditUserPage({ ...props }: EditUserPage) {
     }
 
     function helpCreateNewUser(user: User | null) {
+        console.log("hello");
+        console.log(user, "hello");
         user && api.postAnewUser(user, true).then((data) => {
             handleDone();
         });
@@ -82,7 +84,7 @@ export default function EditUserPage({ ...props }: EditUserPage) {
         <EditUserComponenet
             user={user}
             headline={picHeadline()}
-            onSubmit={picHelper} 
+            onSubmit={picHelper()} 
             onCancel={handleDone}
             />
     </Container>;

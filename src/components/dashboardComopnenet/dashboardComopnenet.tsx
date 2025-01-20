@@ -80,19 +80,21 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
   const [width, setWidth] = useState(window.innerWidth > 1300);
 
-
   const isLogedIN = useSelector(selectIsLogedIn);
+
   const navigate = useNavigate();
 
-
+  useEffect(() => {
+    if (!isLogedIN) {
+      navigate("/");
+    }
+  }, [isLogedIN])
 
   useEffect(() => {
     api.getAllUsers().then((data) => props.users = data).then((data) => {
       data && setUsers(data?.map(parseUser));
     });
-
   }, [])
-
 
   useEffect(() => {
     if (selectAll) {
@@ -105,6 +107,8 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
   useEffect(() => {
     setWidth(window.innerWidth > 1300);
   }, [window.innerWidth])
+
+
   /************************************* */
   const handlers = {
     handleReload: (bool = true) => {
@@ -118,7 +122,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
       user && api.postAnewUser(user, true).then((data) => handlers.handleReload());
     },
     handleEditUser: async (user: User) => {
-      user && api.updateAUser(user.id, user, true).then((data) => handlers.handleReload());
+      user2Edit && user && api.updateAUser(user2Edit.id, user, true).then((data) => handlers.handleReload());
     },
     handleDelete: () => {
       for (const key in usersDataDict) {
@@ -130,6 +134,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
       }
     },
     handleSort: (field: keyof User) => {
+      console.log(2, { field });
       function sort(user1: User, user2: User) {
         if (!field) return 1;
         if (!user1) return -1;
@@ -147,6 +152,8 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
       if (users) {
         const tempUsers = users?.sort(sort);
         tempUsers && setUsers(tempUsers);
+        console.log(3, { field });
+
       }
     },
     handleFilter: (field: keyof User) => {
@@ -184,6 +191,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
     },
     helpSort: (field: keyof User) => {
 
+      console.log({ field });
       isMobile && console.log('not implemanted yet');
 
       handlers.handleSort(field);
@@ -212,30 +220,36 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
     }
   };
 
-
-
   function DisplayButtons() {
     const buttons = {
       handlers: {},
       Components: {
-        Add: () => <><Button onClick={() => toggleHelpers.helpCreateUser(!displayAddUser)}>Add</Button></>,
-        Delete: () => <><Button onClick={() => toggleHelpers.helpDeleteUser()}>Delete</Button></>,
-        Filter: () => <><Button onClick={() => toggleHelpers.helpFilter("id")}>Filter</Button></>,
-        Sort: () => <><Button onClick={() => toggleHelpers.helpSort("id")}>Sort</Button></>,
+        Add: () => <Button onClick={() => toggleHelpers.helpCreateUser(!displayAddUser)}>Add</Button>,
+        Filter: () => <Button onClick={() => toggleHelpers.helpFilter("id")}>Filter</Button>,
+        Delete: () => <Button onClick={() => toggleHelpers.helpDeleteUser()}>Delete</Button>,
+        // Edit: () => <Button onClick={() => toggleHelpers.helpEditUser()}>Edit</Button>,
+        Sort: () => <Button onClick={() => toggleHelpers.helpSort("id")}>Sort</Button>,
       }
     };
 
+    useEffect(() => {
+      const bool = width && !isMobile;
+      console.log({ bool, $isWide: width && !isMobile });
+    }
+      , [])
+
     return (
       <DisplayButtonsContainer
+        className="displayButtonsContainer"
         $isWide={width && !isMobile}>
         <buttons.Components.Add />
         <buttons.Components.Delete />
+        {/* {isMobile && <buttons.Components.Edit />} */}
         <buttons.Components.Filter />
         {isMobile && <buttons.Components.Sort />}
       </DisplayButtonsContainer>
     )
-  }
-
+  };
   function DisplayEditor() {
     function CreateUser() {
       return <EditUserComponenet
@@ -251,7 +265,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
       return <EditUserComponenet
         headline={"Edit User"}
         user={user2Edit}
-        onSubmit={handlers.handleEditUser}
+        onSubmit={(user) => handlers.handleEditUser(user)}
         onCancel={() => {
           setUser2Edit(null);
         }}
@@ -264,14 +278,14 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
       else return <>
         <Modal isOpen={displayAddUser}
           onClose={() => setDisplayAddUser(false)}
-          closeOnClickOutside
+          // closeOnClickOutside
           fullScreen>
           <CreateUser />
         </Modal>
 
         <Modal isOpen={user2Edit !== null}
           onClose={() => setUser2Edit(null)}
-          closeOnClickOutside
+          // closeOnClickOutside
           fullScreen>
           <EditUser />
         </Modal>
@@ -289,8 +303,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
         {!width && !isMobile && <Display />}
       </BrowserView>
     )
-  }
-
+  };
   function DisplayUsers() {
 
     function intoCamelCase(str: string) {
@@ -327,7 +340,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
           <DisplayUsersBrowserEditionHeader>
             <DisplayUsersBrowserEditionRow $odd={false}>
               {browserEdition.keys2Display.map((key, index) => {
-                return <DisplayUsersBrowserEditionHeaderCell>
+                return <DisplayUsersBrowserEditionHeaderCell onClick={() => toggleHelpers.helpSort(key)}>
                   {intoCamelCase(key)}
                 </DisplayUsersBrowserEditionHeaderCell>
               })}
@@ -423,8 +436,6 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
         </MobileView>
       </DisplayUsersContainer>)
   }
-
-
   function DisplayAnimations() {
     /**  TODO: displayAnimations
         * for loading
@@ -448,265 +459,15 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
 
 
-  function Done() {
-    return (
-      <DashboardContainrer>
-        {/*direction should be according to isMobile*/}
-        <DisplayManagment />
-        <DisplayAnimations />
-        <DisplayUsers />
-      </DashboardContainrer>
-    )
-  }
-
-
-
-
-
-  return <Done />
-
-  /************************************************************************** */
-  function setDisplayAddUserWraper(bool: boolean) {
-    bool && user2Edit && setUser2Edit(null);
-    setDisplayAddUser(bool);
-  }
-
-  function setUser2EditWraper(user: User | null) {
-    user && displayAddUser && setDisplayAddUser(false);
-    setUser2Edit(user);
-  }
-
-  function checkboxHandler(id: string) {
-    return () => {
-      const dict = { ...usersDataDict };
-      dict[id] = !dict[id];
-      setUsersDataDict(dict);
-
-      if (selectAll) {
-        setSelectAll(false);
-      }
-    }
-  };
-
-  function headerCheckboxHandler() {
-    const newState = !selectAll;
-    setSelectAll(newState);
-    const dict: Dict = {}
-    users && users.forEach((user) => { dict[user.id] = newState });
-    setUsersDataDict(dict);
-  }
-
-
-  function handleDelete() {
-    for (const key in usersDataDict) {
-      if (usersDataDict[key]) {
-        api.deleteAUser(key, true).then((data) => {
-          api.getAllUsers().then((data) => { data && setUsers(data?.map(parseUser)); });
-        });
-      }
-    }
-  }
-
-  function handleDisplayAddUser() {
-    isMobile ? navigate("/createUser") :
-      setDisplayAddUserWraper(!displayAddUser);
-  }
-
-  function CreateUserComponent({ reload }: { reload: (bool?: boolean) => void }) {
-    return (
-      <EditUserComponenet
-        headline={"Create User"}
-        user={{} as User}
-        onSubmit={(user: any) => {
-          user && api.postAnewUser(user, true).then((data) => reload()) || reload(false);
-        }} />
-    );
-  }
-
-
-  function UserRecordComponent(user: User, index: number) {
-    return (isBrowser &&
-      <TableRow $odd={index % 2 === 1} key={'user :' + user.id}>
-        <TableCell>{user.id}</TableCell>
-        <TableCell $length={12}>{user.userName}</TableCell>
-        <TableCell $length={20}>{user.fullName}</TableCell>
-        <TableCell $length={20}>{user.email}</TableCell>
-        <TableCell $length={5}>{user.password}</TableCell>
-        <TableCell $length={12}>{user?.createdAt !== null && user.createdAt.toLocaleDateString()}</TableCell>
-        <TableCell $length={2}>
-          <InputCheckMark checked={usersDataDict[user.id]} onChange={checkboxHandler(user.id)} />
-          <MdEdit onClick={() => setUser2EditWraper(user)} />
-        </TableCell>
-      </TableRow>
-    );
-  }
-
-  function UserCardComponent(user: User, index: number) {
-    return <Clickable key={'user : + Clickable' + user.id}
-      onDoubleClick={() => setUser2EditWraper(user)}
-      onClick={checkboxHandler(user.id)}>
-      <MobileUserRecordContainer
-        key={'user :' + user.id}
-        $choosen={useMemo(() => usersDataDict[user.id], [usersDataDict[user.id]])}>
-        <MobileUserRecord>
-          <MobileUserRecordBody>
-            <Row>
-              <TableLabel>User Name:</TableLabel>
-              <TableValue>{user.userName}</TableValue>
-            </Row>
-            <Row>
-              <TableLabel>Full Name:</TableLabel>
-              <TableValue>{user.fullName}</TableValue>
-            </Row>
-            <Row>
-              <TableLabel>Email:</TableLabel>
-              <TableValue>{user.email}</TableValue>
-            </Row>
-          </MobileUserRecordBody>
-        </MobileUserRecord>
-      </MobileUserRecordContainer>
-    </Clickable>
-  }
-
-
-
-  function DisplayTableHeader() {
-    return (<TableHeader>
-      <TableRow $odd={true}>
-        {Object.keys(initUser()).map((key) =>
-          <HeaderCell key={key}>{key}</HeaderCell>)}
-        <HeaderCell >
-          <InputCheckMark checked={selectAll}
-            onChange={headerCheckboxHandler} />
-        </HeaderCell>
-      </TableRow>
-    </TableHeader>
-    );
-  }
-
-  function DisplayTableBody() {
-    return users && users?.length > 0 && <TableBody key={'DisplayTableBody'}>
-      {users?.map(UserRecordComponent)}
-    </TableBody> || isBrowser && <tbody key={'DisplayTableBody body'}></tbody> || <div key={'DisplayTableBody div'}></div>;
-  }
-
-  function DisplayUsersList() {
-    return users && users?.length > 0 && <UsersListContainer key={'DisplayTableBody'}>
-      {users?.map(UserCardComponent)}
-    </UsersListContainer> || <></>
-  }
-
-  function DisplayTable() {
-    return (
-      <TableContainer>
-        <Table>
-          <DisplayTableHeader />
-
-          <DisplayTableBody />
-        </Table>
-
-      </TableContainer>
-    );
-  }
-
-  function DisplayManagmentArea() {
-    if (window.innerWidth >= 1300) {
-      return (
-        <ManagementArea>
-          <br />
-          <Button onClick={handleDelete}>Delete</Button>
-          <br />
-          <Button onClick={handleDisplayAddUser}>add user</Button>
-          <br />
-
-
-          {user2Edit &&
-            <EditUserComponenet user={user2Edit} onSubmit={(user) => {
-              user && api.updateAUser(user2Edit.id, user, true).then((data) => {
-                api.getAllUsers().then((data) => {
-                  data && setUsers(data?.map(parseUser))
-                });
-              });
-              setUser2EditWraper(null);
-            }} />
-          }
-
-          {displayAddUser &&
-            <CreateUserComponent reload={(bool = true) => {
-              bool && api.getAllUsers().then((data) => {
-                data && setUsers(data?.map(parseUser));
-              });
-              setDisplayAddUserWraper(!displayAddUser);
-            }} />
-          }
-        </ManagementArea>
-      );
-    } else {
-      return (
-        <>
-          <ManagmentButtons>
-            <br />
-            <Button onClick={handleDelete}>Delete</Button>
-            <br />
-            <Button onClick={handleDisplayAddUser}>add user</Button>
-            <br />
-          </ManagmentButtons>
-
-          <Modal isOpen={user2Edit !== null}
-            onClose={() => setUser2EditWraper(null)}
-            closeOnClickOutside
-            fullScreen>
-            <MangmantEditorsModal>
-              <EditUserComponenet
-                user={user2Edit}
-                onSubmit={(user) => {
-                  user && user2Edit && api.updateAUser(user2Edit?.id, user, true).then((data) => {
-                    api.getAllUsers().then((data) => {
-                      data && setUsers(data?.map(parseUser))
-                    });
-                  });
-                  setUser2EditWraper(null);
-                }} />
-            </MangmantEditorsModal>
-          </Modal>
-
-
-          <Modal isOpen={displayAddUser}
-            onClose={() => setDisplayAddUserWraper(false)}
-            closeOnClickOutside
-            fullScreen>
-            <MangmantEditorsModal>
-              <CreateUserComponent
-                reload={(bool = true) => {
-                  bool && api.getAllUsers().then((data) => {
-                    data && setUsers(data?.map(parseUser));
-                  });
-                  setDisplayAddUserWraper(!displayAddUser);
-                }} />
-            </MangmantEditorsModal>
-
-          </Modal>
-
-        </>
-      );
-    }
-  }
-
   return (
-    <>
-      <BrowserView>
-        <DashboardContainrer>
-          <DisplayTable />
-          <DisplayManagmentArea />
-        </DashboardContainrer>
-      </BrowserView>
-
-      <MobileView>
-        <DashboardContainrer>
-          <DisplayUsersList />
-          <DisplayManagmentArea />
-        </DashboardContainrer>
-      </MobileView>
-    </>
-  );
+    <DashboardContainrer>
+      <DisplayManagment />
+      <DisplayAnimations />
+      <DisplayUsers />
+    </DashboardContainrer>
+  )
 }
+
+
+
+

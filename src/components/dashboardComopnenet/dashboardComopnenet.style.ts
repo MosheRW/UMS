@@ -5,13 +5,13 @@ export const DashboardContainrer = styled.div`
   position: relative;
   display: flex;
 
-  flex-direction: row;
+  flex-direction: row-reverse;
   justify-content: center;
   gap: 2ch;
   margin: 0.5rem;
 
   @media (max-width: 1300px) {
-    flex-direction: column-reverse;
+    flex-direction: column;
   }
 `;
 
@@ -97,23 +97,34 @@ export const ManagmentButtons = styled.div`
 
 //***************************************************************************** */
 
+interface Props {
+  $isWide?: boolean;
+  $color?: string;
+}
+
 export const DisplayManagmentConstainer = styled.div<{ $isWide: boolean }>`
   display: flex;
-  flex-direction: ${($isWide) => $isWide ? 'row' : 'column'};
+  flex-direction: ${(props) => props.$isWide ?  'column' : 'row'};
   justify-content: center;
 `;
 
-export const DisplayButtonsContainer = styled.div<{ $isWide: boolean }>`
+
+
+export const DisplayButtonsContainer = styled.div<{ $isWide?: boolean, $color?: string }>`
 display: flex;
-flex-direction: ${($isWide) => $isWide ? 'column' : 'row'};
+flex-direction: ${(props) => props.$isWide ? 'column' : 'row'};
 justify-content: center;
+
 `;
 
 export const DisplayEditorContainer = styled.div<{ $isWide: boolean }>`
-display: ${($isWide) => $isWide ? 'flex' : 'none'};
-flex-direction: 'column';
-justify-content: center;
+display: ${(props) => props.$isWide ? 'flex' : 'none'};
+display: flex;
+flex-direction: column;
+justify-self: center;
 align-items: center;
+margin-left: 8%;
+width: 100%;
 `;
 
 export const DisplayUsersContainer = styled.div<{ $isWide?: boolean }>``;
