@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { initUser, parseUser, User } from "../../types/user/user";
-import { Button, DashboardContainrer, InputCheckMark, DisplayManagmentConstainer, DisplayButtonsContainer, DisplayEditorContainer } from "./dashboardComopnenet.style";
+import { Button, DashboardContainrer, InputCheckMark, DisplayManagmentConstainer, DisplayButtonsContainer, DisplayEditorContainer, DisplayButtonsContainerSub } from "./dashboardComopnenet.style";
 import { DisplayUsersMobileEditionContainer, DisplayUsersContainer, DisplayUserMobileEdition, DisplayUserMobileEditionTable, DisplayUserMobileEditionBody, DisplayUserMobileEditionRow, DisplayUserMobileEditionLable, DisplayUserMobileEditionValue } from './dashboardComopnenet.style'
 import { DisplayUsersBrowserEditionContainer, DisplayUsersBrowserEdition, DisplayUsersBrowserEditionHeader, DisplayUsersBrowserEditionBody, DisplayUsersBrowserEditionRow, DisplayUsersBrowserEditionHeaderCell, DisplayUsersBrowserEditionBodyCell } from './dashboardComopnenet.style';
 import { MdEdit } from "react-icons/md";
@@ -12,6 +12,7 @@ import { BrowserView, MobileView, isMobile } from 'react-device-detect';
 import Clickable from "../doubleClickWraper/doubleClickWraper";
 import { useNavigate } from "react-router";
 import { selectIsLogedIn } from "../../redux/features/userData/userDataSliceSelectors";
+import { Select } from "../../style/themes.style";
 
 
 interface Dict {
@@ -33,6 +34,8 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
   const [user2Edit, setUser2Edit] = useState<User | null>(null);
 
   const [width, setWidth] = useState(window.innerWidth > 1300);
+
+  const [sorted, setSorted] = useState<keyof User>("id");
 
   const isLogedIN = useSelector(selectIsLogedIn);
 
@@ -88,7 +91,6 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
       }
     },
     handleSort: (field: keyof User) => {
-      console.log(2, { field });
       function sort(user1: User, user2: User) {
         if (!field) return 1;
         if (!user1) return -1;
@@ -106,7 +108,10 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
       if (users) {
         const tempUsers = users?.sort(sort);
         tempUsers && setUsers([...tempUsers]);
+        setSorted(field);
       }
+
+      !sorted && setSorted(field);
     },
     handleFilter: (field: keyof User) => {
       function filter(user1: User) {
@@ -174,10 +179,21 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
       handlers: {},
       Components: {
         Add: () => <Button onClick={() => toggleHelpers.helpCreateUser(!displayAddUser)}>Add</Button>,
-        Filter: () => <Button onClick={() => toggleHelpers.helpFilter("id")}>Filter</Button>,
         Delete: () => <Button onClick={() => toggleHelpers.helpDeleteUser()}>Delete</Button>,
-        // Edit: () => <Button onClick={() => toggleHelpers.helpEditUser()}>Edit</Button>,
-        Sort: () => <Button onClick={() => toggleHelpers.helpSort("id")}>Sort</Button>,
+        Filter: () => <Button>filter: <br />
+          <Select name="filter"
+            value={sorted}
+            onChange={(e) => toggleHelpers.helpSort(e.target.value as keyof User)}>
+            {Object.keys(initUser()).map((key) => <option key={key}>{key}</option>)}
+          </Select></Button>,
+        Sort: () => <MobileView><Button>sort: <br />
+          <Select name="sort"
+            value={sorted}
+            onChange={(e) => toggleHelpers.helpSort(e.target.value as keyof User)}>
+            {Object.keys(initUser()).map((key) => <option key={key}>{key}</option>)}
+          </Select></Button>
+        </MobileView>,
+        SelectAll: () => <MobileView><Button onClick={() => toggleHelpers.helpSelectAll()}>{selectAll ? "Deselect All" : "Select All"}</Button></MobileView>,
       }
     };
 
@@ -191,12 +207,22 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
       <DisplayButtonsContainer
         className="displayButtonsContainer"
         $isWide={width && !isMobile}>
-        <buttons.Components.Add />
-        <buttons.Components.Delete />
-        {/* {isMobile && <buttons.Components.Edit />} */}
-        <buttons.Components.Filter />
-        {isMobile && <buttons.Components.Sort />}
+        <DisplayButtonsContainerSub
+          $isWide={width && !isMobile}>
+          <buttons.Components.Add />
+          <buttons.Components.Delete />
+          <buttons.Components.SelectAll />
+        </DisplayButtonsContainerSub>
+
+        <DisplayButtonsContainerSub
+          $isWide={!width && !isMobile}
+        >
+          <buttons.Components.Filter />
+          <buttons.Components.Sort />
+        </DisplayButtonsContainerSub>
+
       </DisplayButtonsContainer>
+
     )
   };
   function DisplayEditor() {
@@ -246,14 +272,6 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
     return (
       <BrowserView>
         <Display />
-
-        {/* <DisplayEditorContainer
-          $isWide={width && !isMobile}>
-          <Display />
-        </DisplayEditorContainer>
-
-
-        {!width && !isMobile && <Display />} */}
       </BrowserView>
     )
   };

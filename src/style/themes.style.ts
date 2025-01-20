@@ -114,7 +114,7 @@ export const GlobalStyle = createGlobalStyle`
     background-color: ${({ theme }) => theme.backgroundColor};
   };
   h1 {
-    color: ${({theme}) => theme.primaryTextColor};
+    color: ${({ theme }) => theme.primaryTextColor};
   };
   .tooltip {
     background-color: black;
@@ -122,46 +122,48 @@ export const GlobalStyle = createGlobalStyle`
 
 `;
 
-
 const Input = css`
-background-color: ${({ theme }) => theme.secondComponentsColorTransperent};
-color: ${({ theme }) => theme.primaryTextColor};
-border: 1px solid black;
-border-radius: 0.5rem;
-padding: 0.5rem;
-width: 90%;
-height: 1rem;
-padding-bottom: 0.5rem;
+  background-color: ${({ theme }) => theme.secondComponentsColorTransperent};
+  color: ${({ theme }) => theme.primaryTextColor};
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  width: 90%;
+  height: 1rem;
+  padding-bottom: 0.5rem;
 
-@media (max-width: 1300px) {
-${(props) => (window.innerWidth * 1 < window.innerHeight * 1 ? `width: 90%` : 'width: 20ch')};
-  
-}
+  @media (max-width: 1300px) {
+    ${(props) => (window.innerWidth * 1 < window.innerHeight * 1 ? `width: 90%` : 'width: 20ch')};
+  }
 `;
 
 export const InputText = styled.input.attrs({ type: 'text' })`
-${Input}
+  ${Input}
 `;
 
 export const InputEmail = styled.input.attrs({ type: 'email' })`
-${Input}
-
+  ${Input}
 `;
 
 export const InputPassword = styled.input.attrs({ type: 'password' })`
-${Input}
+  ${Input}
 `;
 
 export const Label = styled.label`
-color: ${({ theme }) => theme.primaryTextColor};
-
+  color: ${({ theme }) => theme.primaryTextColor};
 `;
 
 export const ErrorMessege = styled.p`
-text-align: center;
-padding-top: 2%;
-color: red;
-height: 1rem;
-width: 90%;
+  text-align: center;
+  padding-top: 2%;
+  color: red;
+  height: 1rem;
+  width: 90%;
+`;
 
+export const Select = styled.select`
+  min-width: 15ch;
+  width: 50%;
+  background-color: ${({ theme }) => theme.secondComponentsColorTransperent};
+  padding: 0.5rem;
 `;

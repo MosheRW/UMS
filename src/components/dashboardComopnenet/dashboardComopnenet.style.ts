@@ -18,6 +18,7 @@ export const DashboardContainrer = styled.div`
 
 export const Button = styled.div`
   ${Buttons}
+  /* width: 40%; */
 `;
 
 
@@ -25,13 +26,39 @@ export const DisplayManagmentConstainer = styled.div<{ $isWide: boolean }>`
   display: flex;
   flex-direction: ${(props) => props.$isWide ?  'column' : 'row'};
   justify-content: center;
+  align-self: center;
+`;
+
+export const DisplayButtonsContainerSub = styled.div<{ $isWide?: boolean, $color?: string }>`
+display: flex;
+flex-direction: ${(props) => props.$isWide ? 'column' : 'row'};
+justify-items: center;
+align-items: center;
+
+@media (max-width: 1300px) {
+  width: 100%;
+padding-right: 10%;
+padding-left: 10%;
+
+
+  }
 `;
 
 export const DisplayButtonsContainer = styled.div<{ $isWide?: boolean, $color?: string }>`
 display: flex;
+flex-wrap: wrap;
 flex-direction: ${(props) => props.$isWide ? 'column' : 'row'};
-justify-content: center;
+justify-items: center;
+align-items: center;
+
+${(props) => props.$isWide ? 'width: 40ch;' : 'width: 100vw;'};
+
+
+@media (max-width: 1300px) {
+  /* width: 80%; */
+  }
 `;
+
 
 export const DisplayEditorContainer = styled.div<{ $isWide: boolean }>`
 display: flex;
