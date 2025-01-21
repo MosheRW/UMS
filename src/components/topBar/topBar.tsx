@@ -4,22 +4,21 @@ import { IoMdLogOut } from "react-icons/io";
 import { useNavigate } from 'react-router';
 import { isMobile } from 'react-device-detect';
 
-const basePath = "/ums";
 
 export default function TopBar() {
     const navigate = useNavigate();
     return <TopBarContainerContainer>
-        <TopBarContainer>
+        <TopBarContainer $isMobile={isMobile}>
 
             <LogOutButton $isMobile={isMobile}
                 onClick={() => {
                     localStorage.clear();
-                    navigate( + "/login");
+                    navigate("/login");
                 }}><IoMdLogOut /></LogOutButton>
 
 
 
-            <TopBarTitle>User Management System</TopBarTitle>
+            <TopBarTitle onClick={() => navigate("/")}>User Management System</TopBarTitle>
 
         </TopBarContainer>
     </TopBarContainerContainer>;

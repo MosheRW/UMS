@@ -309,7 +309,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
         return (
           <DisplayUsersBrowserEditionHeader>
-            <DisplayUsersBrowserEditionRow $odd={false}>
+            <DisplayUsersBrowserEditionRow $isHeader>
               {browserEdition.keys2Display.map((key, index) => {
                 return <DisplayUsersBrowserEditionHeaderCell onClick={() => toggleHelpers.helpSort(key)}>
                   {intoCamelCase(key)}

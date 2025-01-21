@@ -19,8 +19,9 @@ export const Container = styled.div<{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: ${({ theme }) => theme.primaryColorTransperent};
   width: 90%;
+
+
 `;
 
 export const Form = styled.form`
@@ -28,8 +29,10 @@ export const Form = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: ${({ theme }) => theme.primaryColorTransperent};
-  border: 1px solid black;
+
+
+  background-color: ${({ theme }) => theme.primaryComponent.chosen.backgroundColor};
+  border: 1px solid ${({ theme }) => theme.primaryComponent.chosen.borderColor};
   padding: 0.5rem;
   border-radius: 0.5rem;
   gap: 0.75rem;
