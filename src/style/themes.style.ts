@@ -35,64 +35,64 @@ export const Hovering = css``;
 export const Clicking = css``;
 
 export const lightTheme: Theme = {
-  backgroundColor: "#FFFFFF",
+  backgroundColor: "#FFFFFF", // Pure white background
 
-  firstComponentsColor: "#E3F2FD", // Light Blue 100
-  secondComponentsColor: "#BBDEFB", // Light Blue 200
-  thirdComponentsColor: "#90CAF9", // Light Blue 300
+  firstComponentsColor: "#FFCDD2", // Red 100
+  secondComponentsColor: "#F8BBD0", // Pink 100
+  thirdComponentsColor: "#E1BEE7", // Purple 100
 
-  firstComponentsColorTransperent: "rgba(227, 242, 253, 0.5)",
-  secondComponentsColorTransperent: "rgba(187, 222, 251, 0.5)",
-  thirdComponentsColorTransperent: "rgba(144, 202, 249, 0.5)",
+  firstComponentsColorTransperent: "rgba(255, 205, 210, 0.5)", // Red 100 (50% opacity)
+  secondComponentsColorTransperent: "rgba(248, 187, 208, 0.5)", // Pink 100 (50% opacity)
+  thirdComponentsColorTransperent: "rgba(225, 190, 231, 0.5)", // Purple 100 (50% opacity)
 
-  frameColor: "#E0E0E0", // Grey 300
+  frameColor: "#CFD8DC", // Blue Grey 200
 
-  primaryTextColor: "#212121", // Grey 900
-  secondaryTextColor: "#757575", // Grey 600
-  thirdTextColor: "#9E9E9E", // Grey 500
+  primaryTextColor: "#212121", // Grey 900 for main text
+  secondaryTextColor: "#616161", // Grey 700 for secondary text
+  thirdTextColor: "#9E9E9E", // Grey 500 for subtle text
 
   primaryTextFont: "'Roboto', sans-serif",
   secondaryTextFont: "'Roboto', sans-serif",
   thirdTextFont: "'Roboto', sans-serif",
 
-  primaryTextSize: "16px",
-  secondaryTextSize: "14px",
-  thirdTextSize: "12px",
+  primaryTextSize: "18px", // Larger size for main text
+  secondaryTextSize: "16px",
+  thirdTextSize: "14px",
 
-  borderRadius: "8px",
-  borderWidth: "1px",
-  borderColor: "#E0E0E0", // Grey 300
+  borderRadius: "10px", // Slightly rounded corners
+  borderWidth: "1.5px", // Thicker for clarity
+  borderColor: "#B0BEC5", // Blue Grey 300 for borders
   alignText: "left",
 };
 
 export const darkTheme: Theme = {
-  backgroundColor: "#121212",
+  backgroundColor: "#121212", // Deep black background
 
-  firstComponentsColor: "#1E88E5", // Blue 600
-  secondComponentsColor: "#1976D2", // Blue 700
-  thirdComponentsColor: "#1565C0", // Blue 800
+  firstComponentsColor: "#EF5350", // Red 400
+  secondComponentsColor: "#AB47BC", // Purple 400
+  thirdComponentsColor: "#42A5F5", // Blue 400
 
-  firstComponentsColorTransperent: "rgba(30, 136, 229, 0.5)",
-  secondComponentsColorTransperent: "rgba(25, 118, 210, 0.5)",
-  thirdComponentsColorTransperent: "rgba(21, 101, 192, 0.5)",
+  firstComponentsColorTransperent: "rgba(239, 83, 80, 0.5)", // Red 400 (50% opacity)
+  secondComponentsColorTransperent: "rgba(171, 71, 188, 0.5)", // Purple 400 (50% opacity)
+  thirdComponentsColorTransperent: "rgba(66, 165, 245, 0.5)", // Blue 400 (50% opacity)
 
-  frameColor: "#424242", // Grey 800
+  frameColor: "#37474F", // Blue Grey 800
 
-  primaryTextColor: "#FFFFFF", // White
-  secondaryTextColor: "#BDBDBD", // Grey 400
-  thirdTextColor: "#757575", // Grey 600
+  primaryTextColor: "#E0E0E0", // Grey 300 for light text
+  secondaryTextColor: "#B0BEC5", // Blue Grey 400 for secondary text
+  thirdTextColor: "#78909C", // Blue Grey 500 for subtle text
 
   primaryTextFont: "'Roboto', sans-serif",
   secondaryTextFont: "'Roboto', sans-serif",
   thirdTextFont: "'Roboto', sans-serif",
 
-  primaryTextSize: "16px",
-  secondaryTextSize: "14px",
-  thirdTextSize: "12px",
+  primaryTextSize: "18px", // Larger size for main text
+  secondaryTextSize: "16px",
+  thirdTextSize: "14px",
 
-  borderRadius: "8px",
-  borderWidth: "1px",
-  borderColor: "#424242", // Grey 800
+  borderRadius: "10px", // Slightly rounded corners
+  borderWidth: "1.5px", // Thicker for clarity
+  borderColor: "#546E7A", // Blue Grey 700 for borders
   alignText: "left",
 };
 
