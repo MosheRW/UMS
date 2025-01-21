@@ -22,9 +22,10 @@ export function initUser(): User {
     };
 }
 export function parseUser(_input: object): User {
-    const input = _input as { createdAt: string; username: string; } & Omit<User, "id">;
+    const input = _input as { createdAt: string; username: string; _id: string } & Omit<User, "userName" | "createdAt" | "id">;
 
     return {
+        id: input._id,
         userName: input.username,
         fullName: input.fullName,
         email: input.email,
