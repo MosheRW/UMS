@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { darkTheme, GlobalStyle, lightTheme } from './style/themes.style';
 import Router from './pages/router';
@@ -8,10 +8,15 @@ import { setUserToken } from './redux/features/userData/userDataSlice';
 import { ToastContainer } from 'react-toastify';
 import { api } from './api/api';
 import { Navigate, useNavigate } from 'react-router';
+import useStyleModeToggle from './hooks/styleModeToggle/styleModeToggle';
 
 
 export default function App() {
-  const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  const { styleModeState, StyleModeComponent
+  } = useStyleModeToggle({
+    initStyleModeState: window.matchMedia('(prefers-color-scheme: dark)').matches
+  });
 
   useEffect(() => {
     api.getAllUsers(false).then((data) => {
@@ -29,9 +34,10 @@ export default function App() {
 
 
   return (
-    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+    <ThemeProvider theme={styleModeState ? darkTheme : lightTheme}>
       <GlobalStyle />
       <ToastContainer />
+      <StyleModeComponent />
       <Router />
     </ThemeProvider>
 
