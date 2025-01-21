@@ -25,9 +25,9 @@ interface Theme {
   secondaryTextSize: string;
   thirdTextSize: string;
 
-  borderRadius: string; // Border radius for rounded corners
-  borderWidth: string; // Border width for components
-  borderColor: string; // Border color for components
+  borderRadius: string; 
+  borderWidth: string; 
+  borderColor: string; 
   alignText: string;
 }
 
@@ -35,67 +35,67 @@ export const Hovering = css``;
 export const Clicking = css``;
 
 export const lightTheme: Theme = {
-  backgroundColor: '#ffffff',
+  backgroundColor: "#FFFFFF",
 
-  firstComponentsColor: 'rgba(0, 123, 255, 1)', // Semi-transparent blue
-  secondComponentsColor: 'rgba(108, 117, 125, 1)', // Semi-transparent gray
-  thirdComponentsColor: 'rgba(40, 167, 69, 1)', // Semi-transparent green
+  firstComponentsColor: "#E3F2FD", // Light Blue 100
+  secondComponentsColor: "#BBDEFB", // Light Blue 200
+  thirdComponentsColor: "#90CAF9", // Light Blue 300
 
-  firstComponentsColorTransperent: 'rgba(0, 123, 255, 0.5)', // Semi-transparent blue
-  secondComponentsColorTransperent: 'rgba(108, 117, 125, 0.5)', // Semi-transparent gray
-  thirdComponentsColorTransperent: 'rgba(40, 167, 69, 0.5)', // Semi-transparent green
+  firstComponentsColorTransperent: "rgba(227, 242, 253, 0.5)",
+  secondComponentsColorTransperent: "rgba(187, 222, 251, 0.5)",
+  thirdComponentsColorTransperent: "rgba(144, 202, 249, 0.5)",
 
-  frameColor: '#e0e0e0',
+  frameColor: "#E0E0E0", // Grey 300
 
-  primaryTextColor: '#212529',
-  secondaryTextColor: '#6c757d',
-  thirdTextColor: '#28a745',
+  primaryTextColor: "#212121", // Grey 900
+  secondaryTextColor: "#757575", // Grey 600
+  thirdTextColor: "#9E9E9E", // Grey 500
 
-  primaryTextFont: 'Arial, sans-serif',
-  secondaryTextFont: 'Verdana, sans-serif',
-  thirdTextFont: 'Courier New, monospace',
+  primaryTextFont: "'Roboto', sans-serif",
+  secondaryTextFont: "'Roboto', sans-serif",
+  thirdTextFont: "'Roboto', sans-serif",
 
-  primaryTextSize: '16px',
-  secondaryTextSize: '14px',
-  thirdTextSize: '12px',
+  primaryTextSize: "16px",
+  secondaryTextSize: "14px",
+  thirdTextSize: "12px",
 
-  borderRadius: '8px',
-  borderWidth: '1px',
-  borderColor: '#cccccc',
-
-  alignText: 'left',
+  borderRadius: "8px",
+  borderWidth: "1px",
+  borderColor: "#E0E0E0", // Grey 300
+  alignText: "left",
 };
 
 export const darkTheme: Theme = {
-  backgroundColor: '#121212',
+  backgroundColor: "#121212",
 
-  firstComponentsColor: '#6200ea',
-  secondComponentsColor: '#bb86fc',
-  thirdComponentsColor: '#03dac6',
+  firstComponentsColor: "#1E88E5", // Blue 600
+  secondComponentsColor: "#1976D2", // Blue 700
+  thirdComponentsColor: "#1565C0", // Blue 800
 
-  firstComponentsColorTransperent: '#6200ea',
-  secondComponentsColorTransperent: '#bb86fc',
-  thirdComponentsColorTransperent: '#03dac6',
+  firstComponentsColorTransperent: "rgba(30, 136, 229, 0.5)",
+  secondComponentsColorTransperent: "rgba(25, 118, 210, 0.5)",
+  thirdComponentsColorTransperent: "rgba(21, 101, 192, 0.5)",
 
-  frameColor: '#333333',
+  frameColor: "#424242", // Grey 800
 
-  primaryTextColor: '#e0e0e0',
-  secondaryTextColor: '#9e9e9e',
-  thirdTextColor: '#03dac6',
+  primaryTextColor: "#FFFFFF", // White
+  secondaryTextColor: "#BDBDBD", // Grey 400
+  thirdTextColor: "#757575", // Grey 600
 
-  primaryTextFont: 'Roboto, sans-serif',
-  secondaryTextFont: 'Arial, sans-serif',
-  thirdTextFont: 'Courier New, monospace',
+  primaryTextFont: "'Roboto', sans-serif",
+  secondaryTextFont: "'Roboto', sans-serif",
+  thirdTextFont: "'Roboto', sans-serif",
 
-  primaryTextSize: '18px',
-  secondaryTextSize: '16px',
-  thirdTextSize: '14px',
+  primaryTextSize: "16px",
+  secondaryTextSize: "14px",
+  thirdTextSize: "12px",
 
-  borderRadius: '8px', // Rounded corners for dark theme
-  borderWidth: '1px', // Standard border width
-  borderColor: '#555555', // Dark gray borders for the dark theme
-  alignText: 'left',
+  borderRadius: "8px",
+  borderWidth: "1px",
+  borderColor: "#424242", // Grey 800
+  alignText: "left",
 };
+
 
 export const Buttons = css`
   width: 90%;
