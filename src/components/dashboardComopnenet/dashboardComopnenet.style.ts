@@ -101,10 +101,10 @@ border: 1px solid #ddd;
 export const DisplayUsersBrowserEditionRow = styled.tr<{ $odd: boolean }>`
 background-color: ${({ theme }) =>
     (props) =>
-      props.$odd ? theme.secondComponentsColorTransperent : theme.thirdComponentsColorTransperent};
-color: ${({ theme }) =>
+      props.$odd ? theme.firstComponentsColor : theme.thirdComponentsColorTransperent};
+/* color: ${({ theme }) =>
     (props) =>
-      props.$odd ? theme.primaryTextColor : theme.secondaryTextColor};
+      props.$odd ? theme.primaryTextColor : theme.secondaryTextColor}; */
 color: ${({ theme }) => theme.primaryTextColor};
 text-align: ${({ theme }) => theme.alignText};
 border-style: solid;
@@ -133,7 +133,7 @@ export const DisplayUsersMobileEditionContainer = styled.div`
 `;
 
 export const DisplayUserMobileEdition = styled.div<{ $isChoosen: boolean }>`
-background-color: ${({ $isChoosen }) => ($isChoosen ? ({ theme }) => theme.thirdComponentsColorTransperent : ({ theme }) => theme.secondComponentsColorTransperent)};
+background-color: ${({ $isChoosen }) => ($isChoosen ? ({ theme }) => theme.firstComponentsColor : ({ theme }) => theme.secondComponentsColorTransperent)};
   display: flex;
   flex-direction: column;
   justify-content: space-between;

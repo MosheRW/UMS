@@ -37,48 +37,49 @@ export const Clicking = css``;
 export const lightTheme: Theme = {
   backgroundColor: "#FFFFFF", // Pure white background
 
-  firstComponentsColor: "#FFCDD2", // Red 100
-  secondComponentsColor: "#F8BBD0", // Pink 100
-  thirdComponentsColor: "#E1BEE7", // Purple 100
+  firstComponentsColor: "#E3F2FD", // Light Blue 100
+  secondComponentsColor: "#64B5F6", // Light Blue 400
+  thirdComponentsColor: "#0D47A1", // Blue 900   "#1E88E5", // Blue 600
 
-  firstComponentsColorTransperent: "rgba(255, 205, 210, 0.5)", // Red 100 (50% opacity)
-  secondComponentsColorTransperent: "rgba(248, 187, 208, 0.5)", // Pink 100 (50% opacity)
-  thirdComponentsColorTransperent: "rgba(225, 190, 231, 0.5)", // Purple 100 (50% opacity)
+  firstComponentsColorTransperent: "rgba(227, 242, 253, 0.5)", // Light Blue 100 (50% opacity)
+  secondComponentsColorTransperent: "rgba(100, 181, 246, 0.5)", // Light Blue 400 (50% opacity)
+  thirdComponentsColorTransperent: "rgba(30, 136, 229, 0.5)", // Blue 600 (50% opacity)
 
-  frameColor: "#CFD8DC", // Blue Grey 200
+  frameColor: "#B0BEC5", // Blue Grey 300
 
-  primaryTextColor: "#212121", // Grey 900 for main text
-  secondaryTextColor: "#616161", // Grey 700 for secondary text
-  thirdTextColor: "#9E9E9E", // Grey 500 for subtle text
+  primaryTextColor: "#212121", // Grey 900
+  secondaryTextColor: "#616161", // Grey 700
+  thirdTextColor: "#9E9E9E", // Grey 500
 
   primaryTextFont: "'Roboto', sans-serif",
   secondaryTextFont: "'Roboto', sans-serif",
   thirdTextFont: "'Roboto', sans-serif",
 
-  primaryTextSize: "18px", // Larger size for main text
-  secondaryTextSize: "16px",
-  thirdTextSize: "14px",
+  primaryTextSize: "16px",
+  secondaryTextSize: "14px",
+  thirdTextSize: "12px",
 
-  borderRadius: "10px", // Slightly rounded corners
-  borderWidth: "1.5px", // Thicker for clarity
-  borderColor: "#B0BEC5", // Blue Grey 300 for borders
+  borderRadius: "8px", // Rounded corners for a modern look
+  borderWidth: "1px",
+  borderColor: "#E0E0E0", // Grey 300
   alignText: "left",
 };
+
 
 export const darkTheme: Theme = {
   backgroundColor: "#121212", // Deep black background
 
-  firstComponentsColor: "#EF5350", // Red 400
-  secondComponentsColor: "#AB47BC", // Purple 400
-  thirdComponentsColor: "#42A5F5", // Blue 400
+  firstComponentsColor: "#1E88E5", // Blue 600
+  secondComponentsColor: "#1565C0", // Blue 800
+  thirdComponentsColor: "#0D47A1", // Blue 900
 
-  firstComponentsColorTransperent: "rgba(239, 83, 80, 0.5)", // Red 400 (50% opacity)
-  secondComponentsColorTransperent: "rgba(171, 71, 188, 0.5)", // Purple 400 (50% opacity)
-  thirdComponentsColorTransperent: "rgba(66, 165, 245, 0.5)", // Blue 400 (50% opacity)
+  firstComponentsColorTransperent: "rgba(30, 136, 229, 0.5)", // Blue 600 (50% opacity)
+  secondComponentsColorTransperent: "rgba(21, 101, 192, 0.5)", // Blue 800 (50% opacity)
+  thirdComponentsColorTransperent: "rgba(13, 71, 161, 0.5)", // Blue 900 (50% opacity)
 
   frameColor: "#37474F", // Blue Grey 800
 
-  primaryTextColor: "#E0E0E0", // Grey 300 for light text
+  primaryTextColor: "#E0E0E0", // Grey 300 for main text
   secondaryTextColor: "#B0BEC5", // Blue Grey 400 for secondary text
   thirdTextColor: "#78909C", // Blue Grey 500 for subtle text
 
@@ -86,15 +87,30 @@ export const darkTheme: Theme = {
   secondaryTextFont: "'Roboto', sans-serif",
   thirdTextFont: "'Roboto', sans-serif",
 
-  primaryTextSize: "18px", // Larger size for main text
-  secondaryTextSize: "16px",
-  thirdTextSize: "14px",
+  primaryTextSize: "16px",
+  secondaryTextSize: "14px",
+  thirdTextSize: "12px",
 
-  borderRadius: "10px", // Slightly rounded corners
-  borderWidth: "1.5px", // Thicker for clarity
-  borderColor: "#546E7A", // Blue Grey 700 for borders
+  borderRadius: "8px", // Rounded corners
+  borderWidth: "1px",
+  borderColor: "#424242", // Grey 800
   alignText: "left",
 };
+
+/**
+ * backround color
+ * color
+ * text color
+ * border color
+ */
+
+// primary
+// seconderyComponentV1
+// seconderyComponentV1 - chosen
+// seconderyComponentV2
+// seconderyComponentV2 - chosen
+
+
 
 
 export const Buttons = css`
