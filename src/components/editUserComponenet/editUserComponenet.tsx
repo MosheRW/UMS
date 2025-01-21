@@ -78,7 +78,7 @@ export default function EditUserComponenet({ ...props }: { user: User | null, he
                                 value: user?.userName,
                                 required: "userName is required",
                                 pattern: {
-                                    value: /^[a-zA-Z0-9_]+$/,
+                                    value: /^[a-zA-Z0-9_]{3,20}$/,
                                     message: "enter a valid user name, english letters, numbers and underscores"
                                 },
                                 maxLength: {
