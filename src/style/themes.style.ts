@@ -36,8 +36,6 @@ interface Theme {
   alignText: string;
 }
 
-export const Hovering = css``;
-export const Clicking = css``;
 
 export const lightTheme: Theme = {
   backgroundColor: '#FFFFFF', // General background color for light mode
@@ -197,18 +195,6 @@ export const darkTheme: Theme = {
   borderColor: '#424242', // Dark Gray 700
   alignText: 'left',
 };
-
-export const PrimaryComponent = css<{ $version: Version }>`
-  color: ${({ theme }) =>
-    (props) =>
-      theme.primaryComponent[props.$version].color};
-  background-color: ${({ theme }) =>
-    (props) =>
-      theme.primaryComponent[props.$version].backgroundColor};
-  border-color: ${({ theme }) =>
-    (props) =>
-      theme.primaryComponent[props.$version].borderColor};
-`;
 
 export const Buttons = css`
   user-select: none;
