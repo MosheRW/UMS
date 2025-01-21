@@ -211,6 +211,7 @@ export const PrimaryComponent = css<{ $version: Version }>`
 `;
 
 export const Buttons = css`
+  user-select: none;
   width: 90%;
   border-radius: 0.5rem;
   border: 1px solid ${({ theme }) => theme.primaryComponent.unChosable.borderColor};
@@ -240,6 +241,8 @@ export const Buttons = css`
 export const GlobalStyle = createGlobalStyle`
   body {
     background-color: ${({ theme }) => theme.backgroundColor};
+  user-select: none;
+
   };
   h1 {
     color: ${({ theme }) => theme.primaryComponent.chosen.textColor};

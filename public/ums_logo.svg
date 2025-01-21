@@ -1,0 +1,24 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- Background -->
+<circle cx="200" cy="200" r="150" fill="#f3f4f6" />
+
+  <!-- Bar Chart -->
+  <rect x="140" y="150" width="30" height="100" fill="#74b3ce" />
+  <rect x="190" y="120" width="30" height="130" fill="#4e9fb2" />
+  <rect x="240" y="100" width="30" height="150" fill="#2b7d90" />
+
+  <!-- User Figures -->
+  <circle cx="160" cy="280" r="20" fill="#0e4a62" />
+  <circle cx="200" cy="260" r="25" fill="#0e4a62" />
+  <circle cx="240" cy="280" r="20" fill="#0e4a62" />
+
+  <!-- Ties -->
+  <polygon points="155,285 160,295 165,285" fill="#ffffff" />
+  <polygon points="195,265 200,280 205,265" fill="#ffffff" />
+  <polygon points="235,285 240,295 245,285" fill="#ffffff" />
+
+  <!-- Arc -->
+  <path d="M120 290 Q200 340 280 290" fill="none" stroke="#2b7d90" stroke-width="5" />
+
+</svg>

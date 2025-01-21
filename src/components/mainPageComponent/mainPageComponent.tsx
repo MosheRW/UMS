@@ -31,7 +31,7 @@ export default function MainPageComponent() {
 
     return (
         <Container>
-            <Headline>Users Management System <br /> Wellcome</Headline>
+            {/* <Headline>Users Management System <br /> Wellcome</Headline> */}
             <IconContainer><Icon /></IconContainer>
         </Container>
     );
