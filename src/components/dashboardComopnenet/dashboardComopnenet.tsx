@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { initUser, parseUser, User } from "../../types/user/user";
-import { Button, DashboardContainrer, InputCheckMark, DisplayManagmentConstainer, DisplayButtonsContainer, DisplayEditorContainer, DisplayButtonsContainerSub } from "./dashboardComopnenet.style";
+import { Button, DashboardContainrer, InputCheckMark, DisplayManagmentConstainer, DisplayButtonsContainer, DisplayEditorContainer, DisplayButtonsContainerSub, DisplayUsersContainerContainer } from "./dashboardComopnenet.style";
 import { DisplayUsersMobileEditionContainer, DisplayUsersContainer, DisplayUserMobileEdition, DisplayUserMobileEditionTable, DisplayUserMobileEditionBody, DisplayUserMobileEditionRow, DisplayUserMobileEditionLable, DisplayUserMobileEditionValue } from './dashboardComopnenet.style'
 import { DisplayUsersBrowserEditionContainer, DisplayUsersBrowserEdition, DisplayUsersBrowserEditionHeader, DisplayUsersBrowserEditionBody, DisplayUsersBrowserEditionRow, DisplayUsersBrowserEditionHeaderCell, DisplayUsersBrowserEditionBodyCell } from './dashboardComopnenet.style';
 import { MdEdit } from "react-icons/md";
@@ -12,7 +12,7 @@ import { BrowserView, MobileView, isMobile } from 'react-device-detect';
 import Clickable from "../doubleClickWraper/doubleClickWraper";
 import { useNavigate } from "react-router";
 import { selectIsLogedIn } from "../../redux/features/userData/userDataSliceSelectors";
-import { Select } from "../../style/themes.style";
+import { Label, Select } from "../../style/themes.style";
 
 
 interface Dict {
@@ -186,22 +186,15 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
             onChange={(e) => toggleHelpers.helpSort(e.target.value as keyof User)}>
             {Object.keys(initUser()).map((key) => <option key={key}>{key}</option>)}
           </Select></Button>,
-        Sort: () => <MobileView><Button>sort: <br />
+        Sort: () => <Button><Label>Sort: </Label>
           <Select name="sort"
             value={sorted}
             onChange={(e) => toggleHelpers.helpSort(e.target.value as keyof User)}>
             {Object.keys(initUser()).map((key) => <option key={key}>{key}</option>)}
-          </Select></Button>
-        </MobileView>,
-        SelectAll: () => <MobileView><Button onClick={() => toggleHelpers.helpSelectAll()}>{selectAll ? "Deselect All" : "Select All"}</Button></MobileView>,
+          </Select></Button>,
+        SelectAll: () => <Button onClick={() => toggleHelpers.helpSelectAll()}>{selectAll ? "Deselect All" : "Select All"}</Button>,
       }
     };
-
-    useEffect(() => {
-      const bool = width && !isMobile;
-      console.log({ bool, $isWide: width && !isMobile });
-    }
-      , [])
 
     return (
       <DisplayButtonsContainer
@@ -211,16 +204,15 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
           $isWide={width && !isMobile}>
           <buttons.Components.Add />
           <buttons.Components.Delete />
-          <buttons.Components.SelectAll />
+          {isMobile && <buttons.Components.SelectAll />}
         </DisplayButtonsContainerSub>
 
-        <DisplayButtonsContainerSub
+        {isMobile && <DisplayButtonsContainerSub
           $isWide={!width && !isMobile}
         >
-          <buttons.Components.Filter />
           <buttons.Components.Sort />
         </DisplayButtonsContainerSub>
-
+        }
       </DisplayButtonsContainer>
 
     )
@@ -393,7 +385,8 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
     }
 
     return (
-      <DisplayUsersContainer>
+      <DisplayUsersContainerContainer className="DisplayUsersContainerContainer">
+      <DisplayUsersContainer className="DisplayUsersContainer">
         <BrowserView>
           <DisplayUsersBrowserEditionContainer>
             <browserEdition.Display />
@@ -405,7 +398,8 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
             {users && users.map(mobileEdition.Display)}
           </DisplayUsersMobileEditionContainer>
         </MobileView>
-      </DisplayUsersContainer>)
+      </DisplayUsersContainer>
+      </DisplayUsersContainerContainer>)
   }
   function DisplayAnimations() {
     /**  TODO: displayAnimations
@@ -415,7 +409,6 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
     return <></>
   };
-
 
   function DisplayManagment() {
     return (
@@ -430,12 +423,12 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
 
 
-  return (
+  return (<>
     <DashboardContainrer>
       <DisplayManagment />
       <DisplayAnimations />
       <DisplayUsers />
-    </DashboardContainrer>
+    </DashboardContainrer></>
   )
 }
 
