@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { Buttons } from '../../style/themes.style';
 import {
   InputText as OGInputText,
@@ -60,7 +60,7 @@ width: 100%;
 
   @media screen and (max-width: 1300px) {
 
-  flex-direction:   ${(props) => (window.innerWidth *1 > window.innerHeight * 1 ? 'column' : 'row' )};
+  flex-direction:   ${() => (window.innerWidth * 1 > window.innerHeight * 1 ? 'column' : 'row')};
 
   }
  
@@ -74,7 +74,7 @@ width: 100%;
 
   @media screen and (max-width: 1300px) {
 
-  flex-direction:   ${(props) => (window.innerWidth *1 < window.innerHeight * 1 ? 'column' : 'row' )};
+  flex-direction:   ${() => (window.innerWidth * 1 < window.innerHeight * 1 ? 'column' : 'row')};
 
   }
  `;

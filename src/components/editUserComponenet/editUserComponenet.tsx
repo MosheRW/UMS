@@ -1,20 +1,20 @@
-import react, { use, useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { User } from '../../types/user/user';
 import { Button, Container, Form, InputEmail, InputPassword, InputText, InputWithLabelAndErrorsWrapper, InputWithLabelWrapper, Label } from './editUserComponenet.style';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from "@hookform/error-message"
 
 import { ErrorP } from '../loginPageComponent/loginPageComponent.style';
-import { on } from 'events';
+
 
 interface EditUserComponenet {
     user: User | null;
     headline?: string;
-    onSubmit: (data: any) => void;
+    onSubmit: (data: Partial<User> | Omit<User, 'id'> | null) => void;
     onCancel?: () => void
 }
 
-export default function EditUserComponenet({ ...props }: { user: User | null, headline?: string, onCancel?: () => void, onSubmit: (data: any) => void }) {
+export default function EditUserComponenet({ ...props }: EditUserComponenet) {
 
     const { user = {
         id: "",

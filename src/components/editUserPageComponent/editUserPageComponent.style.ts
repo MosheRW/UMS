@@ -8,5 +8,4 @@ export const Container = styled.div`
     background-color: ${({ theme }) => theme.primaryColorTransperent};
     width: 100%;
     margin-top: 5%;
-    /* height: 85vh; */
 `;

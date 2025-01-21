@@ -1,4 +1,4 @@
-import styled, { css, createGlobalStyle, RuleSet } from 'styled-components';
+import styled, { css, createGlobalStyle } from 'styled-components';
 export enum Version {
   chosen = 'chosen',
   notChosen = 'notChosen',
@@ -251,7 +251,7 @@ const Input = css`
   }
 
   @media (max-width: 1300px) {
-    ${(props) => (window.innerWidth * 1 < window.innerHeight * 1 ? `width: 90%` : 'width: 20ch')};
+    ${() => (window.innerWidth * 1 < window.innerHeight * 1 ? `width: 90%` : 'width: 20ch')};
   }
 `;
 

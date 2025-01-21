@@ -4,8 +4,8 @@ export default function Clickable({
     onDoubleClick,
     children,
 }: {
-    onClick: Function;
-    onDoubleClick: Function;
+    onClick: () => void;
+    onDoubleClick: () => void;
     children: React.ReactElement;
 }) {
     const [clickTimeout, setClickTimeout] = useState<NodeJS.Timeout | null>(null);
@@ -32,6 +32,6 @@ export default function Clickable({
 
     return (
         React.cloneElement(children, additionalProps)
-        // React.isValidElement(children) && React.cloneElement(children, additionalProps)// : children
+        
     );
 }

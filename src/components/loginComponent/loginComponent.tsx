@@ -1,13 +1,14 @@
+import React from "react";
 import { useForm } from "react-hook-form";
 import { Button, Form, InputPassword, InputText, Label } from "../editUserComponenet/editUserComponenet.style";
 import { api, LoginUser } from "../../api/api";
-import React from "react";
 import { useDispatch } from "react-redux";
 import { setUserName, setUserPassword, setUserToken } from "../../redux/features/userData/userDataSlice";
 import { ErrorP } from "../loginPageComponent/loginPageComponent.style";
+
 interface LoginComponent {
-    user: { userName: string, password: string },
-    onSubmit: (data: any) => void
+    user: { userName: string, password: string };
+    onSubmit: (data: LoginUser | null) => void;
 }
 
 export default function LoginComponent({ ...props }: LoginComponent) {
@@ -28,7 +29,6 @@ export default function LoginComponent({ ...props }: LoginComponent) {
 
     //handlers
     const onSubmitHandler = handleSubmit(async (data) => {
-        console.log(data);
         const res = await api.login({ ...data } as LoginUser);
         if (!res?.token) {
             cancel();
@@ -37,7 +37,7 @@ export default function LoginComponent({ ...props }: LoginComponent) {
             dispatch(setUserPassword(data.password));
             console.assert(res?.token, 'there isnt a token in the response');
             dispatch(setUserToken(res?.token));
-            onSubmit(data)
+            onSubmit(data as LoginUser);
         }
     });
 

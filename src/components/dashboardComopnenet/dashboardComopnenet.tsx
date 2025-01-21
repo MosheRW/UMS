@@ -75,10 +75,10 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
       if (displayAddUser) setDisplayAddUser(false);
       if (user2Edit) setUser2Edit(null);
     },
-    handleCreateUser: async (user: User) => {
+    handleCreateUser: async (user: Omit<User, 'id'>) => {
       if (user) api.postAnewUser(user, true).then(() => handlers.handleReload());
     },
-    handleEditUser: async (user: User) => {
+    handleEditUser: async (user: Partial<User>) => {
       if (user2Edit && user) api.updateAUser(user2Edit.id, user, true).then(() => handlers.handleReload());
     },
     handleDelete: () => {
@@ -231,7 +231,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
         <EditUserComponenet
           headline={"Create User"}
           user={{} as User}
-          onSubmit={handlers.handleCreateUser}
+          onSubmit={(user) => {if (user) handlers.handleCreateUser(user as Omit<User, 'id'>)}}
           onCancel={() => setDisplayAddUser(false)}
         /></DisplayEditorContainer>
     }
@@ -239,7 +239,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
       return <DisplayEditorContainer $isWide={width && !isMobile}><EditUserComponenet
         headline={"Edit User"}
         user={user2Edit}
-        onSubmit={(user) => handlers.handleEditUser(user)}
+        onSubmit={(user) => {if (user) handlers.handleEditUser(user as Partial<User>)}}
         onCancel={() => {
           setUser2Edit(null);
         }}

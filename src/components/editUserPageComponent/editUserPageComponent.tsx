@@ -29,28 +29,29 @@ export default function EditUserPage({ ...props }: EditUserPage) {
         navigate(-1);
     }
 
-    function helpCreateNewUser(user: User | null) {
-        console.log("hello");
-        console.log(user, "hello");
-        user && api.postAnewUser(user, true).then((data) => {
+    function helpCreateNewUser(user: Omit<User, "id"> | null) {
+        if (user) api.postAnewUser(user, true).then(() => {
             handleDone();
         });
     }
 
     /** i know that this is unsafe,
      *  but it is only way to do that without using my own server as token issuer */
-    function helpSignUpWithNewUser(user: User | null) {
+    function helpSignUpWithNewUser(user: Omit<User, "id"> | null) {
 
-        user && api.login({ username: "test1", password: "1234" }, true).then((data) => {
-            api.signUpUser(user, data?.token, true).then((data) => {
+        if (user) api.login({ username: "test1", password: "1234" }, true).then((data) => {
+            api.signUpUser(user, data?.token, true).then(() => {
                 navigate("/");
             });
         });
     }
-    function helpEditUser(user: User | null) {
-        user && api.updateAUser(user.id, user, true).then((data) => {
-            handleDone();
-        });
+    function helpEditUser(initUser: Partial<User> | null) {
+        if (user && user.id && initUser) {
+
+            api.updateAUser(user.id, initUser, true).then(() => {
+                handleDone();
+            });
+        }
     }
 
     function picHeadline() {
@@ -67,14 +68,21 @@ export default function EditUserPage({ ...props }: EditUserPage) {
 
     }
 
-    function picHelper() {
+    function picHelper(_user: Partial<User> | Omit<User, "id"> | null) {
+        if (!_user) return;
         switch (version) {
-            case Version.Create:
-                return helpCreateNewUser;
-            case Version.Edit:
-                return helpEditUser;
-            case Version.SignUP:
-                return helpSignUpWithNewUser;
+            case Version.Create: {
+                helpCreateNewUser(_user as Omit<User, "id">);
+                break;
+            }
+            case Version.Edit: {
+                helpEditUser(_user as Partial<User>);
+                break;
+            }
+            case Version.SignUP: {
+                helpSignUpWithNewUser(_user as Omit<User, "id">);
+                break;
+            }
             default:
                 return () => { throw new Error("not given a version") };
         };
@@ -84,8 +92,8 @@ export default function EditUserPage({ ...props }: EditUserPage) {
         <EditUserComponenet
             user={user}
             headline={picHeadline()}
-            onSubmit={picHelper()} 
+            onSubmit={picHelper} //(user) => { if (user) picHelper()(user) }
             onCancel={handleDone}
-            />
+        />
     </Container>;
 }

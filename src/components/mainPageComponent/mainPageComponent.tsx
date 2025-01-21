@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { Container, Headline, Icon, IconContainer } from "./mainPageComponent.style.";
+import { Container, Icon, IconContainer } from "./mainPageComponent.style";
 import { useNavigate } from "react-router";
 import { api } from "../../api/api";
 import store from "../../redux/store";
@@ -31,7 +31,6 @@ export default function MainPageComponent() {
 
     return (
         <Container>
-            {/* <Headline>Users Management System <br /> Wellcome</Headline> */}
             <IconContainer><Icon /></IconContainer>
         </Container>
     );

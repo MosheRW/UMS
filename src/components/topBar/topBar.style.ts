@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
 export const TopBarContainerContainer = styled.div`
-  /* background-color: ${({ theme }) => theme.backgroundColor}; */
   position: sticky;
   top: 0;
   z-index: 10;
@@ -10,15 +9,13 @@ export const TopBarContainer = styled.header<{ $isMobile?: boolean }>`
   display: flex;
 
   justify-content: space-between;
-  /* justify-content: center; */
   padding: 0.5rem;
   margin: 0.5rem;
   border-radius: 0.5rem;
 
   background-color: ${({ theme }) => theme.primaryComponent.notChosen.backgroundColor};
   color: ${({ theme }) => theme.primaryComponent.notChosen.color};
-
-  /* width: 100%; */
+  
   height: 10vmin;
 
   @media (max-width: 1300px) {

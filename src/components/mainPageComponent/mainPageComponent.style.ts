@@ -1,15 +1,10 @@
 import styled from "styled-components";
-// import logo from "/ums_detailed_logo.svg";
 
 export const Container = styled.div`
 width: 100%;
 height: 100%;
 justify-items: center;
 align-content: center;
-`;
-
-export const Headline = styled.h1`
-text-align: center;
 `;
 
 export const IconContainer = styled.div`

@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { CloseButton, Footer, Header, Headline, ModalContainer, ModalContent, SubHeadline } from './Modal.style';
-// import ButtonProps from '../button/Button';
-// import { FixedSizeGrid } from 'react-window';
+import { Header, Headline, ModalContainer, ModalContent, SubHeadline } from './Modal.style';
 import ClickOutsideComponent from './ClickOutsideComponent';
 
 
@@ -14,11 +12,7 @@ export interface ModalProps {
 
   onClose: () => void;
 
-  // buttuns?: React.ReactElement<typeof ButtonProps>[];
-  // closeButton?: string | React.ReactElement<typeof ButtonProps>;
-
   children?: React.ReactNode;
-
 
   fullScreen?: boolean;
 
@@ -47,7 +41,7 @@ export default function Modal({ ...props }: ModalProps) {
   const { isOpen, headline, subHeadline,
     onClose, //buttuns, closeButton,
     children, fullScreen, position, size,
-    withoutCloseButton = false, closeOnClickOutside = false } = props;
+    closeOnClickOutside = false } = props;
 
 
   function RenderHeadline() {
@@ -77,31 +71,6 @@ export default function Modal({ ...props }: ModalProps) {
 
     }
   }
-
-  // function RenderButtons() {
-
-  //   return <>{buttuns?.map((button, index) => (
-  //     <button.type {...button.props} key={`button-${index}`} />
-  //   ))}</>
-  // }
-
-  // function RenderCloseButton() {
-
-  //   if (withoutCloseButton) return <></>
-
-  //   switch (typeof closeButton) {
-  //     case 'string':
-  //       return <CloseButton  onClick={onClose}>{closeButton}</CloseButton>;
-  //     case 'object':
-  //       return closeButton;
-  //     case 'undefined':
-  //     default:
-  //       return <CloseButton onClick={onClose}>close</CloseButton>;
-
-  //   }
-  // }
-
-
   return (
     <>
       {isOpen && ReactDOM.createPortal(
@@ -126,11 +95,6 @@ export default function Modal({ ...props }: ModalProps) {
               </Header>
 
               {children && children}
-
-              {/* <Footer fullScreen={fullScreen}>
-                <RenderButtons />
-                <RenderCloseButton />
-              </Footer> */}
 
             </ModalContent>
           </ModalContainer>
