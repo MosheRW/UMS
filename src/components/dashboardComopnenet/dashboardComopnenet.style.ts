@@ -6,7 +6,6 @@ export const DashboardContainrer = styled.div`
 	display: flex;
 
 	flex-direction: row-reverse;
-	/* justify-content: center; */
 	gap: 2ch;
 	margin: 0.5rem;
 
@@ -23,7 +22,6 @@ export const Button = styled.div`
 export const DisplayManagmentConstainer = styled.div<{ $isWide: boolean }>`
 	display: flex;
   flex-direction: column;
-	/* flex-direction: ${(props) => (props.$isWide ? 'column' : 'row')}; */
 	justify-content: ${(props) => (props.$isWide ? 'top' : 'center')};
 	align-self: ${(props) => (props.$isWide ? 'top' : 'center')};
 `;
@@ -43,16 +41,12 @@ export const DisplayButtonsContainerSub = styled.div<{
 
 export const DisplayButtonsContainer = styled.div<{ $isWide?: boolean }>`
 	display: flex;
-	/* flex-wrap: wrap; */
-	flex-direction: column; /*${(props) => (props.$isWide ? 'column' : 'row')};*/
+	flex-direction: column; 
 	justify-items: center;
 	align-items: center;
 overflow : hidden;
 	${(props) => (props.$isWide ? 'width: 40ch;' : 'width: 90vw;')};
 
-	@media (max-width: 1300px) {
-		/* width: 80%; */
-	}
 
 `;
 
@@ -66,7 +60,7 @@ export const DisplayEditorContainer = styled.div<{ $isWide: boolean }>`
 	@media (max-width: 1300px) {
 		width: 33vw;
 	}
-	/* width: 100%; */
+
 `;
 
 export const DisplayUsersContainerContainer = styled.div`

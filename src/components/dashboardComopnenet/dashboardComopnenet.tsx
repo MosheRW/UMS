@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { initUser, parseUser, User } from "../../types/user/user";
 import { Button, DashboardContainrer, InputCheckMark, DisplayManagmentConstainer, DisplayButtonsContainer, DisplayEditorContainer, DisplayButtonsContainerSub, DisplayUsersContainerContainer } from "./dashboardComopnenet.style";
 import { DisplayUsersMobileEditionContainer, DisplayUsersContainer, DisplayUserMobileEdition, DisplayUserMobileEditionTable, DisplayUserMobileEditionBody, DisplayUserMobileEditionRow, DisplayUserMobileEditionLable, DisplayUserMobileEditionValue } from './dashboardComopnenet.style'
@@ -49,14 +49,14 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
   useEffect(() => {
     api.getAllUsers().then((data) => props.users = data).then((data) => {
-      data && setUsers(data?.map(parseUser));
+      if (data) setUsers(data?.map(parseUser));
     });
   }, [])
 
   useEffect(() => {
     if (selectAll) {
       const dict: Dict = {}
-      users && users.forEach((user) => { dict[user.id] = true });
+      if (users) users.forEach((user) => { dict[user.id] = true });
       setUsersDataDict({ ...dict });
     }
   }, [users])
@@ -69,23 +69,23 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
   /************************************* */
   const handlers = {
     handleReload: (bool = true) => {
-      bool && api.getAllUsers().then((data) => {
-        data && setUsers(data?.map(parseUser));
+      if (bool) api.getAllUsers().then((data) => {
+        if (data) setUsers(data?.map(parseUser));
       });
-      displayAddUser && setDisplayAddUser(false);
-      user2Edit && setUser2Edit(null);
+      if (displayAddUser) setDisplayAddUser(false);
+      if (user2Edit) setUser2Edit(null);
     },
     handleCreateUser: async (user: User) => {
-      user && api.postAnewUser(user, true).then((data) => handlers.handleReload());
+      if (user) api.postAnewUser(user, true).then(() => handlers.handleReload());
     },
     handleEditUser: async (user: User) => {
-      user2Edit && user && api.updateAUser(user2Edit.id, user, true).then((data) => handlers.handleReload());
+      if (user2Edit && user) api.updateAUser(user2Edit.id, user, true).then(() => handlers.handleReload());
     },
     handleDelete: () => {
       for (const key in usersDataDict) {
         if (usersDataDict[key]) {
-          api.deleteAUser(key, true).then((data) => {
-            api.getAllUsers().then((data) => { data && setUsers(data?.map(parseUser)); });
+          api.deleteAUser(key, true).then(() => {
+            api.getAllUsers().then((data) => { if (data) setUsers(data?.map(parseUser)); });
           });
         }
       }
@@ -107,13 +107,15 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
       if (users) {
         const tempUsers = users?.sort(sort);
-        tempUsers && setUsers([...tempUsers]);
+        if (tempUsers) setUsers([...tempUsers]);
         setSorted(field);
       }
 
-      !sorted && setSorted(field);
+      if (!sorted) setSorted(field);
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     handleFilter: (field: keyof User) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       function filter(user1: User) {
         /* TODO: handleFilter*/
         return true;
@@ -121,7 +123,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
       if (users) {
         const tempUsers = users?.filter(filter)
-        tempUsers && setUsers(tempUsers);
+        if (tempUsers) setUsers(tempUsers);
       }
     }
   };
@@ -132,7 +134,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
         navigate("/createUser");
         return;
       }
-      bool && user2Edit && setUser2Edit(null);
+      if (bool && user2Edit) setUser2Edit(null);
       setDisplayAddUser(bool);
     },
     helpEditUser: (user: User | null) => {
@@ -140,8 +142,12 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
         navigate("/EditUser", { state: user2Edit });
         return;
       }
-      user && displayAddUser && setDisplayAddUser(false);
-      user && user !== user2Edit && setUser2Edit(user) || user2Edit && setUser2Edit(null);
+      if (user) {
+        if (displayAddUser) setDisplayAddUser(false);
+        if (user !== user2Edit && user)
+          setUser2Edit(user);
+        else if (user2Edit) setUser2Edit(null);
+      }
     },
     helpDeleteUser: () => {
       handlers.handleDelete();
@@ -169,7 +175,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
       const newState = !selectAll;
       setSelectAll(newState);
       const dict: Dict = {}
-      users && users.forEach((user) => { dict[user.id] = newState });
+      if (users) users.forEach((user) => { dict[user.id] = newState });
       setUsersDataDict(dict);
     }
   };
@@ -302,8 +308,8 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
         return (
           <DisplayUsersBrowserEditionHeader>
             <DisplayUsersBrowserEditionRow $isHeader>
-              {browserEdition.keys2Display.map((key, index) => {
-                return <DisplayUsersBrowserEditionHeaderCell onClick={() => toggleHelpers.helpSort(key)}>
+              {browserEdition.keys2Display.map((key) => {
+                return <DisplayUsersBrowserEditionHeaderCell key={key} onClick={() => toggleHelpers.helpSort(key)}>
                   {intoCamelCase(key)}
                 </DisplayUsersBrowserEditionHeaderCell>
               })}
@@ -319,10 +325,12 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
         return (
           <DisplayUsersBrowserEditionBody>
             {users && users.map((user, index) => {
-              return <DisplayUsersBrowserEditionRow $odd={index % 2 === 0}>
-                {browserEdition.keys2Display.map((key, index) => {
+              return <DisplayUsersBrowserEditionRow
+              key={user.id}
+              $odd={index % 2 === 0}>
+                {browserEdition.keys2Display.map((key) => {
                   const value = user && user[key];
-                  return <DisplayUsersBrowserEditionBodyCell>
+                  return <DisplayUsersBrowserEditionBodyCell key={key}>
                     {value instanceof Date ? value.toLocaleString() : value}
                   </DisplayUsersBrowserEditionBodyCell>
                 })}
@@ -369,8 +377,8 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
             <DisplayUserMobileEditionTable>
               <DisplayUserMobileEditionBody>
 
-                {mobileEdition.keys2Display.map((field, index) => {
-                  return <DisplayUserMobileEditionRow>
+                {mobileEdition.keys2Display.map((field) => {
+                  return <DisplayUserMobileEditionRow key={`keyof DisplayUserMobileEditionRow ${field}`}>
                     <mobileEdition.DisplayHeaders key={`keyof DisplayHeaders ${user.id}`} label={field} />
                     <mobileEdition.DisplayDetails user={user} label={field} />
                   </DisplayUserMobileEditionRow>
@@ -386,19 +394,19 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
 
     return (
       <DisplayUsersContainerContainer className="DisplayUsersContainerContainer">
-      <DisplayUsersContainer className="DisplayUsersContainer">
-        <BrowserView>
-          <DisplayUsersBrowserEditionContainer>
-            <browserEdition.Display />
-          </DisplayUsersBrowserEditionContainer>
-        </BrowserView>
+        <DisplayUsersContainer className="DisplayUsersContainer">
+          <BrowserView>
+            <DisplayUsersBrowserEditionContainer>
+              <browserEdition.Display />
+            </DisplayUsersBrowserEditionContainer>
+          </BrowserView>
 
-        <MobileView>
-          <DisplayUsersMobileEditionContainer>
-            {users && users.map(mobileEdition.Display)}
-          </DisplayUsersMobileEditionContainer>
-        </MobileView>
-      </DisplayUsersContainer>
+          <MobileView>
+            <DisplayUsersMobileEditionContainer>
+              {users && users.map(mobileEdition.Display)}
+            </DisplayUsersMobileEditionContainer>
+          </MobileView>
+        </DisplayUsersContainer>
       </DisplayUsersContainerContainer>)
   }
   function DisplayAnimations() {
