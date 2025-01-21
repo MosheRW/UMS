@@ -1,10 +1,3 @@
-
-
-
-
-Here is the updated README file:
-
-
 # UMS (User Management System)
 
 ## Description
