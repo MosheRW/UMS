@@ -48,10 +48,16 @@
 		]
 	},
 	"devDependencies": {
+		"@eslint/js": "^9.18.0",
 		"@types/jest": "^29.5.14",
 		"@types/react": "^19.0.4",
 		"@types/react-dom": "^19.0.2",
 		"@types/redux-logger": "^3.0.13",
-		"prettier": "3.4.2"
+		"eslint": "^8.57.1",
+		"eslint-plugin-react": "^7.37.4",
+		"globals": "^15.14.0",
+		"prettier": "3.4.2",
+		"ts-unused-exports": "^11.0.1",
+		"typescript-eslint": "^8.21.0"
 	}
 }
