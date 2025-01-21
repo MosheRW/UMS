@@ -1,8 +1,8 @@
 import React from 'react';
-import { LogOutButton, TopBarContainer, TopBarContainerContainer, TopBarTitle } from './topBar.style';
+import { Icon, LogOutButton, TitleAndIconContainer, TopBarContainer, TopBarContainerContainer, TopBarTitle } from './topBar.style';
 import { IoMdLogOut } from "react-icons/io";
 import { useNavigate } from 'react-router';
-import { isMobile } from 'react-device-detect';
+import { BrowserView, isMobile } from 'react-device-detect';
 
 
 export default function TopBar() {
@@ -16,9 +16,10 @@ export default function TopBar() {
                     navigate("/login");
                 }}><IoMdLogOut /></LogOutButton>
 
-
-
-            <TopBarTitle onClick={() => navigate("/")}>User Management System</TopBarTitle>
+            <TitleAndIconContainer $isMobile={isMobile}>
+                <TopBarTitle onClick={() => navigate("/")}>{!isMobile ? 'User Management System' : 'UMS'}</TopBarTitle>
+                <Icon $isMobile={isMobile} />
+            </TitleAndIconContainer>
 
         </TopBarContainer>
     </TopBarContainerContainer>;
