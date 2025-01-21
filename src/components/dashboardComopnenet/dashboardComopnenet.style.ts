@@ -124,7 +124,21 @@ export const DisplayUsersBrowserEditionRow = styled.tr<{
 	border-width: ${({ theme }) => theme.borderWidth};
 `;
 
-export const DisplayUsersBrowserEditionHeaderCell = styled.th``;
+export const DisplayUsersBrowserEditionHeaderCell = styled.th`
+&:hover {
+    background-color: ${({ theme }) => theme.primaryComponent.notChosen.backgroundColor};
+    color: ${({ theme }) => theme.primaryComponent.notChosen.color};
+    border-color: ${({ theme }) => theme.primaryComponent.notChosen.borderColor};
+    transform: scale(0.95);
+  }
+
+  &:active {
+    transform: scale(1.05);
+    border: 1px solid ${({ theme }) => theme.primaryComponent.chosen.borderColor};
+    background-color: ${({ theme }) => theme.primaryComponent.chosen.backgroundColor};
+    color: ${({ theme }) => theme.primaryComponent.chosen.color};
+  }
+`;
 export const DisplayUsersBrowserEditionBodyCell = styled.td`
 	overflow: hidden;
 	text-overflow: ellipsis;
