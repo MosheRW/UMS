@@ -125,18 +125,19 @@ export const DisplayUsersBrowserEditionRow = styled.tr<{
 `;
 
 export const DisplayUsersBrowserEditionHeaderCell = styled.th`
+cursor: pointer;
 &:hover {
-    background-color: ${({ theme }) => theme.primaryComponent.notChosen.backgroundColor};
-    color: ${({ theme }) => theme.primaryComponent.notChosen.color};
-    border-color: ${({ theme }) => theme.primaryComponent.notChosen.borderColor};
+    background-color: ${({ theme }) => theme.secondaryComponentV2.notChosen.backgroundColor};
+    color: ${({ theme }) => theme.secondaryComponentV2.notChosen.color};
+    border-color: ${({ theme }) => theme.secondaryComponentV2.notChosen.borderColor};
     transform: scale(0.95);
   }
 
   &:active {
     transform: scale(1.05);
-    border: 1px solid ${({ theme }) => theme.primaryComponent.chosen.borderColor};
-    background-color: ${({ theme }) => theme.primaryComponent.chosen.backgroundColor};
-    color: ${({ theme }) => theme.primaryComponent.chosen.color};
+    border: 1px solid ${({ theme }) => theme.secondaryComponentV2.chosen.borderColor};
+    background-color: ${({ theme }) => theme.secondaryComponentV2.chosen.backgroundColor};
+    color: ${({ theme }) => theme.secondaryComponentV2.chosen.color};
   }
 `;
 export const DisplayUsersBrowserEditionBodyCell = styled.td`
