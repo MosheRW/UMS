@@ -85,8 +85,8 @@ export default function Modal({ ...props }: ModalProps) {
             <ModalContent
               className="modal content"
               $fullScreen={fullScreen}
-              $width={size?.width && `${size?.width}px` || false}
-              $height={size?.height && `${size?.height}px` || false}
+              $width={(size?.width && `${size?.width}px` )|| false}
+              $height={(size?.height && `${size?.height}px`) || false}
               $backroundcolor={props.bacroundColor}>
 
               <Header>

@@ -7,14 +7,14 @@ import { ErrorMessage } from "@hookform/error-message"
 import { ErrorP } from '../loginPageComponent/loginPageComponent.style';
 
 
-interface EditUserComponenet {
+interface EditUserComponenetProps {
     user: User | null;
     headline?: string;
     onSubmit: (data: Partial<User> | Omit<User, 'id'> | null) => void;
     onCancel?: () => void
 }
 
-export default function EditUserComponenet({ ...props }: EditUserComponenet) {
+export default function EditUserComponenet({ ...props }: EditUserComponenetProps) {
 
     const { user = {
         id: "",
@@ -39,7 +39,8 @@ export default function EditUserComponenet({ ...props }: EditUserComponenet) {
     useEffect(() => {
         console.log(user);
         reset();
-    }, [user])
+    }, [user, reset]);
+    
     return (
         <Container className='editUserContainer'>
             <Form onSubmit={handleSubmit((data) => { console.log(data); onSubmit(data) })} >

@@ -12,12 +12,12 @@ export enum Version {
 };
 
 
-interface EditUserPage {
+interface EditUserPageProps {
     version: Version;
     user?: User;
 }
 
-export default function EditUserPage({ ...props }: EditUserPage) {
+export default function EditUserPage({ ...props }: EditUserPageProps) {
 
     const navigate = useNavigate();
 

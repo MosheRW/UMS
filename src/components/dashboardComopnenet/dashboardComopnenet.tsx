@@ -19,11 +19,11 @@ interface Dict {
   [key: string]: boolean;
 }
 
-interface DashboardComponent {
+interface DashboardComponentProps {
   users?: User[]
 }
 
-export default function DashboardComponent({ ...props }: DashboardComponent) {
+export default function DashboardComponent({ ...props }: DashboardComponentProps) {
 
   const [users, setUsers] = useState<User[] | null>(null);
 

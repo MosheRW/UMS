@@ -6,12 +6,12 @@ import { useDispatch } from "react-redux";
 import { setUserName, setUserPassword, setUserToken } from "../../redux/features/userData/userDataSlice";
 import { ErrorP } from "../loginPageComponent/loginPageComponent.style";
 
-interface LoginComponent {
+interface LoginComponentProps {
     user: { userName: string, password: string };
     onSubmit: (data: LoginUser | null) => void;
 }
 
-export default function LoginComponent({ ...props }: LoginComponent) {
+export default function LoginComponent({ ...props }: LoginComponentProps) {
 
     /** props */
     const { user = { userName: localStorage.getItem("userName"), password: "" }, onSubmit } = props;

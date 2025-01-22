@@ -24,7 +24,7 @@ export default function ClickOutsideComponent({ onClickOutside, children }: Clic
       // Unbind the event listener on cleanup
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [ref]);
+  }, [ref, onClickOutside]);
 
   return (
     <><div ref={ref} >

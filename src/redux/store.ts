@@ -5,7 +5,7 @@ const loggerMiddleware = logger;
 
 // if the env file includes REACT_APP_REDUX=LOGS, it will display the logs
 
-const store = (process.env.REACT_APP_REDUX == "LOGS") ? configureStore({
+const store = (process.env.REACT_APP_REDUX === "LOGS") ? configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(loggerMiddleware),

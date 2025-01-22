@@ -6,13 +6,13 @@ interface useStyleModeToggleProps {
     initStyleModeState: boolean;
 };
 
-interface useStyleModeToggle {
+interface UseStyleModeToggle {
     styleModeState: boolean;
     StyleModeComponent: () => React.ReactElement;
 
 }
 
-export default function useStyleModeToggle({ ...props }: useStyleModeToggleProps): useStyleModeToggle {
+export default function useStyleModeToggle({ ...props }: useStyleModeToggleProps): UseStyleModeToggle {
 
     const [state, setState] = useState<boolean>(props.initStyleModeState);
 
