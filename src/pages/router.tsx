@@ -9,8 +9,10 @@ import { Version } from "../components/editUserPageComponent/editUserPageCompone
 
 export default function Router() {
 
+    const basename = process.env.PUBLIC_URL || '/';
+
     return (
-        <BrowserRouter>
+        <BrowserRouter basename={basename}>
             <Routes>
                 <Route path={`/`} element={<Layout />} >
 
