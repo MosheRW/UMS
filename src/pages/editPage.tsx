@@ -7,8 +7,8 @@ export default function EditPage({ version }: { version: Version }) {
     const location = useLocation();
     const { state } = location;
 
-    return state?.user && <EditUserPage
-        version={version} /> ||
+    return (state?.user && <EditUserPage
+        version={version} />) ||
         <EditUserPage
             version={version}
             user={state} />

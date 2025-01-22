@@ -56,7 +56,7 @@ export async function post({ ...props }: Request) {
         }
     }
     try {
-        const data = props.specialToken && (await client.withCostumToken(props.specialToken).post(url, body)).data ||
+        const data = (props.specialToken && (await client.withCostumToken(props.specialToken).post(url, body)).data) ||
             (await client.standard().post(url, body)).data;
         if (isToast) {
             toast.dismiss();
@@ -75,7 +75,7 @@ export async function get({ ...props }: Omit<Request, 'body'>) {
 
 
     try {
-        const data = props.specialToken && (await client.withCostumToken(props.specialToken).get(url)).data ||
+        const data = (props.specialToken && (await client.withCostumToken(props.specialToken).get(url)).data) ||
             (await client.standard().get(url)).data;
 
         if (isToast) {
@@ -165,8 +165,8 @@ export async function del({ ...props }: Omit<Request, 'body'>) {
         }
     }
     try {
-        const data = props.specialToken && (
-            await client.withCostumToken(props.specialToken).delete(url)).data ||
+        const data = (props.specialToken && (
+            await client.withCostumToken(props.specialToken).delete(url)).data) ||
             (await client.standard().delete(url)).data;
 
         if (isToast) {

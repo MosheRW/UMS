@@ -45,13 +45,14 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
     if (!isLogedIN) {
       navigate("/");
     }
-  }, [isLogedIN])
+  }, [isLogedIN, navigate])
 
   useEffect(() => {
+    setWidth(window.innerWidth > 1300);
     api.getAllUsers().then((data) => props.users = data).then((data) => {
       if (data) setUsers(data?.map(parseUser));
     });
-  }, [])
+  }, [props])
 
   useEffect(() => {
     if (selectAll) {
@@ -59,11 +60,8 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
       if (users) users.forEach((user) => { dict[user.id] = true });
       setUsersDataDict({ ...dict });
     }
-  }, [users])
+  }, [users, selectAll])
 
-  useEffect(() => {
-    setWidth(window.innerWidth > 1300);
-  }, [window.innerWidth])
 
 
   /************************************* */
@@ -171,7 +169,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
         }
       }
     },
-    helpSelectAll: () => {
+    helpSelectAll: () => {      
       const newState = !selectAll;
       setSelectAll(newState);
       const dict: Dict = {}
@@ -231,7 +229,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
         <EditUserComponenet
           headline={"Create User"}
           user={{} as User}
-          onSubmit={(user) => {if (user) handlers.handleCreateUser(user as Omit<User, 'id'>)}}
+          onSubmit={(user) => { if (user) handlers.handleCreateUser(user as Omit<User, 'id'>) }}
           onCancel={() => setDisplayAddUser(false)}
         /></DisplayEditorContainer>
     }
@@ -239,7 +237,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
       return <DisplayEditorContainer $isWide={width && !isMobile}><EditUserComponenet
         headline={"Edit User"}
         user={user2Edit}
-        onSubmit={(user) => {if (user) handlers.handleEditUser(user as Partial<User>)}}
+        onSubmit={(user) => { if (user) handlers.handleEditUser(user as Partial<User>) }}
         onCancel={() => {
           setUser2Edit(null);
         }}
@@ -248,7 +246,7 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
     function Display() {
 
       if (width)
-        return (displayAddUser && <CreateUser /> || user2Edit && <EditUser /> || <></>);
+        return (((displayAddUser && <CreateUser />) || (user2Edit && <EditUser />)) || <></>);
       else return <>
         <Modal isOpen={displayAddUser}
           onClose={() => setDisplayAddUser(false)}
@@ -313,7 +311,8 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
                   {intoCamelCase(key)}
                 </DisplayUsersBrowserEditionHeaderCell>
               })}
-              <DisplayUsersBrowserEditionHeaderCell>
+              <DisplayUsersBrowserEditionHeaderCell
+                onClick={() => toggleHelpers.helpSelectAll()} >
                 <InputCheckMark
                   checked={selectAll}
                   onChange={() => toggleHelpers.helpSelectAll()} />
@@ -326,8 +325,8 @@ export default function DashboardComponent({ ...props }: DashboardComponent) {
           <DisplayUsersBrowserEditionBody>
             {users && users.map((user, index) => {
               return <DisplayUsersBrowserEditionRow
-              key={user.id}
-              $odd={index % 2 === 0}>
+                key={user.id}
+                $odd={index % 2 === 0}>
                 {browserEdition.keys2Display.map((key) => {
                   const value = user && user[key];
                   return <DisplayUsersBrowserEditionBodyCell key={key}>
