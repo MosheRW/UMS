@@ -66,6 +66,15 @@ serve
 
 Alternatively, you can also download the `build` folder and serve it using any HTTP server.
 
+***
+
+You can also configure the homepage URL by setting the `PUBLIC_URL` environment variable in your .env file. For example:
+```
+PUBLIC_URL=https://example.com
+```
+then, the app will consider it as the homePage route.
+
+
 ## Features
 
 * Create, delete, and edit single and multiple users from the database.
@@ -113,4 +122,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Acknowledgments
 
 * Thanks to the [React](https://reactjs.org/) team for providing the foundation for this project.
-* Thanks to the [Material-UI](https://material-ui.com/) team for providing the UI components used in this project.

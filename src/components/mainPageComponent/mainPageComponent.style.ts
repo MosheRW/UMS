@@ -16,7 +16,7 @@ height: 50vmin;
 export const Icon = styled.div`
 width: 100%;
 height: 100%;
-background: url('/ums_detailed_logo.svg') no-repeat center;
+background: url('./ums_detailed_logo.svg') no-repeat center;
 background-size: contain;
 animation: pops 1s infinite;
 @keyframes pops {

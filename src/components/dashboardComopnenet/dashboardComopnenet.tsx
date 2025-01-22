@@ -49,10 +49,10 @@ export default function DashboardComponent({ ...props }: DashboardComponentProps
 
   useEffect(() => {
     setWidth(window.innerWidth > 1300);
-    api.getAllUsers().then((data) => props.users = data).then((data) => {
+    api.getAllUsers().then((data) => {
       if (data) setUsers(data?.map(parseUser));
     });
-  }, [props])
+  },[]);
 
   useEffect(() => {
     if (selectAll) {
@@ -169,7 +169,7 @@ export default function DashboardComponent({ ...props }: DashboardComponentProps
         }
       }
     },
-    helpSelectAll: () => {      
+    helpSelectAll: () => {
       const newState = !selectAll;
       setSelectAll(newState);
       const dict: Dict = {}

@@ -63,7 +63,7 @@ export const TopBarTitle = styled.h1`
 export const Icon = styled.div<{ $isMobile?: boolean }>`
 width: 10vmin;
 height: 100%;
-background: ${(props) => props.$isMobile ?  "url('/ums_logo.svg')" : "url('/ums_detailed_logo.svg')"} no-repeat center;
+background: ${(props) => props.$isMobile ?  "url('./ums_logo.svg')" : "url('./ums_detailed_logo.svg')"} no-repeat center;
 background-size: contain;
 scale: 1.5;
 animation: swing 10s ease-in-out  infinite;
