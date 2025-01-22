@@ -1,14 +1,11 @@
 {
 	"name": "ums",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"private": true,
 	"dependencies": {
 		"@hookform/error-message": "^2.0.1",
 		"@reduxjs/toolkit": "^2.5.0",
-		"@tanstack/react-query": "^5.64.0",
-		"@testing-library/react": "^16.1.0",
 		"axios": "^1.7.9",
-		"cra-template-typescript": "1.2.0",
 		"react": "^19.0.0",
 		"react-device-detect": "^2.2.3",
 		"react-dom": "^19.0.0",
@@ -19,8 +16,7 @@
 		"react-scripts": "5.0.1",
 		"react-toastify": "^11.0.2",
 		"redux-logger": "^3.0.6",
-		"styled-components": "^6.1.14",
-		"web-vitals": "^4.2.4"
+		"styled-components": "^6.1.14"
 	},
 	"scripts": {
 		"start": "react-scripts start",
@@ -49,15 +45,12 @@
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.18.0",
-		"@types/jest": "^29.5.14",
 		"@types/react": "^19.0.4",
 		"@types/react-dom": "^19.0.2",
 		"@types/redux-logger": "^3.0.13",
 		"eslint": "^8.57.1",
 		"eslint-plugin-react": "^7.37.4",
 		"globals": "^15.14.0",
-		"prettier": "3.4.2",
-		"ts-unused-exports": "^11.0.1",
 		"typescript-eslint": "^8.21.0"
 	}
 }
